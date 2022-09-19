@@ -5,7 +5,7 @@
 
 #include "External/SDL/include/SDL.h"
 
-#include "External/PugiXml/src/pugixml.hpp"
+
 
 enum main_states
 {
