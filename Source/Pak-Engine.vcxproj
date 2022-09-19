@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5f6a0acc-5ece-40c7-acb3-3890ca0cc558}</ProjectGuid>
+    <ProjectGuid>{A138E604-6840-40E8-BE03-B22C07B7DDC9}</ProjectGuid>
     <RootNamespace>RaceCar</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CrazyCab</ProjectName>
+    <ProjectName>Pak-Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
