@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "MemLeaks.h"
 
-#include "External/SDL/include/SDL.h"
+#include "SDL.h"
 
 
 
@@ -46,6 +46,7 @@ int main(int argc, char** argv)
 			}
 			else
 			{
+
 				state = MAIN_UPDATE;
 				LOG("-------------- Application Update --------------");
 			}

@@ -25,9 +25,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Header\Globals</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Header\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Module.cpp">
       <Filter>Source\BaseClass</Filter>
     </ClCompile>
@@ -36,6 +33,33 @@
     </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_tables.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_widgets.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_demo.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_draw.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_impl_sdl.cpp">
+      <Filter>Source\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleUIcontroller.cpp">
+      <Filter>Source\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +105,36 @@
     <ClInclude Include="glmath.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="External\imgui\imstb_textedit.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imstb_truetype.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imconfig.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_impl_opengl3.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_impl_sdl.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_internal.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imstb_rectpack.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleUIcontroller.h">
+      <Filter>Header\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -124,6 +178,12 @@
     </Filter>
     <Filter Include="Source\Scenes">
       <UniqueIdentifier>{522743ca-8209-4bc8-88a9-89074a00e297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Imgui">
+      <UniqueIdentifier>{51a57caa-149e-4d51-90cd-5a35583ab573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Imgui">
+      <UniqueIdentifier>{b4d27ee7-0f72-48f6-bf5a-0dfffe0b8f1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

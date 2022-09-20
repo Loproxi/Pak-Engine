@@ -2,12 +2,15 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
+#include "ModuleUIcontroller.h"
 #include "External/SDL/include/SDL_opengl.h"
+
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+
 }
 
 // Destructor
@@ -125,8 +128,14 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 // PostUpdate present buffer to screen
 UpdateStatus ModuleRenderer3D::PostUpdate()
 {
+	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+	if (!App->uiController->Draw())
+	{
+		ret = UpdateStatus::UPDATE_STOP;
+	};
+
 	SDL_GL_SwapWindow(App->window->window);
-	return UPDATE_CONTINUE;
+	return ret;
 }
 
 // Called before quitting
