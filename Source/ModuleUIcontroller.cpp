@@ -23,17 +23,7 @@ bool ModuleUIcontroller::Init()
 	bool ret = true;
 
 	
-
-	
-
-	return ret;
-}
-
-bool ModuleUIcontroller::Start()
-{
-	bool ret = true;
-
-	const char* glsl_version = "#version 130";
+	/*const char* glsl_version = "#version 130";
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -41,7 +31,8 @@ bool ModuleUIcontroller::Start()
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);*/
+
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -55,8 +46,27 @@ bool ModuleUIcontroller::Start()
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsLight();
 
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+
+	
+
+	
+
+	return ret;
+}
+
+bool ModuleUIcontroller::Start()
+{
+	bool ret = true;
+
+	//Must be here because in init the render context hasn't been created yet.
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-	ImGui_ImplOpenGL3_Init(glsl_version);
+	ImGui_ImplOpenGL3_Init();
 
 	return ret;
 }
@@ -72,9 +82,30 @@ bool ModuleUIcontroller::Draw()
 
 	// Our state
 	
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-	
+	//Draw Menu
+	MainMenuBar(ret);
+
+	//Render
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+		SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+	}
+
+	return ret;
+}
+
+void ModuleUIcontroller::MainMenuBar(bool& ret)
+{
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -103,22 +134,6 @@ bool ModuleUIcontroller::Draw()
 		}
 		ImGui::EndMainMenuBar();
 	}
-
-	//Render
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
-		SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
-	}
-
-	return ret;
 }
 
 

@@ -11,8 +11,9 @@ Application::Application()
 	window = new ModuleWindow(this, true);
 	input = new ModuleInput(this, true);
 	camera = new ModuleCamera3D(this, true);
-	renderer3D = new ModuleRenderer3D(this, true);
 	uiController = new ModuleUIcontroller(this, true);
+	renderer3D = new ModuleRenderer3D(this, true);
+	
 
 	
 	// The order of calls is very important!
@@ -80,6 +81,7 @@ void Application::FinishUpdate()
 UpdateStatus Application::Update()
 {
 	UpdateStatus ret = UPDATE_CONTINUE;
+
 	PrepareUpdate();
 
 	for (int i = 0, count = list_modules.count(); i < count && ret == UPDATE_CONTINUE; i++)

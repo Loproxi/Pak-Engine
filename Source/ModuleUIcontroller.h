@@ -19,6 +19,8 @@ public:
 
 	bool Draw();
 
+	void MainMenuBar(bool& ret);
+
 	bool CleanUp() override;
 
 public:
