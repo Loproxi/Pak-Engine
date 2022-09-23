@@ -22,9 +22,6 @@
     <ClCompile Include="Globals.h">
       <Filter>Header\Globals</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Header\Globals</Filter>
-    </ClCompile>
     <ClCompile Include="Module.cpp">
       <Filter>Source\BaseClass</Filter>
     </ClCompile>
@@ -156,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="External\MathGeoLib\include\Geometry\TriangleMesh.cpp">
       <Filter>Source\MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source\Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>Source\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
