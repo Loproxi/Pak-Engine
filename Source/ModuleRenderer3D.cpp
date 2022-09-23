@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
 #include "External/SDL/include/SDL_opengl.h"
+#include "Math/float3.h"
 
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -121,6 +122,12 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
+
+	float3 ola = {-1.0f,-2.3f,3.0f};
+
+	float3 olaabs = ola.Abs();
+
+	
 
 	return UPDATE_CONTINUE;
 }

@@ -1,4 +1,4 @@
-/* Copyright 2011 Jukka Jylänki
+/* Copyright 2011 Jukka Jylï¿½nki
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
    limitations under the License. */
 
 /** @file MathBuildConfig.h
-	@author Jukka Jylänki
+	@author Jukka Jylï¿½nki
 	@brief Specifies all build flags for the library. */
 #pragma once
 
@@ -26,7 +26,7 @@
 #pragma warning( disable : 4577 ) // Warning that exceptions are disabled
 #pragma warning( disable : 4530 ) // Warning that exceptions are disabled
 #define MATH_SILENT_ASSUME
-#define MATH_BULLET_INTEROP
+//#define MATH_BULLET_INTEROP
 // ---
 
 // Disable STL exceptions
