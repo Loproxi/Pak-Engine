@@ -4,13 +4,12 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
 
-
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
 
 #include "MathGeoLib.h"
 
-
+#include "parson.h"
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -20,6 +19,46 @@ ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Modul
 // Destructor
 ModuleRenderer3D::~ModuleRenderer3D()
 {}
+
+void print_commits_info(const char* username, const char* repo) {
+	JSON_Value* root_value;
+	JSON_Array* commits;
+	JSON_Object* commit;
+	size_t i;
+
+	char curl_command[512];
+	char cleanup_command[256];
+	char output_filename[] = "commits.json";
+
+	/* it ain't pretty, but it's not a libcurl tutorial */
+	sprintf_s(curl_command,
+		"curl -s \"https://api.github.com/repos/%s/%s/commits\" > %s",
+		username, repo, output_filename);
+	sprintf_s(cleanup_command, "rm -f %s", output_filename);
+	system(curl_command);
+
+	/* parsing json and validating output */
+	root_value = json_parse_file(output_filename);
+	if (json_value_get_type(root_value) != JSONArray) {
+		system(cleanup_command);
+		return;
+	}
+
+	/* getting array from root value and printing commit info */
+	commits = json_value_get_array(root_value);
+	printf("%-10.10s %-10.10s %s\n", "Date", "SHA", "Author");
+	for (i = 0; i < json_array_get_count(commits); i++) {
+		commit = json_array_get_object(commits, i);
+		printf("%.10s %.10s %s\n",
+			json_object_dotget_string(commit, "commit.author.date"),
+			json_object_get_string(commit, "sha"),
+			json_object_dotget_string(commit, "commit.author.name"));
+	}
+
+	/* cleanup code */
+	json_value_free(root_value);
+	system(cleanup_command);
+}
 
 // Called before render is available
 bool ModuleRenderer3D::Init()
@@ -108,6 +147,8 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	print_commits_info("Loproxi", "Pak-Engine");
+
 	return ret;
 }
 
@@ -151,10 +192,6 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 UpdateStatus ModuleRenderer3D::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
-	if (!App->uiController->Draw())
-	{
-		ret = UpdateStatus::UPDATE_STOP;
-	};
 
 	SDL_GL_SwapWindow(App->window->window);
 	return ret;
