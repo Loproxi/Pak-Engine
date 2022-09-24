@@ -291,7 +291,6 @@
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="ModuleUIcontroller.h" />
     <ClInclude Include="ModuleWindow.h" />
-    <ClInclude Include="Point.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.hpp" />
   </ItemGroup>

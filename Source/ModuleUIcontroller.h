@@ -17,7 +17,15 @@ public:
 
 	bool Start() override;
 
+	UpdateStatus PreUpdate();
+
+	UpdateStatus Update();
+
+	UpdateStatus PostUpdate();
+
 	bool Draw();
+
+	void RenderImGui();
 
 	void MainMenuBar(bool& ret);
 

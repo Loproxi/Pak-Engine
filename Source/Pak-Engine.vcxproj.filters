@@ -192,9 +192,6 @@
     <ClInclude Include="List.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Header\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Primitive.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>

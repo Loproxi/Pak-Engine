@@ -65,8 +65,34 @@ bool ModuleUIcontroller::Start()
 	bool ret = true;
 
 	//Must be here because in init the render context hasn't been created yet.
-	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->GetSDL_GLContext());
 	ImGui_ImplOpenGL3_Init();
+
+	return ret;
+}
+
+UpdateStatus ModuleUIcontroller::PreUpdate()
+{
+	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+
+	return ret;
+}
+
+UpdateStatus ModuleUIcontroller::Update()
+{
+	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+
+	return ret;
+}
+
+UpdateStatus ModuleUIcontroller::PostUpdate()
+{
+	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+
+	if (!Draw())
+	{
+		ret = UpdateStatus::UPDATE_STOP;
+	};
 
 	return ret;
 }
@@ -80,14 +106,20 @@ bool ModuleUIcontroller::Draw()
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	// Our state
-	
+	// Docking
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	//Draw Menu
 	MainMenuBar(ret);
 
 	//Render
+	RenderImGui();
+
+	return ret;
+}
+
+void ModuleUIcontroller::RenderImGui()
+{
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -100,8 +132,6 @@ bool ModuleUIcontroller::Draw()
 		ImGui::RenderPlatformWindowsDefault();
 		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
 	}
-
-	return ret;
 }
 
 void ModuleUIcontroller::MainMenuBar(bool& ret)
@@ -110,7 +140,7 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Close"))
+			if (ImGui::MenuItem("Close , Alt+F4"))
 			{
 				//Do something
 				ret = false;

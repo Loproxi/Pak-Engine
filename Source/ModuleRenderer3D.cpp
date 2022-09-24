@@ -126,6 +126,24 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
+	// Test Intersections Mathgeo
+
+	/*bool intersects = false;
+
+	LineSegment* line = new LineSegment(float3(1, 0, 5), float3(2, 0, 5));
+
+	Capsule capsule(LineSegment(float3(0.5, 0, 5), float3(2, 0, 5)), 10);
+
+	intersects = line->Intersects(capsule);
+
+	LCG hey;
+
+	int hey2 = hey.Int(1, 89);
+
+	delete line;
+
+	line = nullptr;*/
+
 	return UPDATE_CONTINUE;
 }
 
@@ -138,16 +156,6 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		ret = UpdateStatus::UPDATE_STOP;
 	};
 
-	bool intersects = false;
-
-	LineSegment* line = new LineSegment(float3(1, 0, 5), float3(2, 0, 5));
-
-	Capsule capsule(LineSegment(float3(0.5, 0, 5), float3(2, 0, 5)), 10);
-
-	intersects = line->Intersects(capsule);
-
-	
-
 	SDL_GL_SwapWindow(App->window->window);
 	return ret;
 }
@@ -158,6 +166,8 @@ bool ModuleRenderer3D::CleanUp()
 	LOG("Destroying 3D Renderer");
 
 	SDL_GL_DeleteContext(context);
+
+	
 
 	return true;
 }
