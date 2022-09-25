@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\parson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -196,7 +196,6 @@
     <ClCompile Include="External\MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="External\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="External\MathGeoLib\include\Time\Clock.cpp" />
-    <ClCompile Include="External\parson\parson.c" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="Globals.h" />
     <ClCompile Include="Light.cpp" />
@@ -282,7 +281,6 @@
     <ClInclude Include="External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="External\MathGeoLib\include\Time\Clock.h" />
-    <ClInclude Include="External\parson\parson.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="List.h" />

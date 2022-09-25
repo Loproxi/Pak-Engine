@@ -160,9 +160,6 @@
     <ClCompile Include="Primitive.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="External\parson\parson.c">
-      <Filter>Header\Parson</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -414,9 +411,6 @@
     <ClInclude Include="External\MathGeoLib\include\Geometry\TriangleMesh.h">
       <Filter>Header\MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="External\parson\parson.h">
-      <Filter>Header\Parson</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -472,9 +466,6 @@
     </Filter>
     <Filter Include="Header\MathGeoLib">
       <UniqueIdentifier>{b3c75238-328b-48d3-80d3-170b2ff8b26d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Parson">
-      <UniqueIdentifier>{551c79d4-bf48-4d2c-977f-d29d3bbcc217}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

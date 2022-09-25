@@ -1,6 +1,7 @@
 #ifndef __GLOBALS_H__
 #define __GLOBALS_H__
 
+
 #include <windows.h>
 #include <stdio.h>
 #include <time.h> 
