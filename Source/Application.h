@@ -30,6 +30,8 @@ private:
 	float	dt = 0;
 	List<Module*> list_modules;
 
+	static Application* _app;
+
 public:
 	Application();
 	~Application();
@@ -40,6 +42,8 @@ public:
 
 	uint GetFrameRateLimit();
 	void SetFrameRateLimit(float fps);
+
+	static Application* GetInstance();
 
 private:
 
