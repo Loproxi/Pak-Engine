@@ -7,6 +7,8 @@
 #include "ModuleUIcontroller.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
+#include "WinAbout.h"
+
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -33,7 +35,6 @@ bool ModuleUIcontroller::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);*/
 
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -53,7 +54,7 @@ bool ModuleUIcontroller::Init()
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	
+	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 
 	
 
@@ -82,6 +83,11 @@ UpdateStatus ModuleUIcontroller::Update()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 
+	if (!Draw())
+	{
+		ret = UpdateStatus::UPDATE_STOP;
+	};
+
 	return ret;
 }
 
@@ -89,10 +95,7 @@ UpdateStatus ModuleUIcontroller::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 
-	if (!Draw())
-	{
-		ret = UpdateStatus::UPDATE_STOP;
-	};
+	
 
 	return ret;
 }
@@ -111,6 +114,15 @@ bool ModuleUIcontroller::Draw()
 
 	//Draw Menu
 	MainMenuBar(ret);
+
+	for ( int i = 0; i < (uint)UIwindows::MAX;i++)
+	{
+		if (windows[i]->isEnabled)
+		{
+			windows[i]->Draw();
+		}
+
+	}
 
 	//Render
 	RenderImGui();
@@ -148,21 +160,44 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Window"))
+		if (ImGui::BeginMenu("Help"))
 		{
-			if (ImGui::MenuItem("Show Example Window"))
+			if (ImGui::MenuItem("ImGui Demo"))
 			{
 				//Do something
 				show_demo_window = !show_demo_window;
 			}
+			if (ImGui::MenuItem("Documentation"))
+			{
+				//Do something
+				ShellExecute(0, 0, "https://github.com/Loproxi/Pak-Engine/wiki", 0, 0, SW_SHOW);
+			}
+			if (ImGui::MenuItem("Download latest"))
+			{
+				//Do something
+				ShellExecute(0, 0, "https://github.com/Loproxi/Pak-Engine/releases", 0, 0, SW_SHOW);
+			}
+			if (ImGui::MenuItem("Report a bug"))
+			{
+				//Do something
+				ShellExecute(0, 0, "https://github.com/Loproxi/Pak-Engine/issues", 0, 0, SW_SHOW);
+			}
+			if (ImGui::MenuItem("About"))
+			{
+				//Do something
+				windows[(uint)UIwindows::ABOUT]->isEnabled = true;
+			}
 
 			ImGui::EndMenu();
 		}
-		if (show_demo_window)
-		{
-			ImGui::ShowDemoWindow();
-		}
+		
 		ImGui::EndMainMenuBar();
+	}
+
+	
+	if (show_demo_window)
+	{
+		ImGui::ShowDemoWindow();
 	}
 }
 
@@ -171,6 +206,14 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 bool ModuleUIcontroller::CleanUp()
 {
 	bool ret = true;
+
+	for (int i = 0; i < (uint)UIwindows::MAX; i++)
+	{
+		
+		delete windows[i];
+		windows[i] = nullptr;
+
+	}
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();

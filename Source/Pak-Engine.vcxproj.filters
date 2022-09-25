@@ -160,6 +160,15 @@
     <ClCompile Include="Primitive.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="WindowBaseClass.cpp">
+      <Filter>Source\Editor\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAbout.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="WinConfig.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -411,6 +420,18 @@
     <ClInclude Include="External\MathGeoLib\include\Geometry\TriangleMesh.h">
       <Filter>Header\MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="WindowBaseClass.h">
+      <Filter>Header\Editor\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAbout.h">
+      <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiUtils.h">
+      <Filter>Header\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="WinConfig.h">
+      <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -466,6 +487,24 @@
     </Filter>
     <Filter Include="Header\MathGeoLib">
       <UniqueIdentifier>{b3c75238-328b-48d3-80d3-170b2ff8b26d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Editor">
+      <UniqueIdentifier>{a06c6add-146d-44fe-945d-fcc2e4737cf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Editor">
+      <UniqueIdentifier>{619523e6-a7d7-4311-8e80-d17b7c8d4b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Editor\Base">
+      <UniqueIdentifier>{cf625b8f-7d0f-4cd4-9ff3-3dce40a6c9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Editor\Derived">
+      <UniqueIdentifier>{1f87b0f5-a70e-45ed-bc5d-e35f6a04f4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Editor\Base">
+      <UniqueIdentifier>{15b817e0-12e0-4c93-9869-badac7baed3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Editor\Derived">
+      <UniqueIdentifier>{07f63c1a-d547-4686-9fd5-4e60ec52e504}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

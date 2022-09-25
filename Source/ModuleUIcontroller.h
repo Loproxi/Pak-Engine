@@ -3,6 +3,18 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <vector>
+
+class WindowBaseClass;
+
+enum class UIwindows
+{
+	
+	
+	ABOUT,
+	MAX
+
+};
 
 class ModuleUIcontroller : public Module
 {
@@ -34,6 +46,10 @@ public:
 public:
 
 	bool show_demo_window = false;
+
+private:
+
+	WindowBaseClass* windows[(uint)UIwindows::MAX];
 
 };
 #endif // !__MODULERENDERER3D_H__

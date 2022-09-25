@@ -208,6 +208,9 @@
     <ClCompile Include="ModuleUIcontroller.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="WinAbout.cpp" />
+    <ClCompile Include="WinConfig.cpp" />
+    <ClCompile Include="WindowBaseClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -282,6 +285,7 @@
     <ClInclude Include="External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="External\MathGeoLib\include\Time\Clock.h" />
     <ClInclude Include="glmath.h" />
+    <ClInclude Include="ImGuiUtils.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MemLeaks.h" />
@@ -293,6 +297,9 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="WinAbout.h" />
+    <ClInclude Include="WinConfig.h" />
+    <ClInclude Include="WindowBaseClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeoLib\include\Geometry\KDTree.inl" />

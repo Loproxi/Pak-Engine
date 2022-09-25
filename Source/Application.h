@@ -38,6 +38,9 @@ public:
 	UpdateStatus Update();
 	bool CleanUp();
 
+	float GetFrameRateLimit();
+	void SetFrameRateLimit(float fps);
+
 private:
 
 	void AddModule(Module* mod);

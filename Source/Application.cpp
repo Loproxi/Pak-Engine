@@ -16,7 +16,6 @@ Application::Application()
 	uiController = new ModuleUIcontroller(this, true);
 	renderer3D = new ModuleRenderer3D(this, true);
 	
-
 	
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -130,4 +129,24 @@ bool Application::CleanUp()
 	}
 
 	return ret;
+}
+
+float Application::GetFrameRateLimit()
+{
+
+
+	
+	return 0.0f;
+}
+
+void Application::SetFrameRateLimit(float max_fps)
+{
+	if (max_fps > 0)
+	{
+		fps = 1.0f / max_fps;
+	}
+	else
+	{
+		fps = 1.0f / 60.0f;
+	}
 }
