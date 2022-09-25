@@ -131,12 +131,10 @@ bool Application::CleanUp()
 	return ret;
 }
 
-float Application::GetFrameRateLimit()
+uint Application::GetFrameRateLimit()
 {
 
-
-	
-	return 0.0f;
+	return (uint)(1.0f/fps);
 }
 
 void Application::SetFrameRateLimit(float max_fps)

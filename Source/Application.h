@@ -38,7 +38,7 @@ public:
 	UpdateStatus Update();
 	bool CleanUp();
 
-	float GetFrameRateLimit();
+	uint GetFrameRateLimit();
 	void SetFrameRateLimit(float fps);
 
 private:
