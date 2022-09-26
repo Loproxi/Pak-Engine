@@ -54,7 +54,7 @@ bool ModuleUIcontroller::Init()
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	windows[(uint)UIwindows::ABOUT] = new WinAbout();
+	
 
 	
 
@@ -68,6 +68,8 @@ bool ModuleUIcontroller::Start()
 	//Must be here because in init the render context hasn't been created yet.
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->GetSDL_GLContext());
 	ImGui_ImplOpenGL3_Init();
+
+	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 
 	return ret;
 }

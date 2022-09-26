@@ -6,7 +6,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
 
-Application* Application::_app = nullptr;;
+Application* Application::_app = nullptr;
 
 Application::Application()
 {

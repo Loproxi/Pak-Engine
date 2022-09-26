@@ -2,14 +2,31 @@
 #include "Globals.h"
 #include "ImGuiUtils.h"
 #include "SDL.h"
-#include "glew.h"
 #include "MathGeoLib.h"
+#include "glew.h"
+
+
+
+
 
 WinAbout::WinAbout()
 {
 	name = "About";
 	
-	
+	SDL_version sdlVersion;
+	SDL_GetVersion(&sdlVersion);
+	verSDL = "SDL version " + std::to_string(sdlVersion.major) + "." + std::to_string(sdlVersion.minor) + "." + std::to_string(sdlVersion.patch);
+
+	verGlew = "Glew version ";
+	verGlew += (const char*)glewGetString(GLEW_VERSION);
+
+	verImGui = "ImGui version " + (std::string)ImGui::GetVersion();
+
+	verMathGeoLib = "MathGeoLib version 1.5";
+
+	verOpenGL = "OpenGL version ";
+	verOpenGL += (const char*)glGetString(GL_VERSION);
+
 		
 }
 
@@ -55,20 +72,7 @@ void WinAbout::LicenseText()
 
 void WinAbout::GetLibVersionsAndPrint()
 {
-	SDL_version sdlVersion;
-	SDL_GetVersion(&sdlVersion);
-	verSDL = "SDL version " + std::to_string(sdlVersion.major) + "." + std::to_string(sdlVersion.minor) + "." + std::to_string(sdlVersion.patch);
-
-	verGlew = "Glew version ";
-	verGlew += (const char*)glewGetString(GLEW_VERSION);
-
-	verImGui = "ImGui version " + (std::string)ImGui::GetVersion();
-
-	verMathGeoLib = "MathGeoLib version 1.5";
-
-	verOpenGL = "OpenGL version ";
-	verOpenGL += (const char*)glGetString(GL_VERSION);
-
+	
 	ImGui::TextWrapped("3rd Party Libraries used:");
 	ImGui::Spacing();
 
