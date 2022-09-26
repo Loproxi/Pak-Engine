@@ -8,7 +8,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 #include "WinAbout.h"
-
+#include "WinConfig.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -69,7 +69,9 @@ bool ModuleUIcontroller::Start()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->GetSDL_GLContext());
 	ImGui_ImplOpenGL3_Init();
 
+	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
+	
 
 	return ret;
 }

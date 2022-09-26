@@ -27,8 +27,8 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		width = SCREEN_WIDTH * SCREEN_SIZE;
+		height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
@@ -91,4 +91,38 @@ bool ModuleWindow::CleanUp()
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+}
+
+
+void ModuleWindow::SetScreenWidth(int width)
+{
+	
+	SDL_SetWindowSize(window, width, GetScreenHeight());
+
+	SDL_GetWindowSize(window, &this->width, NULL);
+	
+}
+
+void ModuleWindow::SetScreenHeight(int height)
+{
+	SDL_SetWindowSize(window, GetScreenWidth(), height);
+
+	SDL_GetWindowSize(window, NULL, &this->height);
+}
+
+uint ModuleWindow::GetRefreshRate()
+{
+
+	SDL_DisplayMode displaymode;
+
+	if (SDL_GetDisplayMode(0, 0, &displaymode) != 0)
+	{
+		SDL_Log("SDL_GetDisplayMode failed: %s", SDL_GetError());
+		return 1;
+	}
+	else
+	{
+		return (uint)displaymode.refresh_rate;
+	}
+
 }

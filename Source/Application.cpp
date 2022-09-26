@@ -6,7 +6,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
 
-Application* Application::_app = nullptr;
+Application* Application::App = nullptr;
 
 Application::Application()
 {
@@ -152,8 +152,8 @@ void Application::SetFrameRateLimit(float max_fps)
 Application* Application::GetInstance()
 {
 
-	if (_app == nullptr) {
-		_app = new Application();
+	if (App == nullptr) {
+		App = new Application();
 	}
-	return _app;
+	return App;
 }

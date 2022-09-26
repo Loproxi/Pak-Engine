@@ -1,6 +1,8 @@
-#pragma once
+#ifndef _WINABOUT_H_
+#define _WINABOUT_H_
+
 #include "WindowBaseClass.h"
-#include <string>;
+
 
 class WinAbout :
     public WindowBaseClass
@@ -29,4 +31,6 @@ private:
     std::string verMathGeoLib;
 
 };
+
+#endif // !_WINABOUT_H_
 

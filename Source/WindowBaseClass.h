@@ -1,4 +1,6 @@
-#include "imgui.h"
+#ifndef _WINDOWBASECLASS_H_
+#define _WINDOWBASECLASS_H_
+
 
 #include <string>
 
@@ -18,3 +20,4 @@ public:
 
 };
 
+#endif // !_WINDOWBASECLASS_H_

@@ -30,7 +30,7 @@ private:
 	float	dt = 0;
 	List<Module*> list_modules;
 
-	static Application* _app;
+	static Application* App;
 
 public:
 	Application();
