@@ -18,6 +18,10 @@ WinConfig::WinConfig()
 
 	hw.cacheline = SDL_GetCPUCacheLineSize();
 
+	frames.reserve(120);
+
+	limitframerate = app->GetFrameRateLimit();
+	
 }
 
 WinConfig::~WinConfig()
@@ -26,13 +30,18 @@ WinConfig::~WinConfig()
 
 void WinConfig::Draw()
 {
+	FrameInfoLogic();
 
 	if (ImGui::Begin(name.c_str(), &isEnabled))
 	{
 
 		if (ImGui::CollapsingHeader("Application"))
 		{
+			ImGui::SliderInt("FPS CAP", &limitframerate, 1, 360);
+			app->SetFrameRateLimit(limitframerate);
+			ImGui::PlotHistogram("##Framerate", &frames.front(),frames.size(),0,title,0.0f,120,ImVec2(310,120));
 			
+
 		}
 		if (ImGui::CollapsingHeader("Window"))
 		{
@@ -46,6 +55,21 @@ void WinConfig::Draw()
 	}
 	ImGui::End();
 
+}
+
+void WinConfig::FrameInfoLogic()
+{
+	if (frames.size() == frames.capacity())
+	{
+		std::vector<float>::iterator iterator = frames.begin();
+		frames.erase(iterator);
+		frames.push_back(app->GetFrameRateLimit());
+	}
+	else
+	{
+		frames.push_back(app->GetFrameRateLimit());
+	}
+	sprintf_s(title, 20, "Framerate %.1f", frames.back());
 }
 
 void WinConfig::WindowHeader()

@@ -40,7 +40,7 @@ public:
 	UpdateStatus Update();
 	bool CleanUp();
 
-	uint GetFrameRateLimit();
+	float GetFrameRateLimit();
 	void SetFrameRateLimit(float fps);
 
 	static Application* GetInstance();

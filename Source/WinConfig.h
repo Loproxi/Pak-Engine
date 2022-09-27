@@ -3,7 +3,7 @@
 
 #include "WindowBaseClass.h"
 #include "Globals.h"
-#include <queue>
+#include <vector>
 
 class Application;
 
@@ -23,6 +23,8 @@ public:
     ~WinConfig();
 
     void Draw();
+
+    void FrameInfoLogic();
 
     void HardwareHeader();
 
@@ -48,7 +50,11 @@ private:
 
     Hardware_Info hw;
 
-    std::queue<float>frames;
+    std::vector<float>frames;
+
+    char title[20];
+
+    int limitframerate;
 };
 
 #endif // !_WINCONFIG_H_
