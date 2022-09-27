@@ -24,7 +24,11 @@ public:
 
 	int GetScreenWidth() { return width; }
 
+	int* GetScreenWidthByRef() { return &width; }
+
 	int GetScreenHeight() { return height; }
+
+	int* GetScreenHeightByRef() { return &height; }
 
 	void SetScreenWidth(int width);
 	
@@ -32,6 +36,13 @@ public:
 
 	uint GetRefreshRate();
 	
+	void SetFullScreenOrFullScreenDesktop(bool fullscreen, SDL_WindowFlags flag = SDL_WINDOW_FULLSCREEN);
+
+	//This Doesn't work on fullscreen mode
+	void SetWindowBorderless(bool borderless);
+
+	//This Doesn't work on fullscreen mode
+	void SetWindowResizable(bool resizable);
 
 public:
 	//The window we'll be rendering to

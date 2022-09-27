@@ -126,3 +126,54 @@ uint ModuleWindow::GetRefreshRate()
 	}
 
 }
+
+void ModuleWindow::SetFullScreenOrFullScreenDesktop(bool fullscreen, SDL_WindowFlags flag)
+{
+	if (fullscreen)
+	{
+		if (SDL_SetWindowFullscreen(window, flag) != 0)
+		{
+			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
+			return;
+		}
+	}
+	else 
+	{
+		if (SDL_SetWindowFullscreen(window, 0) != 0)
+		{
+			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
+			return;
+		}
+	}
+}
+
+void ModuleWindow::SetWindowBorderless(bool borderless)
+{
+
+	if (borderless)
+	{
+		SDL_SetWindowBordered(window, SDL_FALSE);
+	}
+	else
+	{
+		SDL_SetWindowBordered(window, SDL_TRUE);
+	}
+
+}
+
+void ModuleWindow::SetWindowResizable(bool resizable)
+{
+
+	if (resizable)
+	{
+		SDL_SetWindowResizable(window, SDL_TRUE);
+		
+	}
+	else
+	{
+		SDL_SetWindowResizable(window, SDL_FALSE);
+	}
+	SDL_GetWindowSize(window, &this->width,&this->height);
+}
+
+
