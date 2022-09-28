@@ -4,7 +4,9 @@
 #include "SDL.h"
 #include "Application.h";
 #include "ModuleWindow.h"
+#include "ModuleInput.h"
 #include "ImGuiUtils.h"
+#include "gpudetect/DeviceId.h"
 
 WinConfig::WinConfig()
 {
@@ -18,35 +20,54 @@ WinConfig::WinConfig()
 
 	hw.cacheline = SDL_GetCPUCacheLineSize();
 
+	getGraphicsDeviceInfo(0, 0, 0, &hw.vrambudgetmb, &hw.vramcurrentusagemb, &hw.vramavailablemb, &hw.vramreservedmb);
+
 	frames.reserve(120);
+	ms.reserve(120);
 
 	limitframerate = app->GetFrameRateLimit();
+
+	
 	
 }
 
 WinConfig::~WinConfig()
 {
+	frames.clear();
+	ms.clear();
 }
 
 void WinConfig::Draw()
 {
-	FrameInfoLogic();
+	
 
 	if (ImGui::Begin(name.c_str(), &isEnabled))
 	{
 
 		if (ImGui::CollapsingHeader("Application"))
 		{
-			ImGui::SliderInt("FPS CAP", &limitframerate, 1, 360);
-			app->SetFrameRateLimit(limitframerate);
-			ImGui::PlotHistogram("##Framerate", &frames.front(),frames.size(),0,title,0.0f,120,ImVec2(310,120));
-			
+			ApplicationHeader();
 
 		}
 		if (ImGui::CollapsingHeader("Window"))
 		{
 			WindowHeader();
 			
+		}
+		if (ImGui::CollapsingHeader("Input"))
+		{
+			app->input->GetMousePosition(&mousepositionX, &mousepositionY);
+			//SDL_GetMouseState(&mousepositionX, &mousepositionY);
+			
+			ImGui::TextWrapped("Mouse Position: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string(mousepositionX).c_str());
+			ImGui::SameLine();
+			ImGui::TextWrapped(",");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string(mousepositionY).c_str());
+
+
 		}
 		if (ImGui::CollapsingHeader("Hardware"))
 		{
@@ -55,6 +76,31 @@ void WinConfig::Draw()
 	}
 	ImGui::End();
 
+}
+
+void WinConfig::ApplicationHeader()
+{
+	FrameInfoLogic();
+	MsInfoLogic();
+	ImGui::SliderInt("MAX FPS", &limitframerate, 1, 360);
+	app->SetFrameRateLimit(limitframerate);
+	ImGui::PlotHistogram("##Framerate", &frames.front(), frames.size(), 0, title, 0.0f, 120, ImVec2(310, 120));
+	ImGui::PlotHistogram("##Deltatime", &ms.front(), ms.size(), 0, title2, 0.0f, 120, ImVec2(310, 120));
+}
+
+void WinConfig::MsInfoLogic()
+{
+	if (ms.size() == ms.capacity())
+	{
+		std::vector<float>::iterator iterator = ms.begin();
+		ms.erase(iterator);
+		ms.push_back(app->GetDeltaTime_MS());
+	}
+	else
+	{
+		ms.push_back(app->GetDeltaTime_MS());
+	}
+	sprintf_s(title2, 20, "Miliseconds %.1f", ms.back());
 }
 
 void WinConfig::FrameInfoLogic()
@@ -131,6 +177,27 @@ void WinConfig::HardwareHeader()
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string((hw.ram / 1024)).c_str());
 	ImGui::SameLine();
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Gb");
+	ImGui::TextWrapped("VRAM Budget: ");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string((hw.vrambudgetmb / (1024.f * 1024.f))).c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Mb");
+	ImGui::TextWrapped("VRAM Current Usage: ");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string((hw.vramcurrentusagemb / (1024.f * 1024.f))).c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Mb");
+	ImGui::TextWrapped("VRAM Available: ");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string((hw.vramavailablemb / (1024.f * 1024.f))).c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Mb");
+	ImGui::TextWrapped("VRAM Reserved: ");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), std::to_string((hw.vramreservedmb / (1024.f * 1024.f))).c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Mb");
+
 }
 
 

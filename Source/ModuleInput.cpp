@@ -131,3 +131,13 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
+
+void ModuleInput::GetMousePosition(int* mouseX, int* mouseY)
+{
+	SDL_GetMouseState(&mouse_x, &mouse_y);
+
+	*mouseX = mouse_x;
+
+	*mouseY = mouse_y;
+
+}

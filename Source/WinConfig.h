@@ -8,9 +8,13 @@
 class Application;
 
 struct Hardware_Info {
-    float ram = 0.f;
+    float ram = 0.0f;
     uint cpu_count = 0;
     uint cacheline = 0;
+    uint64 vrambudgetmb = 0.0f;
+    uint64 vramcurrentusagemb = 0.0f;
+    uint64 vramavailablemb = 0.0f;
+    uint64 vramreservedmb = 0.0f;
 };
 
 class WinConfig :
@@ -23,6 +27,10 @@ public:
     ~WinConfig();
 
     void Draw();
+
+    void ApplicationHeader();
+
+    void MsInfoLogic();
 
     void FrameInfoLogic();
 
@@ -51,10 +59,17 @@ private:
     Hardware_Info hw;
 
     std::vector<float>frames;
+    std::vector<float>ms;
 
     char title[20];
 
+    char title2[20];
+
     int limitframerate;
+
+    int mousepositionX = 0;
+    int mousepositionY = 0;
+
 };
 
 #endif // !_WINCONFIG_H_

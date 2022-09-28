@@ -5,6 +5,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
+#include "src/pugixml.hpp"
 
 Application* Application::App = nullptr;
 
@@ -147,6 +148,21 @@ void Application::SetFrameRateLimit(float max_fps)
 	{
 		fps = 1.0f / 60.0f;
 	}
+}
+
+float Application::GetDeltaTime_MS()
+{
+
+	float ret = App->timer.getDeltaTime() * 1000;
+
+	return ret;
+}
+
+void Application::LoadConfigXml()
+{
+
+	
+
 }
 
 Application* Application::GetInstance()

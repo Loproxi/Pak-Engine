@@ -3,6 +3,7 @@
 
 #include "List.h"
 #include "Timer.hpp"
+#include "rapidjson.h"
 
 
 
@@ -42,6 +43,10 @@ public:
 
 	float GetFrameRateLimit();
 	void SetFrameRateLimit(float fps);
+
+	float GetDeltaTime_MS();
+
+	void LoadConfigXml();
 
 	static Application* GetInstance();
 

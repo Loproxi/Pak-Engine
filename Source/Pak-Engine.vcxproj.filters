@@ -169,6 +169,12 @@
     <ClCompile Include="WinConfig.cpp">
       <Filter>Source\Editor\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="gpudetect\DeviceId.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pugixml.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -431,6 +437,18 @@
     </ClInclude>
     <ClInclude Include="WinConfig.h">
       <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="gpudetect\DeviceId.h">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="gpudetect\dxgi1_4.h">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pugiconfig.hpp">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pugixml.hpp">
+      <Filter>Header\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
