@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+	<App>
+		<title>Pak-Engine</title>
+		<organization>Loproxi</organization>
+		<version>0.1</version>
+	</App>
+	<Renderer>
+		<vsync value="false" />
+	</Renderer>
+	<Window>
+		<resolution width="1331" height="804" />
+		<fullscreen value="false" />
+		<borderless value="false" />
+		<resizable value="false" />
+		<fullscreen_window value="false" />
+	</Window>
+	<scene />
+</config>

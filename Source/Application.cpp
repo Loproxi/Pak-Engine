@@ -5,7 +5,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
-#include "src/pugixml.hpp"
+
 
 Application* Application::App = nullptr;
 
@@ -44,12 +44,10 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	
 
+	InitConfigXml();
 	// Call Init() in all modules
-	for (int i = 0, count = list_modules.count() ; i <count ; i++)
-	{
-		list_modules[i]->Init();
-	}
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
@@ -119,6 +117,19 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
+	pugi::xml_document* configFile = new pugi::xml_document();
+
+	pugi::xml_parse_result result = configFile->load_file(CONFIG_FILENAME);
+
+	pugi::xml_node config = configFile->child("config");
+
+	//config.child("App").child("title").child_value() = title.c_str();
+
+	for (int i = list_modules.count() - 1; i >= 0 && ret; i--)
+	{
+		ret = list_modules[i]->SaveSettings(config);
+	}
+
 	for (int i = list_modules.count() -1; i >= 0 && ret; i--)
 	{
 		ret = list_modules[i]->CleanUp();
@@ -129,7 +140,44 @@ bool Application::CleanUp()
 		RELEASE(list_modules[i]);
 	}
 
+	configFile->save_file(CONFIG_FILENAME);
+
+	delete configFile;
+	configFile = nullptr;
+
 	return ret;
+}
+
+bool Application::InitConfigXml()
+{
+
+	pugi::xml_document configFile;
+	pugi::xml_node config;
+	pugi::xml_node configApp;
+
+	bool ret = false;
+
+	// L01: DONE 3: Load config from XML
+	config = LoadConfig(configFile);
+
+	if (config.empty() == false)
+	{
+		ret = true;
+		configApp = config.child("App");
+
+		// L01: DONE 4: Read the title from the config file
+		title = (configApp.child("title").child_value());
+		organization = configApp.child("organization").child_value();
+		App->window->SetTitle(title.c_str());
+	}
+
+	for (int i = 0, count = list_modules.count(); i < count; i++)
+	{
+		list_modules[i]->Init(config);
+	}
+
+	return ret;
+
 }
 
 float Application::GetFrameRateLimit()
@@ -158,11 +206,34 @@ float Application::GetDeltaTime_MS()
 	return ret;
 }
 
-void Application::LoadConfigXml()
+
+pugi::xml_node Application::LoadConfig(pugi::xml_document& configFile) const
 {
+	pugi::xml_node ret;
 
-	
+	pugi::xml_parse_result result = configFile.load_file(CONFIG_FILENAME);
 
+	if (result == NULL)
+	{
+		LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+	}
+	else
+	{
+		ret = configFile.child("config");
+	}
+
+	return ret;
+}
+
+std::string Application::GetPakEngineVersion()
+{
+	std::string version;
+
+	version = std::to_string(MAJOR_VERSION_PAK_ENGINE);
+
+	version = version + "." + std::to_string(MINOR_VERSION_PAK_ENGINE);
+
+	return version;
 }
 
 Application* Application::GetInstance()

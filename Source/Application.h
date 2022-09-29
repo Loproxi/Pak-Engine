@@ -4,8 +4,9 @@
 #include "List.h"
 #include "Timer.hpp"
 #include "rapidjson.h"
+#include "src/pugixml.hpp"
 
-
+#define CONFIG_FILENAME		"SaveFiles/configuration.xml"
 
 class Module;
 class ModuleWindow;
@@ -33,6 +34,9 @@ private:
 
 	static Application* App;
 
+	std::string title;
+	std::string organization;
+
 public:
 	Application();
 	~Application();
@@ -46,7 +50,15 @@ public:
 
 	float GetDeltaTime_MS();
 
-	void LoadConfigXml();
+	const char* GetTitle() { return title.c_str(); }
+
+	const char* GetOrganization() { return organization.c_str(); }
+
+	bool InitConfigXml();
+
+	pugi::xml_node LoadConfig(pugi::xml_document& configFile)const;
+
+	std::string GetPakEngineVersion();
 
 	static Application* GetInstance();
 
@@ -55,6 +67,7 @@ private:
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
 };
 
 #endif // !__APPLICATION_H__

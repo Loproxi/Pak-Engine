@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "External/SDL/include/SDL.h"
+#include <string>
 
 typedef unsigned int uint;
 
@@ -17,30 +18,31 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Init(pugi::xml_node& config);
 	bool CleanUp();
 
-	void SetTitle(const char* title);
+	bool SaveSettings(pugi::xml_node& config);
 
+	//Getters
+	const char* GetTitle();
+	const char* GetOrganization();
+	bool GetFullscreen() { return fullscreen; }
+	bool GetResizable() { return resizable; }
+	bool GetBorderless() { return borderless; }
+	bool GetFullscreenDesktop() { return fullscreen_desktop; }
 	int GetScreenWidth() { return width; }
-
-	int* GetScreenWidthByRef() { return &width; }
-
 	int GetScreenHeight() { return height; }
-
-	int* GetScreenHeightByRef() { return &height; }
-
-	void SetScreenWidth(int width);
-	
-	void SetScreenHeight(int height);
-
 	uint GetRefreshRate();
-	
-	void SetFullScreenOrFullScreenDesktop(bool fullscreen, SDL_WindowFlags flag = SDL_WINDOW_FULLSCREEN);
 
+	//Setters
+	void SetScreenWidth(int width);
+	void SetScreenHeight(int height);
+	void SetTitle(const char* title);
+	void SetOrganization(const char* organization);
+	void SetFullScreen(bool fullscreen);
+	void SetFullScreenDesktop(bool);
 	//This Doesn't work on fullscreen mode
 	void SetWindowBorderless(bool borderless);
-
 	//This Doesn't work on fullscreen mode
 	void SetWindowResizable(bool resizable);
 
@@ -54,6 +56,9 @@ public:
 private:
 	int width;
 	int height;
+	bool fullscreen, resizable, borderless, fullscreen_desktop;
+	std::string title;
+	std::string organization;
 };
 
 #endif // __ModuleWindow_H__

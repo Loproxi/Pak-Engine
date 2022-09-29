@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "SDL.h"
 #include "Application.h";
+#include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ImGuiUtils.h"
@@ -27,7 +28,12 @@ WinConfig::WinConfig()
 
 	limitframerate = app->GetFrameRateLimit();
 
-	
+	fullscreen = app->window->GetFullscreen();
+	resizable = app->window->GetResizable();
+	borderless = app->window->GetBorderless();
+	fulldesktop = app->window->GetFullscreenDesktop();
+
+	vsync = app->renderer3D->GetVsync();
 	
 }
 
@@ -35,6 +41,7 @@ WinConfig::~WinConfig()
 {
 	frames.clear();
 	ms.clear();
+	
 }
 
 void WinConfig::Draw()
@@ -86,6 +93,10 @@ void WinConfig::ApplicationHeader()
 	app->SetFrameRateLimit(limitframerate);
 	ImGui::PlotHistogram("##Framerate", &frames.front(), frames.size(), 0, title, 0.0f, 120, ImVec2(310, 120));
 	ImGui::PlotHistogram("##Deltatime", &ms.front(), ms.size(), 0, title2, 0.0f, 120, ImVec2(310, 120));
+	if (ImGui::Checkbox("Vsync", &vsync))
+	{
+		app->renderer3D->SetVsync(vsync);
+	}
 }
 
 void WinConfig::MsInfoLogic()
@@ -141,7 +152,7 @@ void WinConfig::WindowHeader()
 	ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "%u", app->window->GetRefreshRate());
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
 	{
-		app->window->SetFullScreenOrFullScreenDesktop(fullscreen);
+		app->window->SetFullScreen(fullscreen);
 	}
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Resizable", &resizable))
@@ -155,8 +166,7 @@ void WinConfig::WindowHeader()
 	ImGui::SameLine();
 	if (ImGui::Checkbox("FullDesktop", &fulldesktop))
 	{
-
-		app->window->SetFullScreenOrFullScreenDesktop(fulldesktop, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		app->window->SetFullScreenDesktop(fulldesktop);
 	}
 }
 

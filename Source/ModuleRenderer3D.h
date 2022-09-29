@@ -13,10 +13,15 @@ public:
 	ModuleRenderer3D(Application* app, bool start_enabled = true);
 	~ModuleRenderer3D();
 
-	bool Init();
+	bool Init(pugi::xml_node& config);
 	UpdateStatus PreUpdate();
 	UpdateStatus PostUpdate();
 	bool CleanUp();
+	bool SaveSettings(pugi::xml_node& config);
+
+	bool GetVsync() { return vsync; }
+
+	void SetVsync(bool vsync);
 
 	void OnResize(int width, int height);
 
@@ -31,6 +36,7 @@ public:
 private:
 
 	SDL_GLContext context;
+	bool vsync;
 	
 };
 

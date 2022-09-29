@@ -1,6 +1,6 @@
 #include "WinAbout.h"
 #include "Globals.h"
-
+#include "Application.h"
 #include "ImGuiUtils.h"
 #include "SDL.h"
 #include "MathGeoLib.h"
@@ -13,6 +13,8 @@
 WinAbout::WinAbout()
 {
 	name = "About";
+
+	app = Application::GetInstance();
 	
 	SDL_version sdlVersion;
 	SDL_GetVersion(&sdlVersion);
@@ -40,7 +42,7 @@ void WinAbout::Draw()
 	if (ImGui::Begin(name.c_str(),&isEnabled))
 	{
 
-		ImGui::TextWrapped("Pak-Engine v%s", GetPakEngineVersion().c_str());
+		ImGui::TextWrapped("Pak-Engine v%s", app->GetPakEngineVersion().c_str());
 		ImGui::Spacing();
 		ImGui::TextWrapped("My First 3D Game Engine");
 		ImGui::Spacing();
@@ -93,14 +95,5 @@ void WinAbout::GetLibVersionsAndPrint()
 	ImGui::NewLine();
 }
 
-std::string WinAbout::GetPakEngineVersion()
-{
-	std::string version;
 
-	version = std::to_string(MAJOR_VERSION_PAK_ENGINE);
-
-	version = version + "." + std::to_string(MINOR_VERSION_PAK_ENGINE);
-
-	return version;
-}
 

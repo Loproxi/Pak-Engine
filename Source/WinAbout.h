@@ -3,6 +3,7 @@
 
 #include "WindowBaseClass.h"
 
+class Application;
 
 class WinAbout :
     public WindowBaseClass
@@ -20,9 +21,9 @@ public:
 
     void GetLibVersionsAndPrint();
 
-    std::string GetPakEngineVersion();
-
 private:
+
+    Application* app = nullptr;
 
     std::string verSDL;
     std::string verGlew;

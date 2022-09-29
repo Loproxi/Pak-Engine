@@ -132,6 +132,11 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
+bool ModuleInput::SaveSettings(pugi::xml_node& config)
+{
+	return true;
+}
+
 void ModuleInput::GetMousePosition(int* mouseX, int* mouseY)
 {
 	SDL_GetMouseState(&mouse_x, &mouse_y);

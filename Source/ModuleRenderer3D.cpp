@@ -16,7 +16,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-
+	SetNameOfModule("Renderer");
 }
 
 // Destructor
@@ -26,7 +26,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 
 
 // Called before render is available
-bool ModuleRenderer3D::Init()
+bool ModuleRenderer3D::Init(pugi::xml_node& config)
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
@@ -41,8 +41,9 @@ bool ModuleRenderer3D::Init()
 	
 	if(ret == true)
 	{
+		vsync = config.child("Renderer").child("vsync").attribute("value").as_bool();
 		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if(vsync && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
@@ -110,7 +111,7 @@ bool ModuleRenderer3D::Init()
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
 	//Test RapidJSON
 
@@ -312,6 +313,20 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
+bool ModuleRenderer3D::SaveSettings(pugi::xml_node& config)
+{
+
+	config.child("Renderer").child("vsync").attribute("value") = vsync;
+
+	return true;
+}
+
+
+void ModuleRenderer3D::SetVsync(bool vsync)
+{
+	this->vsync = vsync;
+	SDL_GL_SetSwapInterval(vsync);
+}
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {

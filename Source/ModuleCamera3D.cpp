@@ -36,6 +36,11 @@ bool ModuleCamera3D::CleanUp()
 	return true;
 }
 
+bool ModuleCamera3D::SaveSettings(pugi::xml_node& config)
+{
+	return true;
+}
+
 // -----------------------------------------------------------------
 UpdateStatus ModuleCamera3D::Update()
 {

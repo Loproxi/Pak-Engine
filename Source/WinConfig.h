@@ -54,6 +54,8 @@ private:
 
     bool resizable = false;
 
+    bool vsync;
+
     Application* app = nullptr;
 
     Hardware_Info hw;

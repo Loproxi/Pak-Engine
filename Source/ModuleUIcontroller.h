@@ -25,9 +25,9 @@ public:
 
 	~ModuleUIcontroller();
 
-	bool Init() override;
+	bool Init(pugi::xml_node& config);
 
-	bool Start() override;
+	bool Start();
 
 	UpdateStatus PreUpdate();
 
@@ -42,6 +42,8 @@ public:
 	void MainMenuBar(bool& ret);
 
 	bool CleanUp() override;
+
+	bool SaveSettings(pugi::xml_node& config);
 
 public:
 

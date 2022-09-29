@@ -10,10 +10,15 @@ Module::Module(Application* parent, bool start_enabled)
 	enabled = start_enabled;
 }
 
+void Module::SetNameOfModule(std::string name)
+{
+	this->name = name;
+}
+
 Module::~Module()
 {}
 
-bool Module::Init()
+bool Module::Init(pugi::xml_node& config)
 {
 	return true;
 }
@@ -39,6 +44,11 @@ UpdateStatus Module::PostUpdate()
 }
 
 bool Module::CleanUp()
+{
+	return true;
+}
+
+bool Module::SaveSettings(pugi::xml_node& config)
 {
 	return true;
 }

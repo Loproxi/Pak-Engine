@@ -20,7 +20,7 @@ ModuleUIcontroller::~ModuleUIcontroller()
 {
 }
 
-bool ModuleUIcontroller::Init()
+bool ModuleUIcontroller::Init(pugi::xml_node& config)
 {
 	bool ret = true;
 
@@ -71,7 +71,6 @@ bool ModuleUIcontroller::Start()
 
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
-	
 
 	return ret;
 }
@@ -205,6 +204,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 	}
 }
 
+
+bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
+{
+	return true;
+}
 
 
 bool ModuleUIcontroller::CleanUp()
