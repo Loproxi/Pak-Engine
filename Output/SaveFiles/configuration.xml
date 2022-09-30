@@ -9,11 +9,17 @@
 		<vsync value="false" />
 	</Renderer>
 	<Window>
-		<resolution width="1240" height="610" />
+		<resolution width="1233" height="917" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</Window>
-	<scene />
+	<Editor>
+		<window_config value="true" />
+		<window_about value="true" />
+	</Editor>
+	<scene>
+		<scene />
+	</scene>
 </config>

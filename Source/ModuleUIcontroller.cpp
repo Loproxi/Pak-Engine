@@ -54,8 +54,8 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	
-
+	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
+	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
 	
 
 	return ret;
@@ -72,12 +72,20 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 
+	for (uint i = (uint)UIwindows::CONFIGURATION; i < (uint)UIwindows::MAX; i++)
+	{
+		windows[i]->isEnabled = winenable[i];
+	}
+	
+
 	return ret;
 }
 
 UpdateStatus ModuleUIcontroller::PreUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+
+	
 
 	return ret;
 }
@@ -86,11 +94,6 @@ UpdateStatus ModuleUIcontroller::Update()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 
-	if (!Draw())
-	{
-		ret = UpdateStatus::UPDATE_STOP;
-	};
-
 	return ret;
 }
 
@@ -98,7 +101,10 @@ UpdateStatus ModuleUIcontroller::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 
-	
+	if (!Draw())
+	{
+		ret = UpdateStatus::UPDATE_STOP;
+	};
 
 	return ret;
 }
@@ -163,6 +169,15 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Editor"))
+		{
+			if (ImGui::MenuItem("Configuration"))
+			{
+				//Do something
+				windows[(uint)UIwindows::CONFIGURATION]->isEnabled = true;
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Help"))
 		{
 			if (ImGui::MenuItem("ImGui Demo"))
@@ -207,6 +222,10 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 
 bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 {
+	
+	config.child("Editor").child("window_config").attribute("value") = windows[(uint)UIwindows::CONFIGURATION]->isEnabled;		
+	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
+
 	return true;
 }
 

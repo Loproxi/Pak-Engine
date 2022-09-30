@@ -51,7 +51,12 @@ public:
 
 private:
 
+	pugi::xml_node* editorNode;
+
 	WindowBaseClass* windows[(uint)UIwindows::MAX];
+
+	bool winenable[(uint)UIwindows::MAX];
+	
 
 };
 #endif // !__MODULERENDERER3D_H__
