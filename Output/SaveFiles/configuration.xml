@@ -9,7 +9,7 @@
 		<vsync value="false" />
 	</Renderer>
 	<Window>
-		<resolution width="1331" height="804" />
+		<resolution width="1240" height="610" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />

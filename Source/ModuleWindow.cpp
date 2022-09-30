@@ -169,18 +169,22 @@ void ModuleWindow::SetFullScreen(bool fullscreen)
 			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
 			return;
 		}
-		else 
+		else
 		{
 			this->fullscreen = fullscreen;
-			
+
 		}
 	}
-	else 
+	else
 	{
 		if (SDL_SetWindowFullscreen(window, 0) != 0)
 		{
 			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
 			return;
+		}
+		else
+		{
+			this->fullscreen = fullscreen;
 		}
 	}
 }
@@ -206,6 +210,10 @@ void ModuleWindow::SetFullScreenDesktop(bool fullscreendesktop)
 		{
 			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
 			return;
+		}
+		else
+		{
+			this->fullscreen_desktop = fullscreendesktop;
 		}
 	}
 }
