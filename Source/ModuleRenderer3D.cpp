@@ -6,6 +6,8 @@
 
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 #include "MathGeoLib.h"
 
@@ -38,13 +40,24 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+
+	//Init Glew
+	GLenum error = glewInit();
+	if (error != GLEW_OK)
+	{
+		printf("Glew could not be initialized! Glew_error: %s \n", glewGetErrorString(error));
+	}
 	
 	if(ret == true)
 	{
-		vsync = config.child("Renderer").child("vsync").attribute("value").as_bool();
+		renderstuff.vsync = config.child("Renderer").child("vsync").attribute("value").as_bool();
+		renderstuff.depthtest = config.child("Renderer").child("depthtest").attribute("value").as_bool();
+		renderstuff.cullface = config.child("Renderer").child("cullface").attribute("value").as_bool();
+		renderstuff.lighting = config.child("Renderer").child("lighting").attribute("value").as_bool();
+		renderstuff.wireframe = config.child("Renderer").child("wireframe").attribute("value").as_bool();
 		//Use Vsync
-		if(vsync && SDL_GL_SetSwapInterval(1) < 0)
-			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		
+
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -62,19 +75,14 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		//Check for error
-		error = glGetError();
-		if(error != GL_NO_ERROR)
-		{
-			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			ret = false;
-		}
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
 		
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		//Check for error
 		error = glGetError();
@@ -99,10 +107,13 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+
+		SetDepthTest(renderstuff.depthtest);
+		SetCullFace(renderstuff.cullface);
+		SetLightning(renderstuff.lighting);
+		SetWireframe(renderstuff.wireframe);
+
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 
 		// Enable opacity
@@ -259,6 +270,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 // PreUpdate: clear buffer
 UpdateStatus ModuleRenderer3D::PreUpdate()
 {
+	//CLEANING Every Frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -272,7 +284,6 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 		lights[i].Render();
 
 	// Test Intersections Mathgeo
-
 	/*bool intersects = false;
 
 	LineSegment* line = new LineSegment(float3(1, 0, 5), float3(2, 0, 5));
@@ -289,6 +300,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	line = nullptr;*/
 
+
 	return UPDATE_CONTINUE;
 }
 
@@ -296,6 +308,75 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 UpdateStatus ModuleRenderer3D::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
+	
+	/*if (debug_draw == true)
+	{
+		BeginDebugDraw();
+		App->DebugDraw();
+		EndDebugDraw();
+	}*/
+
+	static const GLfloat g_vertex_buffer_data[] = {
+		-1.0f,-1.0f,-1.0f, //triangle 1 : begin
+		-1.0f,-1.0f,1.0f,
+		-1.0f,1.0f,1.0f,  
+		1.0f, 1.0f,-1.0f, 
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f, 
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f
+	};
+	
+	//This will identify our vertex buffer
+	GLuint vertexbuffer;
+
+
+	//Generate 1 buffer,put the resulting identifier in vertexbuffer
+	glGenBuffers(1, &vertexbuffer);
+
+	//The following commands will talk about our 'vertexbuffer' buffer
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+
+	//Give our vertices to OpenGL.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	// … bind and use other buffers
+	glDrawArrays(GL_TRIANGLES, 0, 12*3);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
+	glLineWidth(1.0f);
+
 
 	SDL_GL_SwapWindow(App->window->window);
 	return ret;
@@ -316,7 +397,11 @@ bool ModuleRenderer3D::CleanUp()
 bool ModuleRenderer3D::SaveSettings(pugi::xml_node& config)
 {
 
-	config.child("Renderer").child("vsync").attribute("value") = vsync;
+	config.child("Renderer").child("vsync").attribute("value") = renderstuff.vsync;
+	config.child("Renderer").child("depthtest").attribute("value") = renderstuff.depthtest;
+	config.child("Renderer").child("cullface").attribute("value") = renderstuff.cullface;
+	config.child("Renderer").child("lighting").attribute("value") = renderstuff.lighting;
+	config.child("Renderer").child("wireframe").attribute("value") = renderstuff.wireframe;
 
 	return true;
 }
@@ -324,8 +409,38 @@ bool ModuleRenderer3D::SaveSettings(pugi::xml_node& config)
 
 void ModuleRenderer3D::SetVsync(bool vsync)
 {
-	this->vsync = vsync;
-	SDL_GL_SetSwapInterval(vsync);
+	renderstuff.vsync = vsync;
+	//If vsync is true enable if it is not disable
+	vsync ? SDL_GL_SetSwapInterval(vsync) : SDL_GL_SetSwapInterval(vsync);
+	
+}
+
+void ModuleRenderer3D::SetDepthTest(bool depthtest)
+{
+	renderstuff.depthtest = depthtest;
+	//If depthtest is true enable if it is not disable
+	depthtest ? glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST);
+}
+
+void ModuleRenderer3D::SetCullFace(bool cullface)
+{
+	renderstuff.cullface = cullface;
+	//If cullface is true enable if it is not disable
+	cullface ? glEnable(GL_CULL_FACE): glDisable(GL_CULL_FACE);
+}
+
+void ModuleRenderer3D::SetLightning(bool lightning)
+{
+	renderstuff.lighting = lightning;
+	//If lightning is true enable if it is not disable
+	lightning ? glEnable(GL_LIGHTING): glDisable(GL_LIGHTING);
+}
+
+void ModuleRenderer3D::SetWireframe(bool wireframe)
+{
+	renderstuff.wireframe = wireframe;
+	//If wireframe is true enable if it is not disable
+	wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void ModuleRenderer3D::OnResize(int width, int height)

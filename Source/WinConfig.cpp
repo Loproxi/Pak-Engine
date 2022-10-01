@@ -32,9 +32,11 @@ WinConfig::WinConfig()
 	resizable = app->window->GetResizable();
 	borderless = app->window->GetBorderless();
 	fulldesktop = app->window->GetFullscreenDesktop();
-
 	vsync = app->renderer3D->GetVsync();
-	
+	depthtest = app->renderer3D->GetDepthTest();
+	cullface = app->renderer3D->GetCullFace();
+	lighting = app->renderer3D->GetLightning();
+	wireframe = app->renderer3D->GetWireframe();
 }
 
 WinConfig::~WinConfig()
@@ -61,6 +63,10 @@ void WinConfig::Draw()
 			WindowHeader();
 			
 		}
+		if (ImGui::CollapsingHeader("Renderer"))
+		{
+			RendererHeader();
+		}
 		if (ImGui::CollapsingHeader("Input"))
 		{
 			app->input->GetMousePosition(&mousepositionX, &mousepositionY);
@@ -85,6 +91,8 @@ void WinConfig::Draw()
 
 }
 
+
+
 void WinConfig::ApplicationHeader()
 {
 	FrameInfoLogic();
@@ -93,10 +101,7 @@ void WinConfig::ApplicationHeader()
 	app->SetFrameRateLimit(limitframerate);
 	ImGui::PlotHistogram("##Framerate", &frames.front(), frames.size(), 0, title, 0.0f, 120, ImVec2(310, 120));
 	ImGui::PlotHistogram("##Deltatime", &ms.front(), ms.size(), 0, title2, 0.0f, 120, ImVec2(310, 120));
-	if (ImGui::Checkbox("Vsync", &vsync))
-	{
-		app->renderer3D->SetVsync(vsync);
-	}
+	
 }
 
 void WinConfig::MsInfoLogic()
@@ -170,6 +175,32 @@ void WinConfig::WindowHeader()
 	}
 }
 
+void WinConfig::RendererHeader()
+{
+	if (ImGui::Checkbox("Vsync    ", &vsync))
+	{
+		app->renderer3D->SetVsync(vsync);
+	}
+	ImGui::SameLine();
+	if (ImGui::Checkbox("DepthTest", &depthtest))
+	{
+		app->renderer3D->SetDepthTest(depthtest);
+	}
+	if (ImGui::Checkbox("CullFace ", &cullface))
+	{
+		app->renderer3D->SetCullFace(cullface);
+	}
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Lighting ", &lighting))
+	{
+		app->renderer3D->SetLightning(lighting);
+	}
+	if (ImGui::Checkbox("Wireframe", &wireframe))
+	{
+		app->renderer3D->SetWireframe(wireframe);
+	}
+}
+
 void WinConfig::HardwareHeader()
 {
 	ImGui::TextWrapped("CPUs: ");
@@ -209,5 +240,4 @@ void WinConfig::HardwareHeader()
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0, 1.0f), " Mb");
 
 }
-
 

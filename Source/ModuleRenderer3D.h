@@ -7,6 +7,15 @@
 
 #define MAX_LIGHTS 8
 
+struct RenderStuff
+{
+	bool vsync;
+	bool depthtest;
+	bool cullface;
+	bool lighting;
+	bool wireframe;
+};
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -18,14 +27,20 @@ public:
 	UpdateStatus PostUpdate();
 	bool CleanUp();
 	bool SaveSettings(pugi::xml_node& config);
-
-	bool GetVsync() { return vsync; }
-
-	void SetVsync(bool vsync);
-
 	void OnResize(int width, int height);
-
+	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
+	bool GetVsync() { return renderstuff.vsync; }
+	bool GetDepthTest() { return renderstuff.depthtest; }
+	bool GetCullFace() { return renderstuff.cullface; }
+	bool GetLightning() { return renderstuff.lighting; }
+	bool GetWireframe() { return renderstuff.wireframe; }
+	//Setters
+	void SetVsync(bool vsync);
+	void SetDepthTest(bool depthtest);
+	void SetCullFace(bool cullface);
+	void SetLightning(bool lighting);
+	void SetWireframe(bool wireframe);
 
 public:
 
@@ -35,9 +50,11 @@ public:
 
 private:
 
+	uint VBO = 0;
+
 	SDL_GLContext context;
-	bool vsync;
 	
+	RenderStuff renderstuff;
 };
 
 #endif // !__MODULERENDERER3D_H__

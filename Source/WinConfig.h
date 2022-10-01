@@ -28,6 +28,8 @@ public:
 
     void Draw();
 
+    void RendererHeader();
+
     void ApplicationHeader();
 
     void MsInfoLogic();
@@ -46,15 +48,16 @@ private:
 
     int height;
 
+    //CheckBox Options
     bool fullscreen = false;
-
     bool fulldesktop = false;
-
     bool borderless = false;
-
     bool resizable = false;
-
-    bool vsync;
+    bool vsync = false;
+    bool depthtest = false;
+    bool cullface = false;
+    bool lighting = false;
+    bool wireframe = false;
 
     Application* app = nullptr;
 

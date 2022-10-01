@@ -56,10 +56,10 @@ void Primitive::Render() const
 
 	glColor4f(color.r, color.g, color.b, color.a);
 
-	if(wire)
+	/*if(wire)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);*/
 
 	InnerRender();
 
@@ -115,45 +115,19 @@ void Cube::InnerRender() const
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
-	glBegin(GL_QUADS);
+	static const GLfloat vertices[]
+	{
+		-sx, -sy, sz,
+		 sx, -sy, sz,
+		 sx,  sy, sz,
+		-sx,  sy, sz,
+		 sx,  sy, -sz,
+		-sx, -sy, -sz,
+		-sx,  sy, -sz,
+		sx, -sy, -sz,
+	};
 
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-sx, -sy, sz);
-	glVertex3f( sx, -sy, sz);
-	glVertex3f( sx,  sy, sz);
-	glVertex3f(-sx,  sy, sz);
-
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx,  sy, -sz);
-	glVertex3f( sx,  sy, -sz);
-
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(sx, -sy,  sz);
-	glVertex3f(sx, -sy, -sz);
-	glVertex3f(sx,  sy, -sz);
-	glVertex3f(sx,  sy,  sz);
-
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx, -sy,  sz);
-	glVertex3f(-sx,  sy,  sz);
-	glVertex3f(-sx,  sy, -sz);
-
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-sx, sy,  sz);
-	glVertex3f( sx, sy,  sz);
-	glVertex3f( sx, sy, -sz);
-	glVertex3f(-sx, sy, -sz);
-
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f( sx, -sy,  sz);
-	glVertex3f(-sx, -sy,  sz);
-
-	glEnd();
+	
 }
 
 // SPHERE ============================================
