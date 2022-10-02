@@ -31,16 +31,16 @@ public:
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
 	bool GetVsync() { return renderstuff.vsync; }
-	bool GetDepthTest() { return renderstuff.depthtest; }
-	bool GetCullFace() { return renderstuff.cullface; }
-	bool GetLightning() { return renderstuff.lighting; }
-	bool GetWireframe() { return renderstuff.wireframe; }
+	bool* GetDepthTest() { return &renderstuff.depthtest; }
+	bool* GetCullFace() { return &renderstuff.cullface; }
+	bool* GetLightning() { return &renderstuff.lighting; }
+	bool* GetWireframe() { return &renderstuff.wireframe; }
 	//Setters
 	void SetVsync(bool vsync);
-	void SetDepthTest(bool depthtest);
-	void SetCullFace(bool cullface);
-	void SetLightning(bool lighting);
-	void SetWireframe(bool wireframe);
+	void SetDepthTest();
+	void SetCullFace();
+	void SetLightning();
+	void SetWireframe();
 
 public:
 

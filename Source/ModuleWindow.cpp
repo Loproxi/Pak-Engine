@@ -101,7 +101,7 @@ bool ModuleWindow::SaveSettings(pugi::xml_node& config)
 	config.child("Window").child("fullscreen").attribute("value").set_value(fullscreen);
 	config.child("Window").child("resizable").attribute("value") = resizable;
 	config.child("Window").child("borderless").attribute("value") = borderless;
-	config.child("Window").child("fullscreen_window").attribute("value") = fullscreen_desktop;
+	config.child("Window").child("fullscreen_window").attribute("value").set_value(fullscreen_desktop);
 
 	return true;
 }
@@ -160,49 +160,21 @@ uint ModuleWindow::GetRefreshRate()
 
 }
 
-void ModuleWindow::SetFullScreen(bool fullscreen)
+void ModuleWindow::SetFullScreen()
 {
-	if (fullscreen)
-	{
-		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
-		{
-			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
-			return;
-		}
-		else
-		{
-			this->fullscreen = fullscreen;
-
-		}
-	}
-	else
-	{
-		if (SDL_SetWindowFullscreen(window, 0) != 0)
-		{
-			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
-			return;
-		}
-		else
-		{
-			this->fullscreen = fullscreen;
-		}
-	}
+	fullscreen ? SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) : SDL_SetWindowFullscreen(window, 0);
 }
 
-void ModuleWindow::SetFullScreenDesktop(bool fullscreendesktop)
+void ModuleWindow::SetFullScreenDesktop()
 {
-	if (fullscreendesktop)
+	if (fullscreen_desktop)
 	{
 		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
 		{
 			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
 			return;
 		}
-		else
-		{
-			this->fullscreen_desktop = fullscreendesktop;
-
-		}
+		
 	}
 	else
 	{
@@ -211,41 +183,35 @@ void ModuleWindow::SetFullScreenDesktop(bool fullscreendesktop)
 			SDL_Log("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
 			return;
 		}
-		else
-		{
-			this->fullscreen_desktop = fullscreendesktop;
-		}
 	}
 }
 
-void ModuleWindow::SetWindowBorderless(bool borderless)
+void ModuleWindow::SetWindowBorderless()
 {
 
 	if (borderless)
 	{
-		this->borderless = borderless;
 		SDL_SetWindowBordered(window, SDL_FALSE);
 	}
 	else
 	{
-		this->borderless = borderless;
 		SDL_SetWindowBordered(window, SDL_TRUE);
 	}
 
 }
 
-void ModuleWindow::SetWindowResizable(bool resizable)
+void ModuleWindow::SetWindowResizable()
 {
 
 	if (resizable)
 	{
-		this->resizable = resizable;
+		
 		SDL_SetWindowResizable(window, SDL_TRUE);
 		
 	}
 	else
 	{
-		this->resizable = resizable;
+		
 		SDL_SetWindowResizable(window, SDL_FALSE);
 	}
 	

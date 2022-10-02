@@ -108,10 +108,10 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
 
-		SetDepthTest(renderstuff.depthtest);
-		SetCullFace(renderstuff.cullface);
-		SetLightning(renderstuff.lighting);
-		SetWireframe(renderstuff.wireframe);
+		SetDepthTest();
+		SetCullFace();
+		SetLightning();
+		SetWireframe();
 
 		lights[0].Active(true);
 		glEnable(GL_COLOR_MATERIAL);
@@ -415,32 +415,29 @@ void ModuleRenderer3D::SetVsync(bool vsync)
 	
 }
 
-void ModuleRenderer3D::SetDepthTest(bool depthtest)
+void ModuleRenderer3D::SetDepthTest()
 {
-	renderstuff.depthtest = depthtest;
 	//If depthtest is true enable if it is not disable
-	depthtest ? glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST);
+	renderstuff.depthtest ? glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST);
 }
 
-void ModuleRenderer3D::SetCullFace(bool cullface)
+void ModuleRenderer3D::SetCullFace()
 {
-	renderstuff.cullface = cullface;
+	
 	//If cullface is true enable if it is not disable
-	cullface ? glEnable(GL_CULL_FACE): glDisable(GL_CULL_FACE);
+	renderstuff.cullface ? glEnable(GL_CULL_FACE): glDisable(GL_CULL_FACE);
 }
 
-void ModuleRenderer3D::SetLightning(bool lightning)
+void ModuleRenderer3D::SetLightning()
 {
-	renderstuff.lighting = lightning;
 	//If lightning is true enable if it is not disable
-	lightning ? glEnable(GL_LIGHTING): glDisable(GL_LIGHTING);
+	renderstuff.lighting ? glEnable(GL_LIGHTING): glDisable(GL_LIGHTING);
 }
 
-void ModuleRenderer3D::SetWireframe(bool wireframe)
+void ModuleRenderer3D::SetWireframe()
 {
-	renderstuff.wireframe = wireframe;
 	//If wireframe is true enable if it is not disable
-	wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	renderstuff.wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void ModuleRenderer3D::OnResize(int width, int height)

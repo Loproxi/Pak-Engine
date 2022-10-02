@@ -26,10 +26,10 @@ public:
 	//Getters
 	const char* GetTitle();
 	const char* GetOrganization();
-	bool GetFullscreen() { return fullscreen; }
-	bool GetResizable() { return resizable; }
-	bool GetBorderless() { return borderless; }
-	bool GetFullscreenDesktop() { return fullscreen_desktop; }
+	bool* GetFullscreen() { return &fullscreen; }
+	bool* GetResizable() { return &resizable; }
+	bool* GetBorderless() { return &borderless; }
+	bool* GetFullscreenDesktop() { return &fullscreen_desktop; }
 	int GetScreenWidth() { return width; }
 	int GetScreenHeight() { return height; }
 	uint GetRefreshRate();
@@ -39,12 +39,12 @@ public:
 	void SetScreenHeight(int height);
 	void SetTitle(const char* title);
 	void SetOrganization(const char* organization);
-	void SetFullScreen(bool fullscreen);
-	void SetFullScreenDesktop(bool);
+	void SetFullScreen();
+	void SetFullScreenDesktop();
 	//This Doesn't work on fullscreen mode
-	void SetWindowBorderless(bool borderless);
+	void SetWindowBorderless();
 	//This Doesn't work on fullscreen mode
-	void SetWindowResizable(bool resizable);
+	void SetWindowResizable();
 
 public:
 	//The window we'll be rendering to

@@ -155,23 +155,23 @@ void WinConfig::WindowHeader()
 	ImGui::Text("Refresh Rate: ");
 	ImGui::SameLine();
 	ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "%u", app->window->GetRefreshRate());
-	if (ImGui::Checkbox("Fullscreen", &fullscreen))
+	if (ImGui::Checkbox("Fullscreen", fullscreen))
 	{
-		app->window->SetFullScreen(fullscreen);
+		app->window->SetFullScreen();
 	}
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Resizable", &resizable))
+	if (ImGui::Checkbox("Resizable", resizable))
 	{
-		app->window->SetWindowResizable(resizable);
+		app->window->SetWindowResizable();
 	}
-	if (ImGui::Checkbox("Borderless", &borderless))
+	if (ImGui::Checkbox("Borderless", borderless))
 	{
-		app->window->SetWindowBorderless(borderless);
+		app->window->SetWindowBorderless();
 	}
 	ImGui::SameLine();
-	if (ImGui::Checkbox("FullDesktop", &fulldesktop))
+	if (ImGui::Checkbox("FullDesktop", fulldesktop))
 	{
-		app->window->SetFullScreenDesktop(fulldesktop);
+		app->window->SetFullScreenDesktop();
 	}
 }
 
@@ -182,22 +182,22 @@ void WinConfig::RendererHeader()
 		app->renderer3D->SetVsync(vsync);
 	}
 	ImGui::SameLine();
-	if (ImGui::Checkbox("DepthTest", &depthtest))
+	if (ImGui::Checkbox("DepthTest", depthtest))
 	{
-		app->renderer3D->SetDepthTest(depthtest);
+		app->renderer3D->SetDepthTest();
 	}
-	if (ImGui::Checkbox("CullFace ", &cullface))
+	if (ImGui::Checkbox("CullFace ", cullface))
 	{
-		app->renderer3D->SetCullFace(cullface);
+		app->renderer3D->SetCullFace();
 	}
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Lighting ", &lighting))
+	if (ImGui::Checkbox("Lighting ", lighting))
 	{
-		app->renderer3D->SetLightning(lighting);
+		app->renderer3D->SetLightning();
 	}
-	if (ImGui::Checkbox("Wireframe", &wireframe))
+	if (ImGui::Checkbox("Wireframe", wireframe))
 	{
-		app->renderer3D->SetWireframe(wireframe);
+		app->renderer3D->SetWireframe();
 	}
 }
 

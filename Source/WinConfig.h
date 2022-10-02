@@ -49,15 +49,15 @@ private:
     int height;
 
     //CheckBox Options
-    bool fullscreen = false;
-    bool fulldesktop = false;
-    bool borderless = false;
-    bool resizable = false;
+    bool* fullscreen = nullptr;
+    bool* fulldesktop = nullptr;
+    bool* borderless = nullptr;
+    bool* resizable = nullptr;
     bool vsync = false;
-    bool depthtest = false;
-    bool cullface = false;
-    bool lighting = false;
-    bool wireframe = false;
+    bool* depthtest = nullptr;
+    bool* cullface = nullptr;
+    bool* lighting = nullptr;
+    bool* wireframe = nullptr;
 
     Application* app = nullptr;
 
