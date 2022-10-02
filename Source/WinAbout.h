@@ -15,7 +15,9 @@ public:
 
     ~WinAbout();
 
-    void Draw() override;
+    void Start();
+
+    void Draw();
 
     void LicenseText();
 

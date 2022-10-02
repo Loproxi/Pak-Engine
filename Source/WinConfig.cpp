@@ -46,6 +46,10 @@ WinConfig::~WinConfig()
 	
 }
 
+void WinConfig::Start()
+{
+}
+
 void WinConfig::Draw()
 {
 	

@@ -8,6 +8,10 @@ WindowBaseClass::~WindowBaseClass()
 {
 }
 
+void WindowBaseClass::Start()
+{
+}
+
 void WindowBaseClass::Draw()
 {
 }

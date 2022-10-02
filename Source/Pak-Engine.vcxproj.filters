@@ -175,6 +175,12 @@
     <ClCompile Include="src\pugixml.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="WinScene.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -448,6 +454,12 @@
       <Filter>Header\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\pugixml.hpp">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="WinScene.h">
+      <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
   </ItemGroup>

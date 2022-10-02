@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#include "glew.h"
+
 
 
 // ------------------------------------------------------------
@@ -109,41 +109,108 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
+Cube::~Cube()
+{
+
+}
+
 void Cube::InnerRender() const
 {	
 	float sx = size.x * 0.5f;
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
-	static const GLfloat vertices[]
+	static const GLfloat vertices[24]
 	{
-		-sx, -sy, sz,
-		 sx, -sy, sz,
+		-sx, sy, sz,
+		 -sx, -sy, sz,
 		 sx,  sy, sz,
-		-sx,  sy, sz,
-		 sx,  sy, -sz,
+		sx,  -sy, sz,
+		 -sx,  sy, -sz,
 		-sx, -sy, -sz,
-		-sx,  sy, -sz,
+		sx,  sy, -sz,
 		sx, -sy, -sz,
 	};
 
+	GLuint indices[36] = 
+	{
+		0, 3, 2, 0, 1, 3, //Front
+		2, 7, 6, 2, 3, 7, //Right
+		6, 5, 4, 6, 7, 5, //Back
+		4, 1, 0, 4, 5, 1, //Left
+		0, 6, 4, 0, 2, 6, //Up
+		1, 5, 7, 1, 7, 3,
+	};
+
+	//This will identify our vertex buffer
+	GLuint vertexbuffer;
+	//Generate 1 buffer,put the resulting identifier in vertexbuffer
+	glGenBuffers(1, &vertexbuffer);
+	//The following commands will talk about our 'vertexbuffer' buffer
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	//Give our vertices to OpenGL.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	uint my_indices = 0;
+	glGenBuffers(1, (GLuint*)&(my_indices));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) , indices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
 	
 }
 
 // SPHERE ============================================
-Sphere::Sphere() : Primitive(), radius(1.0f)
+Spheree::Spheree() : Primitive(), radius(1.0f)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
 }
 
-Sphere::Sphere(float radius) : Primitive(), radius(radius)
+Spheree::Spheree( unsigned int rings, unsigned int sectors ,float radius ) : Primitive(), radius(radius)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
+
+	//float const R = 1. / (float)(rings - 1);
+	//float const S = 1. / (float)(sectors - 1);
+	//int r, s;
+
+	//vertices.resize(rings * sectors * 3);
+
+
+	//std::vector<GLfloat>::iterator v = vertices.begin();
+
+	//for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
+	//	float const y = sin(-M_PI_2 + M_PI * r * R);
+	//	float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
+	//	float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
+
+	//	*v++ = x * radius;
+	//	*v++ = y * radius;
+	//	*v++ = z * radius;
+
+	//}
+
+	//indices.resize(rings * sectors * 4);
+	//std::vector<GLushort>::iterator i = indices.begin();
+	//for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
+	//	*i++ = r * sectors + s;
+	//	*i++ = r * sectors + (s + 1);
+	//	*i++ = (r + 1) * sectors + (s + 1);
+	//	*i++ = (r + 1) * sectors + s;
+	//}
 }
 
-void Sphere::InnerRender() const
+void Spheree::InnerRender() const
 {
-	//glutSolidSphere(radius, 25, 25);
+
+
+
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+	//glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
 }
 
 // CYLINDER ============================================

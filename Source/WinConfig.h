@@ -26,6 +26,8 @@ public:
 
     ~WinConfig();
 
+    void Start();
+
     void Draw();
 
     void RendererHeader();

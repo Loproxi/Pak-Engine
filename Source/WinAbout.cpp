@@ -37,6 +37,10 @@ WinAbout::~WinAbout()
 {
 }
 
+void WinAbout::Start()
+{
+}
+
 void WinAbout::Draw()
 {
 	if (ImGui::Begin(name.c_str(),&isEnabled))

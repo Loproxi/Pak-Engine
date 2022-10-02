@@ -3,7 +3,7 @@
 
 #include "Module.h"
 #include "Light.h"
-
+#include "FrameBuffer.h"
 
 #define MAX_LIGHTS 8
 
@@ -35,6 +35,7 @@ public:
 	bool* GetCullFace() { return &renderstuff.cullface; }
 	bool* GetLightning() { return &renderstuff.lighting; }
 	bool* GetWireframe() { return &renderstuff.wireframe; }
+	FrameBuffer* GetFrameBufferRef() { return &framebuffer; }
 	//Setters
 	void SetVsync(bool vsync);
 	void SetDepthTest();
@@ -51,6 +52,8 @@ public:
 private:
 
 	uint VBO = 0;
+
+	FrameBuffer framebuffer;
 
 	SDL_GLContext context;
 	

@@ -12,6 +12,8 @@ public:
 
 	virtual ~WindowBaseClass();
 
+	virtual void Start();
+
 	virtual void Draw();
 
 	std::string name;

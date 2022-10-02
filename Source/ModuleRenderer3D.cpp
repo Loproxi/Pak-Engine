@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
+#include "Primitive.h"
 
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -263,6 +264,8 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
+	framebuffer.SettingUpFrameBuffer(1280, 720);
+
 
 	return ret;
 }
@@ -309,6 +312,9 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 	
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.GetFrameBuffer());
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	/*if (debug_draw == true)
 	{
 		BeginDebugDraw();
@@ -316,67 +322,10 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f,-1.0f,-1.0f, //triangle 1 : begin
-		-1.0f,-1.0f,1.0f,
-		-1.0f,1.0f,1.0f,  
-		1.0f, 1.0f,-1.0f, 
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f, 
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f
-	};
-	
-	//This will identify our vertex buffer
-	GLuint vertexbuffer;
+	Cube hey;
+	hey.InnerRender();
 
-
-	//Generate 1 buffer,put the resulting identifier in vertexbuffer
-	glGenBuffers(1, &vertexbuffer);
-
-	//The following commands will talk about our 'vertexbuffer' buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-
-	//Give our vertices to OpenGL.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	// … bind and use other buffers
-	glDrawArrays(GL_TRIANGLES, 0, 12*3);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	
-	glLineWidth(1.0f);
-
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	SDL_GL_SwapWindow(App->window->window);
 	return ret;

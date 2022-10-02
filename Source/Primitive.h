@@ -3,6 +3,8 @@
 
 #include "glmath.h"
 #include "Color.h"
+#include <vector>
+#include "glew.h"
 
 enum PrimitiveTypes
 {
@@ -42,6 +44,7 @@ class Cube : public Primitive
 public :
 	Cube();
 	Cube(float sizeX, float sizeY, float sizeZ);
+	~Cube();
 	void InnerRender() const;
 public:
 	vec3 size;
@@ -50,14 +53,20 @@ private:
 };
 
 // ============================================
-class Sphere : public Primitive
+class Spheree : public Primitive
 {
 public:
-	Sphere();
-	Sphere(float radius);
+	Spheree();
+	Spheree(unsigned int rings, unsigned int sectors, float radius);
 	void InnerRender() const;
 public:
 	float radius = 0;
+
+private:
+	std::vector<GLfloat> vertices;
+	std::vector<GLfloat> normals;
+	std::vector<GLfloat> texcoords;
+	std::vector<GLushort> indices;
 };
 
 // ============================================

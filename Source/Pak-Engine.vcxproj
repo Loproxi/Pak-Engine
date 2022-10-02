@@ -196,6 +196,7 @@
     <ClCompile Include="External\MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="External\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="External\MathGeoLib\include\Time\Clock.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="Globals.h" />
     <ClCompile Include="gpudetect\DeviceId.cpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="WinAbout.cpp" />
     <ClCompile Include="WinConfig.cpp" />
     <ClCompile Include="WindowBaseClass.cpp" />
+    <ClCompile Include="WinScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -286,6 +288,7 @@
     <ClInclude Include="External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="External\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="gpudetect\DeviceId.h" />
     <ClInclude Include="gpudetect\dxgi1_4.h" />
@@ -306,6 +309,7 @@
     <ClInclude Include="WinAbout.h" />
     <ClInclude Include="WinConfig.h" />
     <ClInclude Include="WindowBaseClass.h" />
+    <ClInclude Include="WinScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeoLib\include\Geometry\KDTree.inl" />

@@ -9,6 +9,7 @@
 #include "ModuleWindow.h"
 #include "WinAbout.h"
 #include "WinConfig.h"
+#include "WinScene.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -69,6 +70,7 @@ bool ModuleUIcontroller::Start()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->GetSDL_GLContext());
 	ImGui_ImplOpenGL3_Init();
 
+	windows[(uint)UIwindows::SCENE] = new WinScene();
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 
@@ -77,6 +79,10 @@ bool ModuleUIcontroller::Start()
 		windows[i]->isEnabled = winenable[i];
 	}
 	
+	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
+	{
+		windows[i]->Start();
+	}
 
 	return ret;
 }

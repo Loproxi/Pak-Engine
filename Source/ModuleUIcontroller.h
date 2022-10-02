@@ -9,7 +9,7 @@ class WindowBaseClass;
 
 enum class UIwindows
 {
-	
+	SCENE,
 	CONFIGURATION,
 	ABOUT,
 	MAX
