@@ -102,20 +102,7 @@ void Primitive::Scale(float x, float y, float z)
 Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
-}
 
-Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
-{
-	type = PrimitiveTypes::Primitive_Cube;
-}
-
-Cube::~Cube()
-{
-
-}
-
-void Cube::InnerRender() const
-{	
 	float sx = size.x * 0.5f;
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
@@ -132,7 +119,7 @@ void Cube::InnerRender() const
 		sx, -sy, -sz,
 	};
 
-	GLuint indices[36] = 
+	GLuint indices[36] =
 	{
 		0, 3, 2, 0, 1, 3, //Front
 		2, 7, 6, 2, 3, 7, //Right
@@ -143,7 +130,7 @@ void Cube::InnerRender() const
 	};
 
 	//This will identify our vertex buffer
-	GLuint vertexbuffer;
+	
 	//Generate 1 buffer,put the resulting identifier in vertexbuffer
 	glGenBuffers(1, &vertexbuffer);
 	//The following commands will talk about our 'vertexbuffer' buffer
@@ -153,11 +140,26 @@ void Cube::InnerRender() const
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	uint my_indices = 0;
-	glGenBuffers(1, (GLuint*)&(my_indices));
+	glGenBuffers(1, &my_indices);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) , indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+}
+
+Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
+{
+	type = PrimitiveTypes::Primitive_Cube;
+}
+
+Cube::~Cube()
+{
+	glDeleteBuffers(1, &vertexbuffer);
+	glDeleteBuffers(1, &my_indices);
+}
+
+void Cube::InnerRender() const
+{	
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
 	

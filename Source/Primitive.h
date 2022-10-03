@@ -49,7 +49,8 @@ public :
 public:
 	vec3 size;
 private:
-
+	GLuint vertexbuffer;
+	GLuint my_indices;
 };
 
 // ============================================
