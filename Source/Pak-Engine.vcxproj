@@ -213,6 +213,7 @@
     <ClCompile Include="src\pugixml.cpp" />
     <ClCompile Include="WinAbout.cpp" />
     <ClCompile Include="WinConfig.cpp" />
+    <ClCompile Include="WinConsole.cpp" />
     <ClCompile Include="WindowBaseClass.cpp" />
     <ClCompile Include="WinScene.cpp" />
   </ItemGroup>
@@ -308,6 +309,7 @@
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="WinAbout.h" />
     <ClInclude Include="WinConfig.h" />
+    <ClInclude Include="WinConsole.h" />
     <ClInclude Include="WindowBaseClass.h" />
     <ClInclude Include="WinScene.h" />
   </ItemGroup>

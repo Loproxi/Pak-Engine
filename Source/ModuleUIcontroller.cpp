@@ -54,7 +54,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
-
+	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
 	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
 	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
 	
@@ -74,13 +74,10 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 
-	for (uint i = (uint)UIwindows::CONFIGURATION; i < (uint)UIwindows::MAX; i++)
-	{
-		windows[i]->isEnabled = winenable[i];
-	}
-	
+
 	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
 	{
+		windows[i]->isEnabled = winenable[i];
 		windows[i]->Start();
 	}
 
@@ -182,6 +179,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::CONFIGURATION]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Scene"))
+			{
+				//Do something
+				windows[(uint)UIwindows::SCENE]->isEnabled = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -228,7 +230,7 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 
 bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 {
-	
+	config.child("Editor").child("window_scene").attribute("value") = windows[(uint)UIwindows::SCENE]->isEnabled;
 	config.child("Editor").child("window_config").attribute("value") = windows[(uint)UIwindows::CONFIGURATION]->isEnabled;		
 	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
 

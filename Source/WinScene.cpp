@@ -6,7 +6,7 @@
 
 WinScene::WinScene()
 {
-	isEnabled = true;
+	
 	name = "Scene";
 	app = Application::GetInstance();
 }
@@ -22,7 +22,7 @@ void WinScene::Start()
 
 void WinScene::Draw()
 {
-	if (ImGui::Begin("Scene",&isEnabled))
+	if (ImGui::Begin(name.c_str(),&isEnabled))
 	{
 		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail());
 	}

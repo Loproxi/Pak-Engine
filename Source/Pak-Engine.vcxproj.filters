@@ -181,6 +181,9 @@
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="WinConsole.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -461,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="WinConsole.h">
+      <Filter>Header\Editor\Derived</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
