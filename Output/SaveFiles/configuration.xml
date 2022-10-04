@@ -8,12 +8,12 @@
 	<Renderer>
 		<vsync value="true" />
 		<depthtest value="true" />
-		<cullface value="false" />
+		<cullface value="true" />
 		<lighting value="false" />
 		<wireframe value="false" />
 	</Renderer>
 	<Window>
-		<resolution width="484" height="717" />
+		<resolution width="1221" height="717" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="true" />

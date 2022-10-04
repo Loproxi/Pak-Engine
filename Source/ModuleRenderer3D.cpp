@@ -3,7 +3,8 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
-#include "Primitive.h"
+
+#include "Mesh.h"
 
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -321,9 +322,12 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		App->DebugDraw();
 		EndDebugDraw();
 	}*/
+	
+	
+	
+	Mesh test(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices());
 
-	Cube hey;
-	hey.InnerRender();
+	test.RenderMeshes();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

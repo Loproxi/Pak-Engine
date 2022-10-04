@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Light.h"
 #include "FrameBuffer.h"
+#include "Primitive.h"
 
 #define MAX_LIGHTS 8
 
@@ -15,6 +16,8 @@ struct RenderStuff
 	bool lighting;
 	bool wireframe;
 };
+
+class Primitive;
 
 class ModuleRenderer3D : public Module
 {
@@ -48,11 +51,9 @@ public:
 	Light lights[MAX_LIGHTS];
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-
+	Cube cube;
 private:
-
-	uint VBO = 0;
-
+	
 	FrameBuffer framebuffer;
 
 	SDL_GLContext context;
