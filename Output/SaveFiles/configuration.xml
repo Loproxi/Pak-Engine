@@ -6,14 +6,14 @@
 		<version>0.1</version>
 	</App>
 	<Renderer>
-		<vsync value="false" />
+		<vsync value="true" />
 		<depthtest value="true" />
-		<cullface value="true" />
+		<cullface value="false" />
 		<lighting value="false" />
 		<wireframe value="false" />
 	</Renderer>
 	<Window>
-		<resolution width="1018" height="717" />
+		<resolution width="484" height="717" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="true" />

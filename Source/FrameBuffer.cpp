@@ -9,9 +9,10 @@ FrameBuffer::~FrameBuffer()
 {
 }
 
-void FrameBuffer::SettingUpFrameBuffer(int width,int height)
+void FrameBuffer::SettingUpFrameBuffer(int widthh,int heightt)
 {
-	
+	this->width = widthh;
+	this->height = heightt;
 	ClearFrameBuffer();
 
 	glGenFramebuffers(1, &framebuffer);
@@ -21,7 +22,7 @@ void FrameBuffer::SettingUpFrameBuffer(int width,int height)
 	glGenTextures(1, &texcolorbuffer);
 	glBindTexture(GL_TEXTURE_2D, texcolorbuffer);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

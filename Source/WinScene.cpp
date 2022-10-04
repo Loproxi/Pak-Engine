@@ -24,7 +24,13 @@ void WinScene::Draw()
 {
 	if (ImGui::Begin(name.c_str(),&isEnabled))
 	{
-		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail());
+		ImVec2 size = ImGui::GetContentRegionAvail();
+		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
+		{
+			framebuffer->SettingUpFrameBuffer(size.x, size.y);
+		}
+		
+		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), {(float)framebuffer->GetWidthFrame(),(float)framebuffer->GetHeightFrame()});
 	}
 	ImGui::End();
 }
