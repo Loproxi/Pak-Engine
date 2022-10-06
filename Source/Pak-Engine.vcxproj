@@ -309,7 +309,6 @@
     <ClInclude Include="src\pugiconfig.hpp" />
     <ClInclude Include="src\pugixml.hpp" />
     <ClInclude Include="Timer.hpp" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="WinAbout.h" />
     <ClInclude Include="WinConfig.h" />
     <ClInclude Include="WinConsole.h" />

@@ -6,7 +6,7 @@
 #include "glmath.h"
 #include "Color.h"
 #include "glew.h"
-#include "Vertex.h"
+#include "MathGeoLib.h"
 
 enum PrimitiveTypes
 {
@@ -25,19 +25,21 @@ public:
 
 	PrimitiveTypes	GetType() const;
 
-	Vertex* GetVertices() { return &vertices[0]; }
+	float3* GetVertices() { return &vertices[0]; }
 	GLuint* Getindices() { return &indices[0]; }
+	std::vector<GLuint>* GetindicesVector() { return &indices; }
+	std::vector<float3>* GetVerticesVector() { return &vertices; }
 	uint GetNumVertices() { return vertices.size(); }
 	uint GetNumIndices() { return indices.size(); }
 
-	void SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
+	void SetData(const float3* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
 
 protected:
 	PrimitiveTypes type;
 
 private:
 
-	std::vector<Vertex> vertices;
+	std::vector<float3> vertices;
 	std::vector<GLuint> indices;
 	uint numvertices;
 	uint numindices;
@@ -50,9 +52,8 @@ class Cube : public Primitive
 public :
 	Cube();
 	Cube(float sizeX, float sizeY, float sizeZ);
-
 public:
-	vec3 size;
+	float3 size;
 };
 
 // ============================================
@@ -61,11 +62,6 @@ class Spheree : public Primitive
 public:
 	Spheree();
 	Spheree(unsigned int rings, unsigned int sectors, float radius);
-	
-public:
-	float radius = 0;
-
-private:
 
 };
 
@@ -75,21 +71,15 @@ class Cylinder : public Primitive
 public:
 	Cylinder();
 	Cylinder(float radius, float height);
-public:
-	float radius = 0;
-	float height = 0;
 };
 
 // ============================================
-class Line : public Primitive
+class Pyramid : public Primitive
 {
 public:
-	Line();
-	Line(float x, float y, float z);
-	void InnerRender() const;
+	Pyramid();
 public:
-	vec3 origin;
-	vec3 destination;
+	float3 size;
 };
 
 // ============================================

@@ -10,10 +10,10 @@
 		<depthtest value="true" />
 		<cullface value="true" />
 		<lighting value="false" />
-		<wireframe value="false" />
+		<wireframe value="true" />
 	</Renderer>
 	<Window>
-		<resolution width="1221" height="717" />
+		<resolution width="1164" height="717" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="true" />

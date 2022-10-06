@@ -52,6 +52,8 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	Cube cube;
+	Spheree sphere;
+	Pyramid pyramid;
 private:
 	
 	FrameBuffer framebuffer;

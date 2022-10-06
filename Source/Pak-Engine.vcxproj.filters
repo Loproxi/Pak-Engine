@@ -471,9 +471,6 @@
     <ClInclude Include="WinConsole.h">
       <Filter>Header\Editor\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Header\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
