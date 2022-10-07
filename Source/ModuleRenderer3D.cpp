@@ -21,6 +21,12 @@
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	SetNameOfModule("Renderer");
+	renderstuff.cullface = false;
+	renderstuff.depthtest = false;
+	renderstuff.lighting = false;
+	renderstuff.wireframe = false;
+	renderstuff.vsync = false;
+	context = NULL;
 }
 
 // Destructor

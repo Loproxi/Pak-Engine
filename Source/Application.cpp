@@ -5,12 +5,14 @@
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
+#include "ModuleFileSystem.h"
 
 
 Application* Application::App = nullptr;
 
 Application::Application()
 {
+	fileSystem = new ModuleFileSystem(this, true);
 	window = new ModuleWindow(this, true);
 	input = new ModuleInput(this, true);
 	camera = new ModuleCamera3D(this, true);
@@ -23,6 +25,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	AddModule(fileSystem);
 	AddModule(window);
 	
 	AddModule(input);

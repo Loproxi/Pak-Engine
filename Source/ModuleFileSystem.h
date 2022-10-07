@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _MODULEFILESYSTEM_H__
+#define _MODULEFILESYSTEM_H__
+
+
 #include "Module.h"
 class ModuleFileSystem :
     public Module
@@ -6,12 +9,18 @@ class ModuleFileSystem :
 public:
     ModuleFileSystem(Application* app, bool start_enabled = true);
 
-   /* ~ModuleFileSystem();
+    ~ModuleFileSystem();
 
     bool Init();
-    UpdateStatus PreUpdate();
+    bool Start();
     bool CleanUp();
 
-    bool SaveSettings(pugi::xml_node& config);*/
+	UpdateStatus PreUpdate();
+	UpdateStatus Update();
+	UpdateStatus PostUpdate();
+
+    bool SaveSettings(pugi::xml_node& config);
+
 };
 
+#endif // !_MODULEFILESYSTEM_H__

@@ -7,6 +7,9 @@ ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, s
 	window = nullptr;
 	screen_surface = nullptr;
 	SetNameOfModule("Window");
+	width = 1280;
+	height = 720;
+	fullscreen = resizable = borderless = fullscreen_desktop = false;
 }
 
 // Destructor

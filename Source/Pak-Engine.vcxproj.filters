@@ -190,6 +190,9 @@
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ModelImporter.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -479,6 +482,9 @@
     </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Header\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelImporter.h">
+      <Filter>Header\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
