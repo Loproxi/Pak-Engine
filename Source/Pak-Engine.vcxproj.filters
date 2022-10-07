@@ -187,6 +187,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleFileSystem.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFileSystem.h">
+      <Filter>Header\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

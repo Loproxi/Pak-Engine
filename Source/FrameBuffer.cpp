@@ -3,6 +3,12 @@
 
 FrameBuffer::FrameBuffer()
 {
+	texcolorbuffer = 0;
+	framebuffer = 0;
+	//RenderBufferObject
+	rbodepthstencil = 0;
+	width = 1280;
+	height = 1280;
 }
 
 FrameBuffer::~FrameBuffer()

@@ -60,11 +60,7 @@ void Mesh::GenModelMatrix()
 	modelMatrix.SetIdentity();
 	if (modelMatrix.IsIdentity())
 	{
-		modelMatrix.SetCol(3, float4(this->position, 1));
-
-		//float4 vector = modelMatrix * float4(this->scale, 1);
-
-		
+		//Crear una matriu nova i li pasem els valors de position rotation scale
 		modelMatrix.Transpose();
 		PrintMatrix(&modelMatrix);
 		

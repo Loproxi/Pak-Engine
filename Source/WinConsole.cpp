@@ -1,6 +1,6 @@
 #include "WinConsole.h"
 
-WinConsole::WinConsole()
+WinConsole::WinConsole():AutoScroll(true)
 {
 }
 

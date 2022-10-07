@@ -41,9 +41,6 @@ private:
 
 	std::vector<float3> vertices;
 	std::vector<GLuint> indices;
-	uint numvertices;
-	uint numindices;
-
 };
 
 // ============================================

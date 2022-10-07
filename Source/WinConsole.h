@@ -33,7 +33,6 @@ private:
     std::vector<logReport> logReports;
 
     bool AutoScroll;
-    bool ScrollToBottom;
 };
 
 #endif //_WINCONSOLE_H_

@@ -6,7 +6,8 @@
 
 // ------------------------------------------------------------
 Primitive::Primitive() : type(PrimitiveTypes::Primitive_Point)
-{}
+{
+}
 
 // ------------------------------------------------------------
 PrimitiveTypes Primitive::GetType() const

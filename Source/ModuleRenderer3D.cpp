@@ -327,7 +327,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	
 	Mesh test(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{2.0f,1.0f,4.0f}, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 
-	//test.RenderMeshes();
+	test.RenderMeshes();
 
 	Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -335,7 +335,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	Mesh test3(pyramid.GetVertices(), pyramid.GetNumVertices(), pyramid.Getindices(), pyramid.GetNumIndices());
 
-	test3.RenderMeshes();
+	//test3.RenderMeshes();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
