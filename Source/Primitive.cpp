@@ -15,7 +15,7 @@ PrimitiveTypes Primitive::GetType() const
 	return type;
 }
 
-void Primitive::SetData(const float3* vertices, const uint numvertices, const GLuint* indices, const uint numindices)
+void Primitive::SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices)
 {
 	for (uint i = 0; i < numvertices; i++)
 	{
@@ -29,7 +29,7 @@ void Primitive::SetData(const float3* vertices, const uint numvertices, const GL
 
 
 // CUBE ============================================
-Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
+Cube::Cube() : Primitive(), size(2.0f, 2.0f,2.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 
@@ -37,16 +37,17 @@ Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
-	float3 vertices[8]
+	Vertex vertices[8]
 	{
-		float3{-sx, sy, sz},
-		float3{-sx, -sy, sz},
-		float3{sx,  sy, sz},
-		float3{sx,  -sy, sz},
-		float3{-sx,  sy, -sz},
-		float3{-sx, -sy, -sz},
-		float3{sx,  sy, -sz},
-		float3{sx, -sy, -sz },
+		//POS               //Normals
+		float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f},
 	};
 
 	
@@ -61,7 +62,7 @@ Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 		1, 5, 7, 1, 7, 3,
 	};
 
-	uint tempnumofvertices = sizeof(vertices) / sizeof(float3);
+	uint tempnumofvertices = sizeof(vertices) / sizeof(Vertex);
 	uint tempnumofindices = sizeof(indices) / sizeof(GLuint);
 
 	SetData(&vertices[0], tempnumofvertices, &indices[0], tempnumofindices);
@@ -76,18 +77,19 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
-	float3 vertices[8]
+	Vertex vertices[8]
 	{
-		float3{-sx, sy, sz},
-		float3{-sx, -sy, sz},
-		float3{sx,  sy, sz},
-		float3{sx,  -sy, sz},
-		float3{-sx,  sy, -sz},
-		float3{-sx, -sy, -sz},
-		float3{sx,  sy, -sz},
-		float3{sx, -sy, -sz },
+		//POS               //Normals
+		float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
+		float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f},
 	};
-
+	
 
 
 	GLuint indices[36] =
@@ -100,7 +102,7 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 		1, 5, 7, 1, 7, 3,
 	};
 
-	uint tempnumofvertices = sizeof(vertices) / sizeof(float3);
+	uint tempnumofvertices = sizeof(vertices) / sizeof(Vertex);
 	uint tempnumofindices = sizeof(indices) / sizeof(GLuint);
 
 	SetData(&vertices[0], tempnumofvertices, &indices[0], tempnumofindices);
@@ -119,6 +121,8 @@ Spheree::Spheree() : Primitive()
 	float const R = 1. / (float)(rings - 1);
 	float const S = 1. / (float)(sectors - 1);
 
+	Vertex temp;
+
 	for (int r = 0; r < rings; ++r) {
 		for (int s = 0; s < sectors; ++s) {
 			float const y = sin(-M_PI_2 + M_PI * r * R);
@@ -130,7 +134,9 @@ Spheree::Spheree() : Primitive()
 			//We are doing the same as the line below
 			//we're using the pointer that points to the mem direction of &vertices and with that variable we keep doing pushbacks
 			//std::vector<float3>* test = GetVerticesVector();
-			GetVerticesVector()->push_back(float3(x, y, z) * radius);
+			temp.position = float3 (x * radius, y * radius, z * radius);
+			temp.normals = float3( 0.0f, 0.0f, 0.0f);
+			GetVerticesVector()->push_back(temp);
 			
 			if (r < rings - 1)
 			{
@@ -158,13 +164,13 @@ Pyramid::Pyramid(): Primitive(), size(2.0f, 2.0f, 2.0f)
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
-	float3 vertices[5]
-	{
-		{sx, -sy, -sz },
-		{sx,  sy, -sz},
-		{-sx,  sy, -sz},
-		{-sx, -sy, -sz},
-		{0.0f, 0.0f, sz},
+	Vertex vertices[5]
+	{   //POS					//Normals
+		float3{sx, -sy, -sz },	float3{0.0f, 0.0f, 0.0f},
+		float3{sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f},
+		float3{-sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f},
+		float3{-sx, -sy, -sz},	float3{0.0f, 0.0f, 0.0f},
+		float3{0.0f, 0.0f, sz},	float3{0.0f, 0.0f, 0.0f},
 	};
 
 	GLuint indices[18]

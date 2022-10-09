@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "Application.h";
 #include "ModuleRenderer3D.h"
+#include "ModuleUIcontroller.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ImGuiUtils.h"
@@ -48,6 +49,7 @@ WinConfig::~WinConfig()
 
 void WinConfig::Start()
 {
+	app->uiController->ReportLog("WinConfig Created");
 }
 
 void WinConfig::Draw()

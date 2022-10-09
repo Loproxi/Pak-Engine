@@ -13,7 +13,7 @@
 		<wireframe value="true" />
 	</Renderer>
 	<Window>
-		<resolution width="1164" height="717" />
+		<resolution width="1425" height="717" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="true" />
@@ -23,6 +23,7 @@
 		<window_scene value="true" />
 		<window_config value="true" />
 		<window_about value="false" />
+		<window_console value="true" />
 	</Editor>
 	<scene>
 		<scene />

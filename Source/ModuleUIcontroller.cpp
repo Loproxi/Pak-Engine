@@ -10,6 +10,7 @@
 #include "WinAbout.h"
 #include "WinConfig.h"
 #include "WinScene.h"
+#include "WinConsole.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -57,7 +58,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
 	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
 	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
-	
+	winenable[(uint)UIwindows::CONSOLE] = config.child("Editor").child("window_console").attribute("value").as_bool();
 
 	return ret;
 }
@@ -73,6 +74,7 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::SCENE] = new WinScene();
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
+	windows[(uint)UIwindows::CONSOLE] = new WinConsole();
 
 
 	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
@@ -103,11 +105,11 @@ UpdateStatus ModuleUIcontroller::Update()
 UpdateStatus ModuleUIcontroller::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
-
-	if (!Draw())
+	/*if (!Draw())
 	{
 		ret = UpdateStatus::UPDATE_STOP;
-	};
+	};*/
+	
 
 	return ret;
 }
@@ -184,6 +186,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::SCENE]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Console"))
+			{
+				//Do something
+				windows[(uint)UIwindows::CONSOLE]->isEnabled = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -233,6 +240,7 @@ bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 	config.child("Editor").child("window_scene").attribute("value") = windows[(uint)UIwindows::SCENE]->isEnabled;
 	config.child("Editor").child("window_config").attribute("value") = windows[(uint)UIwindows::CONFIGURATION]->isEnabled;		
 	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
+	config.child("Editor").child("window_console").attribute("value") = windows[(uint)UIwindows::CONSOLE]->isEnabled;
 
 	return true;
 }
@@ -255,4 +263,22 @@ bool ModuleUIcontroller::CleanUp()
 	ImGui::DestroyContext();
 
 	return ret;
+}
+
+WindowBaseClass* ModuleUIcontroller::GetEditorWindow(UIwindows type)
+{
+	uint vecPosition = (uint)type;
+	
+	if (vecPosition < (uint)UIwindows::MAX)
+	{
+		return windows[vecPosition];
+	}
+	return nullptr;
+}
+
+void ModuleUIcontroller::ReportLog(std::string msg)
+{
+	WinConsole* temp = (WinConsole*)App->uiController->GetEditorWindow(UIwindows::CONSOLE);
+
+	temp->AddLog(msg);
 }

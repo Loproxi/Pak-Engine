@@ -181,9 +181,6 @@
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="WinConsole.cpp">
-      <Filter>Source\Editor\Derived</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
@@ -192,6 +189,9 @@
     </ClCompile>
     <ClCompile Include="ModelImporter.cpp">
       <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="WinConsole.cpp">
+      <Filter>Source\Editor\Derived</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

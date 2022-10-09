@@ -6,18 +6,24 @@
 #include "MathGeoLib.h"
 #include "Math/float4x4.h"
 
+struct Vertex
+{
+	float3 position;
+	float3 normals;
+};
+
 class Mesh
 {
 public:
-	Mesh(const float3* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position = {0.0f,0.0f,0.0f}, const float3 rotation = { 0.0f,0.0f,0.0f }, const float3 scale = { 1.0f,1.0f,1.0f });
-
+	Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position = {0.0f,0.0f,0.0f}, const float3 rotation = { 0.0f,0.0f,0.0f }, const float3 scale = { 1.0f,1.0f,1.0f });
+	
 	~Mesh();
 
 	void RenderMeshes();
 
 private:
 
-	void SetVertexData(const uint numvertices, const float3* vertices, const uint numindices, const GLuint* indices);
+	void SetVertexData(const uint numvertices, const Vertex* vertices, const uint numindices, const GLuint* indices);
 
 	void InitBuffers();
 

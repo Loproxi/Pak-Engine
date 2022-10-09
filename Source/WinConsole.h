@@ -26,13 +26,15 @@ public:
 
     void Draw();
 
-    void AddLog(const char* log);
+    void AddLog(std::string msg);
 
 private:
 
     std::vector<logReport> logReports;
+    int count = 0;
 
-    bool AutoScroll;
+    bool scrolltobottom;
+    bool autoscroll;
 };
 
 #endif //_WINCONSOLE_H_

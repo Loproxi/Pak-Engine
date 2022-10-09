@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "Mesh.h"
 #include "glmath.h"
 #include "Color.h"
 #include "glew.h"
@@ -25,21 +26,21 @@ public:
 
 	PrimitiveTypes	GetType() const;
 
-	float3* GetVertices() { return &vertices[0]; }
+	Vertex* GetVertices() { return &vertices[0]; }
 	GLuint* Getindices() { return &indices[0]; }
 	std::vector<GLuint>* GetindicesVector() { return &indices; }
-	std::vector<float3>* GetVerticesVector() { return &vertices; }
+	std::vector<Vertex>* GetVerticesVector() { return &vertices; }
 	uint GetNumVertices() { return vertices.size(); }
 	uint GetNumIndices() { return indices.size(); }
 
-	void SetData(const float3* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
+	void SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
 
 protected:
 	PrimitiveTypes type;
 
 private:
 
-	std::vector<float3> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 };
 

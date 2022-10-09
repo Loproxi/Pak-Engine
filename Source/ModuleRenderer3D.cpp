@@ -38,6 +38,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(pugi::xml_node& config)
 {
+	
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
 	
@@ -45,6 +46,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	context = SDL_GL_CreateContext(App->window->window);
 	if(context == NULL)
 	{
+		
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
@@ -53,6 +55,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
 	{
+		
 		printf("Glew could not be initialized! Glew_error: %s \n", glewGetErrorString(error));
 	}
 	
@@ -271,11 +274,25 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
-	framebuffer.SettingUpFrameBuffer(1280, 720);
+	cube = new Cube(4.0f, 4.0f, 4.0f);
 
+	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
+
+	
+
+	framebuffer.SettingUpFrameBuffer(1280, 720);
 
 	return ret;
 }
+
+bool ModuleRenderer3D::Start()
+{
+	App->uiController->ReportLog("Creating 3D Renderer context");
+
+	return true;
+}
+
+
 
 // PreUpdate: clear buffer
 UpdateStatus ModuleRenderer3D::PreUpdate()
@@ -310,6 +327,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	line = nullptr;*/
 
+	App->uiController->ReportLog("Updating 3D Renderer context");
 
 	return UPDATE_CONTINUE;
 }
@@ -329,11 +347,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	
-	
-	Mesh test(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{2.0f,1.0f,4.0f}, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
-
-	test.RenderMeshes();
+	test->RenderMeshes();
 
 	Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -345,6 +359,11 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	if (!App->uiController->Draw())
+	{
+		ret = UpdateStatus::UPDATE_STOP;
+	};
+
 	SDL_GL_SwapWindow(App->window->window);
 	return ret;
 }
@@ -352,11 +371,20 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 // Called before quitting
 bool ModuleRenderer3D::CleanUp()
 {
+	
 	LOG("Destroying 3D Renderer");
 
 	SDL_GL_DeleteContext(context);
 
+	if (test != nullptr)
+	{
+		delete test;
+		test = nullptr;
+	}
 	
+	delete cube;
+	cube = nullptr;
+
 
 	return true;
 }

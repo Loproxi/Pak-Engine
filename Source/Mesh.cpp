@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh(const float3* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position, const float3 rotation, const float3 scale)
+Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position, const float3 rotation, const float3 scale)
 {
 	SetVertexData(numvertices, vertices, numindices, indices);
 	InitBuffers();
@@ -11,8 +11,6 @@ Mesh::Mesh(const float3* vertices, const uint numvertices, const GLuint* indices
 	this->scale = scale;
 }
 
-
-
 Mesh::~Mesh()
 {
 	glDeleteVertexArrays(1, &VAO);
@@ -20,11 +18,11 @@ Mesh::~Mesh()
 	glDeleteBuffers(1, &EBO);
 }
 
-void Mesh::SetVertexData(const uint numvertices, const float3* vertices, const uint numindices, const GLuint* indices)
+void Mesh::SetVertexData(const uint numvertices, const Vertex* vertices, const uint numindices, const GLuint* indices)
 {
 	for (uint i = 0; i < numvertices; i++)
 	{
-		this->vertices.push_back(vertices[i]);
+		this->vertices.push_back(vertices[i].position);
 	}
 	for (uint i = 0; i < numindices; i++)
 	{
@@ -81,7 +79,7 @@ void Mesh::PrintMatrix(float4x4* matrix)
 
 void Mesh::RenderMeshes()
 {
-	GenModelMatrix();
+	//GenModelMatrix();
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT,0);
 	glBindVertexArray(0);

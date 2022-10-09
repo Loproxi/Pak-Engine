@@ -56,16 +56,9 @@ void FrameBuffer::SettingUpFrameBuffer(int widthh,int heightt)
 void FrameBuffer::ClearFrameBuffer()
 {
 
-	if (framebuffer != 0) 
-	{ 
-		glDeleteFramebuffers(1, &framebuffer); 
-	};
-	if (texcolorbuffer != 0)
-	{ 
-		glDeleteTextures(1, &texcolorbuffer); 
-	};
-	if (rbodepthstencil != 0) 
-	{ 
-		glDeleteRenderbuffers(1, &rbodepthstencil); 
-	};
+	
+	glDeleteFramebuffers(1, &framebuffer); 
+	glDeleteTextures(1, &texcolorbuffer); 
+	glDeleteRenderbuffers(1, &rbodepthstencil); 
+	
 }

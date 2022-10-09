@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleUIcontroller.h"
 #include "imgui.h"
 
 WinScene::WinScene()
@@ -17,6 +18,7 @@ WinScene::~WinScene()
 
 void WinScene::Start()
 {
+	app->uiController->ReportLog("WinScene Created");
 	framebuffer = app->renderer3D->GetFrameBufferRef();
 }
 
@@ -27,10 +29,11 @@ void WinScene::Draw()
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
 		{
+			framebuffer->ClearFrameBuffer();
 			framebuffer->SettingUpFrameBuffer(size.x, size.y);
 		}
 		
-		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), {(float)framebuffer->GetWidthFrame(),(float)framebuffer->GetHeightFrame()});
+		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 	}
 	ImGui::End();
 }

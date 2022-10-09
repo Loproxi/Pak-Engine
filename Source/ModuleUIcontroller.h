@@ -12,6 +12,7 @@ enum class UIwindows
 	SCENE,
 	CONFIGURATION,
 	ABOUT,
+	CONSOLE,
 	MAX
 
 };
@@ -44,6 +45,10 @@ public:
 	bool CleanUp() override;
 
 	bool SaveSettings(pugi::xml_node& config);
+
+	WindowBaseClass* GetEditorWindow(UIwindows type);
+
+	void ReportLog(std::string msg);
 
 public:
 

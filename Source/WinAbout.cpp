@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "MathGeoLib.h"
 #include "glew.h"
-
+#include "ModuleUIcontroller.h"
 
 
 
@@ -39,10 +39,12 @@ WinAbout::~WinAbout()
 
 void WinAbout::Start()
 {
+	app->uiController->ReportLog("WinAbout Created");
 }
 
 void WinAbout::Draw()
 {
+	
 	if (ImGui::Begin(name.c_str(),&isEnabled))
 	{
 

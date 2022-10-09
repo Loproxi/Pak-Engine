@@ -26,11 +26,16 @@ public:
 	~ModuleRenderer3D();
 
 	bool Init(pugi::xml_node& config);
+	bool Start();
+	bool CleanUp();
+
 	UpdateStatus PreUpdate();
 	UpdateStatus PostUpdate();
-	bool CleanUp();
+
+
 	bool SaveSettings(pugi::xml_node& config);
 	void OnResize(int width, int height);
+
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
 	bool GetVsync() { return renderstuff.vsync; }
@@ -39,6 +44,7 @@ public:
 	bool* GetLightning() { return &renderstuff.lighting; }
 	bool* GetWireframe() { return &renderstuff.wireframe; }
 	FrameBuffer* GetFrameBufferRef() { return &framebuffer; }
+
 	//Setters
 	void SetVsync(bool vsync);
 	void SetDepthTest();
@@ -51,9 +57,10 @@ public:
 	Light lights[MAX_LIGHTS];
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	Cube cube;
+	Cube* cube;
 	Spheree sphere;
 	Pyramid pyramid;
+	Mesh* test = nullptr;
 private:
 	
 	FrameBuffer framebuffer;
