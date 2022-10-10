@@ -2,6 +2,10 @@
 #include "ModelImporter.h"
 
 
+Mesh::Mesh()
+{
+}
+
 Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position, const float3 rotation, const float3 scale)
 {
 	SetVertexData(numvertices, vertices, numindices, indices);
@@ -12,10 +16,21 @@ Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices
 	this->scale = scale;
 }
 
-//Mesh::Mesh(const LoadedMeshGeometry* modelloaded)
-//{
-//
-//}
+Mesh::Mesh(LoadedMeshGeometry* test)
+{
+	
+	for (uint i = 0; i < test->num_vertex; i++)
+	{
+		vertices.push_back(test->vertex[i]);
+	}
+	for (uint i = 0; i < test->num_index; i++)
+	{
+		indices.push_back(test->index[i]);
+	}
+
+	InitBuffers();
+
+}
 
 Mesh::~Mesh()
 {

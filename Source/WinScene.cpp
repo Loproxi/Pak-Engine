@@ -10,6 +10,7 @@ WinScene::WinScene()
 	
 	name = "Scene";
 	app = Application::GetInstance();
+	framebuffer = app->renderer3D->GetFrameBufferRef();
 }
 
 WinScene::~WinScene()
@@ -19,7 +20,7 @@ WinScene::~WinScene()
 void WinScene::Start()
 {
 	app->uiController->ReportLog("WinScene Created");
-	framebuffer = app->renderer3D->GetFrameBufferRef();
+	
 }
 
 void WinScene::Draw()
@@ -29,7 +30,7 @@ void WinScene::Draw()
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
 		{
-			framebuffer->ClearFrameBuffer();
+			
 			framebuffer->SettingUpFrameBuffer(size.x, size.y);
 		}
 		

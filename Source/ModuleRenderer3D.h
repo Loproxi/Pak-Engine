@@ -5,6 +5,7 @@
 #include "Light.h"
 #include "FrameBuffer.h"
 #include "Primitive.h"
+#include "ModelImporter.h"
 
 #define MAX_LIGHTS 8
 
@@ -60,7 +61,8 @@ public:
 	Cube* cube;
 	Spheree sphere;
 	Pyramid pyramid;
-	Mesh* test = nullptr;
+	Mesh* test;
+	ModelImporter test4;
 private:
 	
 	FrameBuffer framebuffer;

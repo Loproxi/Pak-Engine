@@ -18,7 +18,7 @@
 //#include "prettywriter.h" // for stringify JSON
 //#include <cstdio>
 
-ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled),test(nullptr),cube(nullptr)
 {
 	SetNameOfModule("Renderer");
 	renderstuff.cullface = false;
@@ -132,6 +132,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	framebuffer.SettingUpFrameBuffer(1280, 720);
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
@@ -277,10 +278,10 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	cube = new Cube(4.0f, 4.0f, 4.0f);
 
 	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
+	
+	//test4.Import("../Output/Assets/BakerHouse.fbx");
 
 	
-
-	framebuffer.SettingUpFrameBuffer(1280, 720);
 
 	return ret;
 }
@@ -299,7 +300,6 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 {
 	//CLEANING Every Frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
@@ -348,15 +348,19 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	test->RenderMeshes();
+	//test->RenderMeshes();
 
-	Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
+	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
 	//test2.RenderMeshes();
 
-	Mesh test3(pyramid.GetVertices(), pyramid.GetNumVertices(), pyramid.Getindices(), pyramid.GetNumIndices());
+	//Mesh test3(pyramid.GetVertices(), pyramid.GetNumVertices(), pyramid.Getindices(), pyramid.GetNumIndices());
 
 	//test3.RenderMeshes();
+
+	
+	//test4.meshes.data()->RenderMeshes();
+	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

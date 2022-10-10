@@ -1,4 +1,5 @@
 #include "ModelImporter.h"
+#include "MathGeoLib.h"
 
 
 bool ModelImporter::init()
@@ -18,6 +19,7 @@ bool ModelImporter::Update()
 bool ModelImporter::CleanUp()
 {
 	aiDetachAllLogStreams();
+	
 	return true;
 }
 
@@ -42,27 +44,17 @@ void ModelImporter::Import(std::string path)
 
 void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 {
-
-	//float3 temp;
-
-	for (uint i = 0; i < meshfromfbx->mNumVertices; i++)
-	{
-		
-		/*temp.x = meshfromfbx->mVertices[i].x;
-		temp.y = meshfromfbx->mVertices[i].y;
-		temp.z = meshfromfbx->mVertices[i].z;
-		vertices.push_back(temp);
-		LOG("New mesh with %d vertices", vertices.size());*/
-		meshdataloaded.num_vertex = scene->mMeshes[i]->mNumVertices;
-		meshdataloaded.vertex = new float[meshdataloaded.num_vertex * 3];
-		memcpy(meshdataloaded.vertex, scene->mMeshes[i]->mVertices, sizeof(float) * meshdataloaded.num_vertex * 3);
-		LOG("New mesh with %d vertices", meshdataloaded.num_vertex);
-	}
-
+	LoadedMeshGeometry ourMesh;
+	// copy vertices
+	ourMesh.num_vertex = meshfromfbx->mNumVertices;
+	ourMesh.vertex = new float3[ourMesh.num_vertex];
+	memcpy(ourMesh.vertex, meshfromfbx->mVertices, sizeof(float3) * ourMesh.num_vertex);
+	LOG("New mesh with %d vertices", ourMesh.num_vertex);
+	
 	if (meshfromfbx->HasFaces())
 	{
-		meshdataloaded.num_index = meshfromfbx->mNumFaces * 3;
-		meshdataloaded.index = new uint[meshdataloaded.num_index]; // assume each face is a triangle
+		ourMesh.num_index = meshfromfbx->mNumFaces * 3;
+		ourMesh.index = new GLuint[ourMesh.num_index]; // assume each face is a triangle
 		for (uint i = 0; i < meshfromfbx->mNumFaces; ++i)
 		{
 			if (meshfromfbx->mFaces[i].mNumIndices != 3)
@@ -71,11 +63,16 @@ void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 			}
 			else
 			{
-
-				//indices.push_back(meshfromfbx->mFaces->mIndices[i]);
-				memcpy(&meshdataloaded.index[i * 3], meshfromfbx->mFaces[i].mIndices, 3 * sizeof(uint));
+				memcpy(&ourMesh.index[i * 3], meshfromfbx->mFaces[i].mIndices, 3 * sizeof(GLuint));
 			}
 		}
 	}
-	
+
+	Mesh temp(&ourMesh);
+
+	meshes.push_back(temp);
+
+	delete ourMesh.vertex;
+	delete ourMesh.index;
+
 }
