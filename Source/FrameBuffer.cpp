@@ -40,7 +40,7 @@ void FrameBuffer::SettingUpFrameBuffer(int widthh,int heightt)
 	glBindRenderbuffer(GL_RENDERBUFFER, rbodepthstencil);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_RENDERBUFFER, 0);
 
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbodepthstencil);
 

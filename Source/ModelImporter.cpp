@@ -43,26 +43,26 @@ void ModelImporter::Import(std::string path)
 void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 {
 
-	numvertices = meshfromfbx->mNumVertices;
-	
-	for (uint i = 0; i < numvertices; i++)
+	//float3 temp;
+
+	for (uint i = 0; i < meshfromfbx->mNumVertices; i++)
 	{
-		float3 temp;
-		temp.x = meshfromfbx->mVertices[i].x;
+		
+		/*temp.x = meshfromfbx->mVertices[i].x;
 		temp.y = meshfromfbx->mVertices[i].y;
 		temp.z = meshfromfbx->mVertices[i].z;
 		vertices.push_back(temp);
-		LOG("New mesh with %d vertices", vertices.size());
-		/*meshdataloaded.num_vertex = scene->mMeshes[i]->mNumVertices;
+		LOG("New mesh with %d vertices", vertices.size());*/
+		meshdataloaded.num_vertex = scene->mMeshes[i]->mNumVertices;
 		meshdataloaded.vertex = new float[meshdataloaded.num_vertex * 3];
 		memcpy(meshdataloaded.vertex, scene->mMeshes[i]->mVertices, sizeof(float) * meshdataloaded.num_vertex * 3);
-		LOG("New mesh with %d vertices", vertices.size());*/
+		LOG("New mesh with %d vertices", meshdataloaded.num_vertex);
 	}
 
 	if (meshfromfbx->HasFaces())
 	{
-		//ourMesh.num_indices = meshfromfbx->mNumFaces * 3;
-		//ourMesh.indices = new uint[m.num_indices]; // assume each face is a triangle
+		meshdataloaded.num_index = meshfromfbx->mNumFaces * 3;
+		meshdataloaded.index = new uint[meshdataloaded.num_index]; // assume each face is a triangle
 		for (uint i = 0; i < meshfromfbx->mNumFaces; ++i)
 		{
 			if (meshfromfbx->mFaces[i].mNumIndices != 3)
@@ -72,11 +72,10 @@ void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 			else
 			{
 
-				indices.push_back(meshfromfbx->mFaces->mIndices[i]);
-				//memcpy(&m.indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+				//indices.push_back(meshfromfbx->mFaces->mIndices[i]);
+				memcpy(&meshdataloaded.index[i * 3], meshfromfbx->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
 		}
 	}
-	
 	
 }

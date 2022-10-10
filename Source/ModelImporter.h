@@ -6,6 +6,7 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "glew.h"
+#include "Mesh.h"
 #include <vector>
 
 #define ASSIMP_LOAD_FLAGS(aiProcess_Triangulate)
@@ -24,7 +25,6 @@ class ModelImporter
 {
 public:
 	
-
 	bool init();
 
 	bool Update();
@@ -36,10 +36,6 @@ public:
 	void LoadModel(const aiScene* scene ,aiMesh* meshfromfbx);
 
 public:
-
-	std::vector<float3> vertices;
-	uint numvertices = 0;
-	std::vector<GLuint> indices;
 
 	LoadedMeshGeometry meshdataloaded;
 };

@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include "ModelImporter.h"
 
 
 Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position, const float3 rotation, const float3 scale)
@@ -10,6 +11,11 @@ Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices
 	this->rotation = rotation;
 	this->scale = scale;
 }
+
+//Mesh::Mesh(const LoadedMeshGeometry* modelloaded)
+//{
+//
+//}
 
 Mesh::~Mesh()
 {
