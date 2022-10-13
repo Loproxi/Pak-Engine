@@ -19,7 +19,8 @@ struct LoadedMeshGeometry
 	GLuint* index = nullptr;
 	uint id_vertex = 0; // unique vertex in VRAM
 	uint num_vertex = 0;
-	float3* vertex = nullptr;
+	std::vector<Vertex> vertex;
+
 };
 
 class ModelImporter

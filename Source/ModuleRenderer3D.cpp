@@ -138,6 +138,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	//Test RapidJSON
 
+
 //	using namespace rapidjson;
 //	
 //	const char json[] = " { \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4] } ";
@@ -348,7 +349,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	//test->RenderMeshes();
+	test->RenderMeshes();
 
 	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -358,9 +359,11 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	//test3.RenderMeshes();
 
-	
-	//test4.meshes.data()->RenderMeshes();
-	
+	/*for (int i = 0; i < test4.meshes.size(); i++)
+	{
+
+		test4.meshes[i].RenderMeshes();
+	}*/
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -386,10 +389,11 @@ bool ModuleRenderer3D::CleanUp()
 		delete test;
 		test = nullptr;
 	}
-	
-	delete cube;
-	cube = nullptr;
-
+	if (cube != nullptr)
+	{
+		delete cube;
+		cube = nullptr;
+	}
 
 	return true;
 }

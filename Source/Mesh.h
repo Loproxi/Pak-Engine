@@ -9,6 +9,11 @@
 
 struct Vertex
 {
+	Vertex(float3 pos, float3 normals)
+	{
+		this->position = pos;
+		this->normals = normals;
+	}
 	float3 position;
 	float3 normals;
 };
@@ -23,13 +28,13 @@ public:
 	
 	Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position = {0.0f,0.0f,0.0f}, const float3 rotation = { 0.0f,0.0f,0.0f }, const float3 scale = { 1.0f,1.0f,1.0f });
 
-	Mesh(LoadedMeshGeometry* test);
+	Mesh(const LoadedMeshGeometry* test);
 
 	~Mesh();
 
 	void RenderMeshes();
 
-	float3* GetVertices(){ return &vertices[0]; }
+	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }
 
 private:
@@ -50,7 +55,7 @@ private:
 	float3 rotation;
 	float3 scale;
 
-	std::vector<float3> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 
 	float4x4 modelMatrix;

@@ -16,16 +16,16 @@ Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices
 	this->scale = scale;
 }
 
-Mesh::Mesh(LoadedMeshGeometry* test)
+Mesh::Mesh(const LoadedMeshGeometry* test)
 {
 	
 	for (uint i = 0; i < test->num_vertex; i++)
 	{
-		vertices.push_back(test->vertex[i]);
+		this->vertices.push_back(test->vertex[i]);
 	}
 	for (uint i = 0; i < test->num_index; i++)
 	{
-		indices.push_back(test->index[i]);
+		this->indices.push_back(test->index[i]);
 	}
 
 	InitBuffers();
@@ -43,7 +43,7 @@ void Mesh::SetVertexData(const uint numvertices, const Vertex* vertices, const u
 {
 	for (uint i = 0; i < numvertices; i++)
 	{
-		this->vertices.push_back(vertices[i].position);
+		this->vertices.push_back(vertices[i]);
 	}
 	for (uint i = 0; i < numindices; i++)
 	{
@@ -55,17 +55,20 @@ void Mesh::InitBuffers()
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float3), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3),NULL);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,position));
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,normals));
+	
 
 	glBindVertexArray(0);
 }
@@ -102,6 +105,6 @@ void Mesh::RenderMeshes()
 {
 	//GenModelMatrix();
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT,0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT,NULL);
 	glBindVertexArray(0);
 }

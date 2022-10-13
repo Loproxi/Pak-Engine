@@ -47,10 +47,13 @@ void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 	LoadedMeshGeometry ourMesh;
 	// copy vertices
 	ourMesh.num_vertex = meshfromfbx->mNumVertices;
-	ourMesh.vertex = new float3[ourMesh.num_vertex];
-	memcpy(ourMesh.vertex, meshfromfbx->mVertices, sizeof(float3) * ourMesh.num_vertex);
+
+	for (uint i = 0; i < ourMesh.num_vertex; i++)
+	{
+		ourMesh.vertex.push_back(Vertex(float3(meshfromfbx->mVertices[i].x, meshfromfbx->mVertices[i].y, meshfromfbx->mVertices[i].z), float3(meshfromfbx->mNormals[i].x, meshfromfbx->mNormals[i].y, meshfromfbx->mNormals[i].z)));
+	}
 	LOG("New mesh with %d vertices", ourMesh.num_vertex);
-	
+
 	if (meshfromfbx->HasFaces())
 	{
 		ourMesh.num_index = meshfromfbx->mNumFaces * 3;
@@ -68,11 +71,8 @@ void ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 		}
 	}
 
-	Mesh temp(&ourMesh);
+	Mesh temp(&ourMesh.vertex[0],ourMesh.num_vertex,ourMesh.index,ourMesh.num_index);
 
 	meshes.push_back(temp);
-
-	delete ourMesh.vertex;
-	delete ourMesh.index;
-
+	
 }
