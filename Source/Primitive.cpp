@@ -40,14 +40,14 @@ Cube::Cube() : Primitive(), size(2.0f, 2.0f,2.0f)
 	Vertex vertices[8]
 	{
 		//POS               //Normals
-		float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f},
+		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}),
 	};
 
 	
@@ -80,14 +80,14 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	Vertex vertices[8]
 	{
 		//POS               //Normals
-		float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f},
-		float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f},
+		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}),
 	};
 	
 
@@ -106,6 +106,11 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	uint tempnumofindices = sizeof(indices) / sizeof(GLuint);
 
 	SetData(&vertices[0], tempnumofvertices, &indices[0], tempnumofindices);
+
+	for (uint i = 0; i < 8; i++)
+	{
+		vertices[i].~Vertex();
+	}
 }
 
 // SPHERE ============================================
@@ -166,11 +171,11 @@ Pyramid::Pyramid(): Primitive(), size(2.0f, 2.0f, 2.0f)
 
 	Vertex vertices[5]
 	{   //POS					//Normals
-		float3{sx, -sy, -sz },	float3{0.0f, 0.0f, 0.0f},
-		float3{sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f},
-		float3{-sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f},
-		float3{-sx, -sy, -sz},	float3{0.0f, 0.0f, 0.0f},
-		float3{0.0f, 0.0f, sz},	float3{0.0f, 0.0f, 0.0f},
+		Vertex(float3{sx, -sy, -sz },	float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{0.0f, 0.0f, sz},	float3{0.0f, 0.0f, 0.0f}),
 	};
 
 	GLuint indices[18]
@@ -188,6 +193,11 @@ Pyramid::Pyramid(): Primitive(), size(2.0f, 2.0f, 2.0f)
 	uint tempnumofindices = sizeof(indices) / sizeof(GLuint);
 
 	SetData(&vertices[0], tempnumofvertices, &indices[0], tempnumofindices);
+
+	for (uint i = 0; i < 5; i++)
+	{
+		vertices[i].~Vertex();
+	}
 }
 // CYLINDER ============================================
 //Cylinder::Cylinder() : Primitive(), radius(1.0f), height(1.0f)

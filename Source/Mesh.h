@@ -9,10 +9,18 @@
 
 struct Vertex
 {
+	Vertex() 
+	{
+
+	}
 	Vertex(float3 pos, float3 normals)
 	{
 		this->position = pos;
 		this->normals = normals;
+	}
+	~Vertex() 
+	{
+
 	}
 	float3 position;
 	float3 normals;
