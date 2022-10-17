@@ -3,7 +3,7 @@
 
 #include "List.h"
 #include "Timer.hpp"
-#include "rapidjson.h"
+#include "External/rapidjson/rapidjson.h"
 #include "src/pugixml.hpp"
 
 #define CONFIG_FILENAME		"SaveFiles/configuration.xml"

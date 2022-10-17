@@ -26,6 +26,10 @@ struct LoadedMeshGeometry
 class ModelImporter
 {
 public:
+
+	ModelImporter();
+
+	~ModelImporter();
 	
 	bool init();
 
@@ -33,13 +37,17 @@ public:
 
 	bool CleanUp();
 
+	void Draw();
+
 	void Import(std::string);
 
-	void LoadModel(const aiScene* scene ,aiMesh* meshfromfbx);
+	void goThroughNodes(aiNode* node, const aiScene* scene);
+	Mesh goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 public:
+
+	std::vector<Mesh>meshes;
 	
-	std::vector<Mesh> meshes;
 };
 
 #endif // !_MODELIMPORTER_H__

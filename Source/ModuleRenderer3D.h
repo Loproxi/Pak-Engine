@@ -62,7 +62,7 @@ public:
 	Spheree sphere;
 	Pyramid pyramid;
 	Mesh* test;
-	ModelImporter test4;
+	ModelImporter house;
 private:
 	
 	FrameBuffer framebuffer;
