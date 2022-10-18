@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "ModelImporter.h"
 
 #define MAX_MOUSE_BUTTONS 5
 
@@ -72,6 +73,8 @@ private:
 	int mouse_z = 0;
 	int mouse_x_motion = 0;
 	int mouse_y_motion = 0;
+	char* dropped_filedir;
+	ModelImporter test;
 	//int mouse_z_motion;
 };
 

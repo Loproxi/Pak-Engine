@@ -10,8 +10,6 @@
 #include "Mesh.h"
 
 
-#define ASSIMP_LOAD_FLAGS(aiProcess_Triangulate)
-
 struct LoadedMeshGeometry
 {
 	uint id_index = 0; // index in VRAM
@@ -46,7 +44,7 @@ public:
 
 public:
 
-	std::vector<Mesh>meshes;
+	std::vector<Mesh> meshes;
 	
 };
 

@@ -2,7 +2,7 @@
 #include "ModelImporter.h"
 
 
-Mesh::Mesh()
+Mesh::Mesh():VAO(0),EBO(0),VBO(0)
 {
 }
 
@@ -34,9 +34,13 @@ Mesh::Mesh(const LoadedMeshGeometry* test)
 
 Mesh::~Mesh()
 {
-	glDeleteVertexArrays(1, &VAO);
+
+	//Find a way to uncomment this and the house is rendering
+
+	/*glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &EBO);*/
+
 }
 
 void Mesh::SetVertexData(const uint numvertices, const Vertex* vertices, const uint numindices, const GLuint* indices)

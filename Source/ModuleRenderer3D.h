@@ -62,6 +62,8 @@ public:
 	Spheree sphere;
 	Pyramid pyramid;
 	Mesh* test;
+	Mesh prueba1;
+	Mesh prueba2;
 	ModelImporter house;
 private:
 	

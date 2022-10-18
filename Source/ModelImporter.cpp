@@ -54,6 +54,7 @@ void ModelImporter::Import(std::string path)
 	{
 		LOG("Error loading scene %s", path);
 	}
+
 }
 
 void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene)
@@ -115,6 +116,7 @@ Mesh ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 		}
 	}
 
+	//Calls mesh destructor, find another way to do this 
 	return Mesh(&vertices[0], vertices.size(),&indices[0],indices.size());
 }
 
