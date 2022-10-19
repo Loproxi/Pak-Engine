@@ -3,15 +3,8 @@
 
 #include "WindowBaseClass.h"
 #include <vector>
-#include "Globals.h"
+#include "Application.h"
 
-struct logReport
-{
-    logReport(std::string msg);
-
-    std::string message;
-
-};
 
 class WinConsole :
     public WindowBaseClass
@@ -26,11 +19,10 @@ public:
 
     void Draw();
 
-    void AddLog(std::string msg);
-
 private:
 
-    std::vector<logReport> logReports;
+    Application* app;
+
     int count = 0;
 
     bool scrolltobottom;

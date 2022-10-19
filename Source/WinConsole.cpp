@@ -4,11 +4,12 @@
 WinConsole::WinConsole():autoscroll(true),scrolltobottom(false)
 {
 	name = "Console";
+	app = Application::GetInstance();
 }
 
 WinConsole::~WinConsole()
 {
-	logReports.clear();
+	app->logreports.clear();
 }
 
 void WinConsole::Start()
@@ -21,7 +22,7 @@ void WinConsole::Draw()
 	{
 		if (ImGui::Button("Clear"))
 		{
-			logReports.clear();
+			app->logreports.clear();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Scroll To Bottom"))
@@ -35,9 +36,9 @@ void WinConsole::Draw()
 		}
 		if (ImGui::BeginChild("Output"))
 		{
-			for (uint i = 0; i < logReports.size(); i++)
+			for (uint i = 0; i < app->logreports.size(); i++)
 			{
-				ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), logReports.data()[i].message.c_str());
+				ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), app->logreports.data()[i].message.c_str());
 				
 			}
 			if (scrolltobottom)
@@ -55,13 +56,6 @@ void WinConsole::Draw()
 
 	}
 	ImGui::End();
-}
-
-void WinConsole::AddLog(std::string msg)
-{
-	logReport temp(msg);
-
-	logReports.push_back(temp);
 }
 
 logReport::logReport(std::string msg)

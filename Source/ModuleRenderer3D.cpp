@@ -40,6 +40,9 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 {
 	
 	LOG("Creating 3D Renderer context");
+
+	App->AddLog("Creating 3D Renderer context");
+
 	bool ret = true;
 	
 	//Create context
@@ -276,20 +279,19 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
-	cube = new Cube(4.0f, 4.0f, 4.0f);
+	//cube = new Cube(4.0f, 4.0f, 4.0f);
 
-	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
+	//test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 	//test = new Mesh(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 
 	
-	house.Import("../Output/Assets/BakerHouse.fbx");
+	LoadImporter("../Output/Assets/BakerHouse.fbx");
 
 	return ret;
 }
 
 bool ModuleRenderer3D::Start()
 {
-	App->uiController->ReportLog("Creating 3D Renderer context");
 
 	return true;
 }
@@ -329,7 +331,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	line = nullptr;*/
 
-	App->uiController->ReportLog("Updating 3D Renderer context");
+	App->AddLog("Updating 3D Renderer context");
 
 	return UPDATE_CONTINUE;
 }
@@ -349,7 +351,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	test->RenderMeshes();
+	//test->RenderMeshes();
 
 	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -359,7 +361,12 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	//test3.RenderMeshes();
 
-	house.Draw();
+	//house.Draw();
+
+	for (int i = 0; i < models.size(); i++)
+	{
+		models[i]->Draw();
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -391,7 +398,16 @@ bool ModuleRenderer3D::CleanUp()
 		cube = nullptr;
 	}
 
-	house.CleanUp();
+	for (int i = 0; i < models.size(); i++)
+	{
+		models[i]->CleanUp();
+
+		delete models[i];
+		models[i] = nullptr;
+	}
+	models.clear();
+
+	//house.CleanUp();
 
 	return true;
 }
@@ -456,4 +472,15 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::LoadImporter(std::string path)
+{
+
+	currentModel = new ModelImporter();
+
+	currentModel->Import(path);
+
+	models.push_back(currentModel);
+
 }

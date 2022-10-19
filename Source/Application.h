@@ -5,8 +5,17 @@
 #include "Timer.hpp"
 #include "External/rapidjson/rapidjson.h"
 #include "src/pugixml.hpp"
+#include <vector>
 
 #define CONFIG_FILENAME		"SaveFiles/configuration.xml"
+
+struct logReport
+{
+	logReport(std::string msg);
+
+	std::string message;
+
+};
 
 class Module;
 class ModuleWindow;
@@ -30,6 +39,9 @@ public:
 	float fps = 1.0f/60.0f;
 	Timer	timer;
 
+	std::vector <logReport> logreports;
+
+
 private:
 	
 	float	dt = 0;
@@ -39,6 +51,8 @@ private:
 
 	std::string title;
 	std::string organization;
+
+	
 
 public:
 	Application();
@@ -64,6 +78,9 @@ public:
 	std::string GetPakEngineVersion();
 
 	static Application* GetInstance();
+
+	void AddLog(std::string msg);
+	
 
 private:
 

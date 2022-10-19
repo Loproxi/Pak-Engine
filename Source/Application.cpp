@@ -48,12 +48,14 @@ bool Application::Init()
 {
 	bool ret = true;
 	
+	LOG("Application Start --------------");
+	AddLog("Application Start --------------");
 
 	InitConfigXml();
 	// Call Init() in all modules
 
 	// After all Init calls we call Start() in all modules
-	LOG("Application Start --------------");
+	
 
 	for (int i = 0, count = list_modules.count(); i < count; i++)
 	{
@@ -246,4 +248,12 @@ Application* Application::GetInstance()
 		App = new Application();
 	}
 	return App;
+}
+
+void Application::AddLog(std::string msg)
+{
+	
+	logReport temp(msg);
+
+	logreports.push_back(temp);
 }

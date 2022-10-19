@@ -19,7 +19,7 @@ WinScene::~WinScene()
 
 void WinScene::Start()
 {
-	app->uiController->ReportLog("WinScene Created");
+	app->AddLog("WinScene Created");
 	
 }
 

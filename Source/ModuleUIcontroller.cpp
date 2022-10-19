@@ -280,5 +280,5 @@ void ModuleUIcontroller::ReportLog(std::string msg)
 {
 	WinConsole* temp = (WinConsole*)App->uiController->GetEditorWindow(UIwindows::CONSOLE);
 
-	temp->AddLog(msg);
+	//temp->AddLog(msg);
 }

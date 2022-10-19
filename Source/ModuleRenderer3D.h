@@ -37,6 +37,8 @@ public:
 	bool SaveSettings(pugi::xml_node& config);
 	void OnResize(int width, int height);
 
+	void LoadImporter(std::string path);
+
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
 	bool GetVsync() { return renderstuff.vsync; }
@@ -66,6 +68,10 @@ public:
 	Mesh prueba2;
 	ModelImporter house;
 private:
+
+	std::vector<ModelImporter*>models;
+
+	ModelImporter* currentModel;
 	
 	FrameBuffer framebuffer;
 

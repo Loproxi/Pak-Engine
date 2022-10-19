@@ -39,7 +39,7 @@ WinAbout::~WinAbout()
 
 void WinAbout::Start()
 {
-	app->uiController->ReportLog("WinAbout Created");
+	app->AddLog("WinAbout Created");
 }
 
 void WinAbout::Draw()
