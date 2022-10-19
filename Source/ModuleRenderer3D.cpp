@@ -391,6 +391,8 @@ bool ModuleRenderer3D::CleanUp()
 		cube = nullptr;
 	}
 
+	house.CleanUp();
+
 	return true;
 }
 

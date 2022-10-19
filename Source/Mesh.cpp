@@ -35,11 +35,9 @@ Mesh::Mesh(const LoadedMeshGeometry* test)
 Mesh::~Mesh()
 {
 
-	//Find a way to uncomment this and the house is rendering
-
-	/*glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);*/
+	glDeleteBuffers(1, &EBO);
 
 }
 

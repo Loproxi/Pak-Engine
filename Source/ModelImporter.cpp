@@ -27,6 +27,15 @@ bool ModelImporter::Update()
 bool ModelImporter::CleanUp()
 {
 	aiDetachAllLogStreams();
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		delete meshes[i];
+		meshes[i] = nullptr;
+	}
+
+	meshes.clear();
+
 	
 	return true;
 }
@@ -35,7 +44,7 @@ void ModelImporter::Draw()
 {
 	for (int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].RenderMeshes();
+		meshes[i]->RenderMeshes();
 	}
 }
 
@@ -74,7 +83,7 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene)
 
 }
 
-Mesh ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
+Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 {
 
 	std::vector<Vertex> vertices;
@@ -115,10 +124,12 @@ Mesh ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 			}
 		}
 	}
-
-	//Calls mesh destructor, find another way to do this 
-	return Mesh(&vertices[0], vertices.size(),&indices[0],indices.size());
+	
+	//With new we avoid calling the destructor till the application is closing
+	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size());
 }
+
+
 
 //Mesh ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 //{

@@ -40,11 +40,11 @@ public:
 	void Import(std::string);
 
 	void goThroughNodes(aiNode* node, const aiScene* scene);
-	Mesh goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
+	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 public:
 
-	std::vector<Mesh> meshes;
+	std::vector<Mesh*> meshes;
 	
 };
 
