@@ -41,7 +41,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	
 	LOG("Creating 3D Renderer context");
 
-	App->AddLog("Creating 3D Renderer context");
+	App->AddLog(Logs::NORMAL,"Creating 3D Renderer context");
 
 	bool ret = true;
 	
@@ -331,7 +331,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	line = nullptr;*/
 
-	App->AddLog("Updating 3D Renderer context");
+	App->AddLog(Logs::WARNING,"Updating 3D Renderer context");
 
 	return UPDATE_CONTINUE;
 }

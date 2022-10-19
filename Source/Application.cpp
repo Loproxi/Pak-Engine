@@ -49,7 +49,7 @@ bool Application::Init()
 	bool ret = true;
 	
 	LOG("Application Start --------------");
-	AddLog("Application Start --------------");
+	AddLog(Logs::NORMAL,"Application Start --------------");
 
 	InitConfigXml();
 	// Call Init() in all modules
@@ -250,10 +250,16 @@ Application* Application::GetInstance()
 	return App;
 }
 
-void Application::AddLog(std::string msg)
+void Application::AddLog(Logs type,std::string msg)
 {
 	
-	logReport temp(msg);
+	logReport temp(type,msg);
 
 	logreports.push_back(temp);
+}
+
+logReport::logReport(Logs type, std::string msg)
+{
+	this->message = msg;
+	this->type = type;
 }

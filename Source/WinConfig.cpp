@@ -49,7 +49,7 @@ WinConfig::~WinConfig()
 
 void WinConfig::Start()
 {
-	app->AddLog("WinConfig Created");
+	app->AddLog(Logs::NORMAL,"WinConfig Created");
 }
 
 void WinConfig::Draw()

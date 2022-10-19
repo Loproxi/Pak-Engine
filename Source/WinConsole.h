@@ -21,6 +21,8 @@ public:
 
 private:
 
+    std::string error,warning;
+
     Application* app;
 
     int count = 0;

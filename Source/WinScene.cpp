@@ -19,7 +19,7 @@ WinScene::~WinScene()
 
 void WinScene::Start()
 {
-	app->AddLog("WinScene Created");
+	app->AddLog(Logs::NORMAL, "WinScene Created");
 	
 }
 

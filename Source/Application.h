@@ -9,11 +9,21 @@
 
 #define CONFIG_FILENAME		"SaveFiles/configuration.xml"
 
+enum class Logs
+{
+	ERROR_LOG,
+	WARNING,
+	NORMAL,
+	MAX,
+
+};
+
 struct logReport
 {
-	logReport(std::string msg);
+	logReport(Logs type,std::string msg);
 
 	std::string message;
+	Logs type;
 
 };
 
@@ -79,7 +89,7 @@ public:
 
 	static Application* GetInstance();
 
-	void AddLog(std::string msg);
+	void AddLog(Logs type,std::string msg);
 	
 
 private:

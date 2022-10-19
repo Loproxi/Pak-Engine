@@ -39,7 +39,7 @@ WinAbout::~WinAbout()
 
 void WinAbout::Start()
 {
-	app->AddLog("WinAbout Created");
+	app->AddLog(Logs::NORMAL, "WinAbout Created");
 }
 
 void WinAbout::Draw()

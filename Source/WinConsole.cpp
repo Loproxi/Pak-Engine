@@ -14,6 +14,8 @@ WinConsole::~WinConsole()
 
 void WinConsole::Start()
 {
+	error = "[Error] ";
+	warning = "[Warning] ";
 }
 
 void WinConsole::Draw()
@@ -38,7 +40,20 @@ void WinConsole::Draw()
 		{
 			for (uint i = 0; i < app->logreports.size(); i++)
 			{
-				ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), app->logreports.data()[i].message.c_str());
+				if (app->logreports[i].type == Logs::WARNING)
+				{
+					std::string  warning_complete = warning + app->logreports.data()[i].message;
+					ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), warning_complete.c_str());
+				}
+				else if (app->logreports[i].type == Logs::ERROR_LOG)
+				{
+					std::string  error_complete = error + app->logreports.data()[i].message;
+					ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), error_complete.c_str());
+				}
+				else 
+				{
+					ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), app->logreports.data()[i].message.c_str());
+				}
 				
 			}
 			if (scrolltobottom)
@@ -58,7 +73,4 @@ void WinConsole::Draw()
 	ImGui::End();
 }
 
-logReport::logReport(std::string msg)
-{
-	message = msg;
-}
+
