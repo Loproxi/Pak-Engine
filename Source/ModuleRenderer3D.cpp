@@ -49,7 +49,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	context = SDL_GL_CreateContext(App->window->window);
 	if(context == NULL)
 	{
-		
+		App->AddLog(Logs::ERROR_LOG, "OpenGL context could not be created! ");
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
@@ -58,7 +58,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
 	{
-		
+		App->AddLog(Logs::ERROR_LOG, "Glew could not be initialized!! ");
 		printf("Glew could not be initialized! Glew_error: %s \n", glewGetErrorString(error));
 	}
 	
@@ -331,7 +331,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 
 	line = nullptr;*/
 
-	App->AddLog(Logs::WARNING,"Updating 3D Renderer context");
+	//App->AddLog(Logs::WARNING,"Updating 3D Renderer context");
 
 	return UPDATE_CONTINUE;
 }
@@ -382,7 +382,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 // Called before quitting
 bool ModuleRenderer3D::CleanUp()
 {
-	
+	App->AddLog(Logs::NORMAL,"Destroying 3D Renderer");
 	LOG("Destroying 3D Renderer");
 
 	SDL_GL_DeleteContext(context);

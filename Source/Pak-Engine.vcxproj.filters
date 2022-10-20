@@ -187,11 +187,14 @@
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModelImporter.cpp">
-      <Filter>Source\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="WinConsole.cpp">
       <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureImporter.cpp">
+      <Filter>Source\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,7 +487,10 @@
       <Filter>Header\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModelImporter.h">
-      <Filter>Header\Tools</Filter>
+      <Filter>Header\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureImporter.h">
+      <Filter>Header\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +565,12 @@
     </Filter>
     <Filter Include="Source\Editor\Derived">
       <UniqueIdentifier>{07f63c1a-d547-4686-9fd5-4e60ec52e504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Importers">
+      <UniqueIdentifier>{7fa0d7d7-4c06-4837-bfa2-3995e48de061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Importers">
+      <UniqueIdentifier>{4861c954-155e-4fa9-beaf-e1c445da9408}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

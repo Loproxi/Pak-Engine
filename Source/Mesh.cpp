@@ -79,8 +79,6 @@ void Mesh::InitBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-	
-
 	glBindVertexArray(0);
 }
 

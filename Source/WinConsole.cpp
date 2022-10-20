@@ -16,6 +16,8 @@ void WinConsole::Start()
 {
 	error = "[Error] ";
 	warning = "[Warning] ";
+
+	app->AddLog(Logs::NORMAL, "Win Console Created");
 }
 
 void WinConsole::Draw()
