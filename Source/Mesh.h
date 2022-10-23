@@ -5,6 +5,7 @@
 #include "glew.h"
 #include "MathGeoLib.h"
 #include "Math/float4x4.h"
+#include "TextureImporter.h"
 
 
 struct Vertex
@@ -13,10 +14,12 @@ struct Vertex
 	{
 
 	}
-	Vertex(float3 pos, float3 normals)
+	Vertex(float3 pos, float3 normals,float2 texcoords)
 	{
 		this->position = pos;
 		this->normals = normals;
+		this->texcoords = texcoords;
+		
 	}
 	~Vertex() 
 	{
@@ -24,6 +27,7 @@ struct Vertex
 	}
 	float3 position;
 	float3 normals;
+	float2 texcoords;
 };
 
 struct LoadedMeshGeometry;
@@ -71,6 +75,10 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
+	GLuint texture;
+	
+	TextureImporter textimporter;
+
 };
 
 #endif // !_MESHRENDER_H_

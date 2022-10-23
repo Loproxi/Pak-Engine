@@ -196,6 +196,12 @@
     <ClCompile Include="TextureImporter.cpp">
       <Filter>Source\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -492,6 +498,12 @@
     <ClInclude Include="TextureImporter.h">
       <Filter>Header\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -572,6 +584,9 @@
     <Filter Include="Header\Importers">
       <UniqueIdentifier>{4861c954-155e-4fa9-beaf-e1c445da9408}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{cd356456-d003-4a76-91c5-a802225887d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeoLib\include\Geometry\KDTree.inl">
@@ -594,6 +609,12 @@
     </None>
     <None Include="External\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>Header\MathGeoLib</Filter>
+    </None>
+    <None Include="Shaders\fragmentshader_core.pesh">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\vertexshader_core.pesh">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

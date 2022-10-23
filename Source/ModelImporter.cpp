@@ -103,6 +103,17 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 			vertex.normals.y = meshfromfbx->mNormals[i].y;
 			vertex.normals.z = meshfromfbx->mNormals[i].z;
 		}
+		if (meshfromfbx->HasTextureCoords(0))
+		{
+			vertex.texcoords.x = meshfromfbx->mTextureCoords[0][i].x;
+			vertex.texcoords.y = meshfromfbx->mTextureCoords[0][i].y;
+		}
+		else
+		{
+			vertex.texcoords.x = 0.0f;
+			vertex.texcoords.y = 0.0f;
+		}
+		
 
 		vertices.push_back(vertex);
 	}

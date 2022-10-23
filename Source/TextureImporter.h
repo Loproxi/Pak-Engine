@@ -1,6 +1,8 @@
 #ifndef _TEXTUREIMPORTER_H__
 #define _TEXTUREIMPORTER_H__
 
+#include "Glew/include/glew.h"
+
 #include<vector>
 #include<string>
 
@@ -22,6 +24,8 @@ public:
 	void Draw();
 
 	void Import(std::string);
+
+	GLuint LoadCheckerImage();
 
 };
 

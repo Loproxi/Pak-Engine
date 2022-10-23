@@ -279,9 +279,9 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
-	//cube = new Cube(4.0f, 4.0f, 4.0f);
+	cube = new Cube(4.0f, 4.0f, 4.0f);
 
-	//test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
+	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 	//test = new Mesh(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 
 	
@@ -351,7 +351,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	//test->RenderMeshes();
+	test->RenderMeshes();
 
 	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 

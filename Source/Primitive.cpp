@@ -40,14 +40,14 @@ Cube::Cube() : Primitive(), size(2.0f, 2.0f,2.0f)
 	Vertex vertices[8]
 	{
 		//POS               //Normals
-		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
 	};
 
 	
@@ -80,14 +80,14 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	Vertex vertices[8]
 	{
 		//POS               //Normals
-		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{-sx, sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  -sy, sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{sx, -sy, -sz },float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
 	};
 	
 
@@ -171,11 +171,11 @@ Pyramid::Pyramid(): Primitive(), size(2.0f, 2.0f, 2.0f)
 
 	Vertex vertices[5]
 	{   //POS					//Normals
-		Vertex(float3{sx, -sy, -sz },	float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{-sx, -sy, -sz},	float3{0.0f, 0.0f, 0.0f}),
-		Vertex(float3{0.0f, 0.0f, sz},	float3{0.0f, 0.0f, 0.0f}),
+		Vertex(float3{sx, -sy, -sz },	float3{0.0f, 0.0f, 0.0f} , float2{0.0f, 0.0f}),
+		Vertex(float3{sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f} , float2{0.0f, 0.0f}),
+		Vertex(float3{-sx,  sy, -sz},	float3{0.0f, 0.0f, 0.0f} , float2{0.0f, 0.0f}),
+		Vertex(float3{-sx, -sy, -sz},	float3{0.0f, 0.0f, 0.0f} , float2{0.0f, 0.0f}),
+		Vertex(float3{0.0f, 0.0f, sz},	float3{0.0f, 0.0f, 0.0f} , float2{0.0f, 0.0f}),
 	};
 
 	GLuint indices[18]
