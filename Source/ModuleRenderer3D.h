@@ -6,6 +6,7 @@
 #include "FrameBuffer.h"
 #include "Primitive.h"
 #include "ModelImporter.h"
+#include "Shaders.h"
 
 #define MAX_LIGHTS 8
 
@@ -67,6 +68,7 @@ public:
 	Mesh prueba1;
 	Mesh prueba2;
 	ModelImporter house;
+	Shaders* testshader;
 private:
 
 	std::vector<ModelImporter*>models;

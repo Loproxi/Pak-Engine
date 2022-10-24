@@ -1,6 +1,6 @@
 #version 330 core
 
-in textureCoords
+in vec2 textureCoords;
 
 out vec4 FragShaderColor;
 
@@ -8,5 +8,5 @@ uniform sampler2D texture0;
 
 void main()
 {
-    FragShaderColor = texture(texture0,textureCoords) * vec4(textureCoords.x,textureCoords.y,textureCoords.z,1.0f);
+    FragShaderColor = texture(texture0,textureCoords);
 }

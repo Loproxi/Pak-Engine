@@ -16,6 +16,8 @@ public:
 
 	~Shaders();
 
+	GLuint GetID(){ return this->id; }
+
 	void UseProgram();
 
 private:

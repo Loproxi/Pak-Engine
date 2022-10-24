@@ -31,6 +31,7 @@ struct Vertex
 };
 
 struct LoadedMeshGeometry;
+class Shaders;
 
 class Mesh
 {
@@ -44,7 +45,7 @@ public:
 
 	~Mesh();
 
-	void RenderMeshes();
+	void RenderMeshes(Shaders* shader);
 
 	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }

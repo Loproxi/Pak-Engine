@@ -1,5 +1,6 @@
 #include "ModelImporter.h"
 #include "MathGeoLib.h"
+#include "Shaders.h"
 
 
 ModelImporter::ModelImporter()
@@ -40,11 +41,11 @@ bool ModelImporter::CleanUp()
 	return true;
 }
 
-void ModelImporter::Draw()
+void ModelImporter::Draw(Shaders* shader)
 {
 	for (int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i]->RenderMeshes();
+		meshes[i]->RenderMeshes(shader);
 	}
 }
 
@@ -89,7 +90,7 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	
-
+	//Getting all the vertices information from assimp to our structure
 	for (unsigned int i = 0; i < meshfromfbx->mNumVertices; i++)
 	{
 		Vertex vertex;
@@ -118,9 +119,10 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 		vertices.push_back(vertex);
 	}
 
+	//Getting all the indices information from assimp to our structure
 	if (meshfromfbx->HasFaces())
 	{
-		//Without this line memcpy doesn't work because doesn't knows its size
+		//Without this line memcpy doesn't work because doesn't knows his size
 		indices.resize(meshfromfbx->mNumFaces * 3);
 		for (uint i = 0; i < meshfromfbx->mNumFaces; ++i)
 		{
@@ -142,7 +144,7 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 
 
 
-//Mesh ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
+//Mesh* ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
 //{
 //	LoadedMeshGeometry ourMesh;
 //	// copy vertices
@@ -171,7 +173,7 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 //		}
 //	}
 //
-//	Mesh temp(&ourMesh.vertex[0],ourMesh.num_vertex,ourMesh.index,ourMesh.num_index);
 //	
-//	return temp;
+//	
+//	return new Mesh(&ourMesh.vertex[0],ourMesh.num_vertex,ourMesh.index,ourMesh.num_index);
 //}

@@ -17,7 +17,8 @@ std::string Shaders::ProcessShaderLink(const char* filelink)
 	std::string tempcode;
 	std::string shadercode;
 	//Search a file with filelink's name and opens it
-	std::ifstream filename(filelink);
+	std::ifstream filename;
+	filename.open(filelink);
 
 	if (filename.is_open())
 	{
@@ -98,3 +99,4 @@ void Shaders::UseProgram()
 {
 	glUseProgram(this->id);
 }
+

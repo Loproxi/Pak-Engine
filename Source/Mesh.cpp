@@ -1,7 +1,8 @@
 #include "Mesh.h"
 #include "ModelImporter.h"
-
-
+#include "Shaders.h"
+#include "Application.h"
+#include "ModuleCamera3D.h"
 
 Mesh::Mesh():VAO(0),EBO(0),VBO(0)
 {
@@ -112,9 +113,13 @@ void Mesh::PrintMatrix(float4x4* matrix)
 	}
 }
 
-void Mesh::RenderMeshes()
+void Mesh::RenderMeshes(Shaders* shader)
 {
+
 	//GenModelMatrix();
+	/*shader->UseProgram();
+	GLuint viewID = glGetUniformLocation(shader->GetID(), "viewMatrix");
+	glUniformMatrix4fv(viewID, 1, GL_FALSE, Application::GetInstance()->camera->GetViewMatrix());*/
 	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);

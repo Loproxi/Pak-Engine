@@ -27,6 +27,7 @@ ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Modul
 	renderstuff.wireframe = false;
 	renderstuff.vsync = false;
 	context = NULL;
+	testshader = nullptr;
 }
 
 // Destructor
@@ -284,6 +285,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 	//test = new Mesh(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 
+	testshader = new Shaders("../Source/Shaders/vertexshader_core.pesh", "../Source/Shaders/fragmentshader_core.pesh");
 	
 	LoadImporter("../Output/Assets/BakerHouse.fbx");
 
@@ -351,7 +353,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	test->RenderMeshes();
+	test->RenderMeshes(testshader);
 
 	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -365,7 +367,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	for (int i = 0; i < models.size(); i++)
 	{
-		models[i]->Draw();
+		models[i]->Draw(testshader);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -397,6 +399,11 @@ bool ModuleRenderer3D::CleanUp()
 		delete cube;
 		cube = nullptr;
 	}
+	if (testshader != nullptr)
+	{
+		delete testshader;
+		testshader = nullptr;
+	}
 
 	for (int i = 0; i < models.size(); i++)
 	{
@@ -406,6 +413,8 @@ bool ModuleRenderer3D::CleanUp()
 		models[i] = nullptr;
 	}
 	models.clear();
+
+
 
 	//house.CleanUp();
 

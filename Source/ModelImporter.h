@@ -21,6 +21,8 @@ struct LoadedMeshGeometry
 
 };
 
+class Shaders;
+
 class ModelImporter
 {
 public:
@@ -35,7 +37,7 @@ public:
 
 	bool CleanUp();
 
-	void Draw();
+	void Draw(Shaders* shader);
 
 	void Import(std::string);
 
