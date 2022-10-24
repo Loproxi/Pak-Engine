@@ -18,6 +18,10 @@ public:
 
 	GLuint GetID(){ return this->id; }
 
+	void SetMat4fv(const std::string& name, const float* value);
+
+	void Set1Int(const std::string& name, GLint value);
+
 	void UseProgram();
 
 private:

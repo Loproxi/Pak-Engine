@@ -39,6 +39,7 @@ int main(int argc, char** argv)
 		case MAIN_START:
 
 			LOG("-------------- Application Init --------------");
+			App->AddLog(Logs::NORMAL,"-------------- Application Init --------------");
 			if (App->Init() == false)
 			{
 				LOG("Application Init exits with ERROR");

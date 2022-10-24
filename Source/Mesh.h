@@ -80,6 +80,8 @@ private:
 	
 	TextureImporter textimporter;
 
+	Shaders* shader;
+
 };
 
 #endif // !_MESHRENDER_H_

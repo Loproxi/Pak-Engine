@@ -1,6 +1,7 @@
 #include "ModelImporter.h"
 #include "MathGeoLib.h"
 #include "Shaders.h"
+#include "Application.h"
 
 
 ModelImporter::ModelImporter()
@@ -75,13 +76,14 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(goThroughMeshes(mesh, scene));
+		
 	}
 	//go through all the children nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		goThroughNodes(node->mChildren[i], scene);
 	}
-
+	Application::GetInstance()->AddLog(Logs::NORMAL, "Model Loaded");
 }
 
 Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
@@ -137,7 +139,7 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 			}
 		}
 	}
-	
+	Application::GetInstance()->AddLog(Logs::NORMAL, "Mesh Loaded");
 	//With new we avoid calling the destructor till the application is closing
 	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size());
 }

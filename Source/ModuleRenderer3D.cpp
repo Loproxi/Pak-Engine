@@ -45,6 +45,11 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	App->AddLog(Logs::NORMAL,"Creating 3D Renderer context");
 
 	bool ret = true;
+
+	//Set context attributes
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -353,7 +358,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		EndDebugDraw();
 	}*/
 	
-	test->RenderMeshes(testshader);
+	//test->RenderMeshes(testshader);
 
 	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
 
@@ -363,7 +368,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	//test3.RenderMeshes();
 
-	//house.Draw();
+	
 
 	for (int i = 0; i < models.size(); i++)
 	{
@@ -389,21 +394,9 @@ bool ModuleRenderer3D::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	if (test != nullptr)
-	{
-		delete test;
-		test = nullptr;
-	}
-	if (cube != nullptr)
-	{
-		delete cube;
-		cube = nullptr;
-	}
-	if (testshader != nullptr)
-	{
-		delete testshader;
-		testshader = nullptr;
-	}
+	RELEASE(test);
+	RELEASE(cube);
+	RELEASE(testshader);
 
 	for (int i = 0; i < models.size(); i++)
 	{
@@ -433,6 +426,11 @@ bool ModuleRenderer3D::SaveSettings(pugi::xml_node& config)
 	return true;
 }
 
+
+float* ModuleRenderer3D::GetProjectionMatrix()
+{
+	return &ProjectionMatrix.M[0];
+}
 
 void ModuleRenderer3D::SetVsync(bool vsync)
 {
@@ -477,7 +475,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
-	glLoadMatrixf(&ProjectionMatrix);
+	//glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

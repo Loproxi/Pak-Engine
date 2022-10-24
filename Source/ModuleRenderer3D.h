@@ -34,6 +34,7 @@ public:
 	UpdateStatus PreUpdate();
 	UpdateStatus PostUpdate();
 
+	
 
 	bool SaveSettings(pugi::xml_node& config);
 	void OnResize(int width, int height);
@@ -48,6 +49,7 @@ public:
 	bool* GetLightning() { return &renderstuff.lighting; }
 	bool* GetWireframe() { return &renderstuff.wireframe; }
 	FrameBuffer* GetFrameBufferRef() { return &framebuffer; }
+	float* GetProjectionMatrix();
 
 	//Setters
 	void SetVsync(bool vsync);

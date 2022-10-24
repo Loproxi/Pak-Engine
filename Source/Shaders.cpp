@@ -87,7 +87,7 @@ void Shaders::ProcessProgram(GLuint vertexshader, GLuint fragmentshader)
 	glGetShaderiv(this->id, GL_COMPILE_STATUS, &done);
 	if (!done)
 	{
-		app->AddLog(Logs::ERROR_LOG, "FRAGMENT SHADER COULD NOT BE COMPILED");
+		app->AddLog(Logs::ERROR_LOG, "PROGRAM SHADER COULD NOT BE CREATED");
 	}
 
 	glDeleteShader(vertexshader);
@@ -100,3 +100,12 @@ void Shaders::UseProgram()
 	glUseProgram(this->id);
 }
 
+void Shaders::Set1Int(const std::string& name, GLint value)
+{
+	glUniform1i(glGetUniformLocation(this->id, name.c_str()),value);
+}
+
+void Shaders::SetMat4fv(const std::string& name, const float* value)
+{
+	glUniformMatrix4fv(glGetUniformLocation(this->id, name.c_str()), 1, GL_FALSE, value);
+}

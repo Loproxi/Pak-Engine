@@ -6,6 +6,7 @@
 #include "MathGeoLib.h"
 #include "glew.h"
 #include "ModuleUIcontroller.h"
+#include "Assimp/include/version.h"
 
 
 
@@ -30,6 +31,10 @@ WinAbout::WinAbout()
 	verOpenGL = "OpenGL version ";
 	verOpenGL += (const char*)glGetString(GL_VERSION);
 
+	verAssimp = "Assimp version ";
+	verAssimp += std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision());
+
+	verDevil = "DevIL  v1.8.0 ";
 		
 }
 
@@ -98,6 +103,12 @@ void WinAbout::GetLibVersionsAndPrint()
 	ImGui::NewLine();
 
 	ImGui::BulletText(""); ImGui::TextURL(verOpenGL.c_str(), "https://www.opengl.org/", 1, 0);
+	ImGui::NewLine();
+
+	ImGui::BulletText(""); ImGui::TextURL(verAssimp.c_str(), "https://assimp-docs.readthedocs.io/en/v5.1.0/", 1, 0);
+	ImGui::NewLine();
+
+	ImGui::BulletText(""); ImGui::TextURL(verDevil.c_str(), "http://openil.sourceforge.net/", 1, 0);
 	ImGui::NewLine();
 }
 

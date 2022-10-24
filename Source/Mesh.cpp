@@ -1,10 +1,13 @@
 #include "Mesh.h"
-#include "ModelImporter.h"
-#include "Shaders.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ModuleRenderer3D.h"
+#include "ModelImporter.h"
+#include "Shaders.h"
 
-Mesh::Mesh():VAO(0),EBO(0),VBO(0)
+
+
+Mesh::Mesh():VAO(0),EBO(0),VBO(0),texture(0)
 {
 }
 
@@ -92,13 +95,13 @@ void Mesh::Update()
 void Mesh::GenModelMatrix()
 {
 	modelMatrix.SetIdentity();
-	if (modelMatrix.IsIdentity())
-	{
-		//Crear una matriu nova i li pasem els valors de position rotation scale
-		modelMatrix.Transpose();
-		PrintMatrix(&modelMatrix);
-		
-	}
+	//if (modelMatrix.IsIdentity())
+	//{
+	//	//Crear una matriu nova i li pasem els valors de position rotation scale
+	//	modelMatrix.Transpose();
+	//	PrintMatrix(&modelMatrix);
+	//	
+	//}
 }
 
 void Mesh::PrintMatrix(float4x4* matrix)
@@ -115,14 +118,19 @@ void Mesh::PrintMatrix(float4x4* matrix)
 
 void Mesh::RenderMeshes(Shaders* shader)
 {
-
-	//GenModelMatrix();
-	/*shader->UseProgram();
-	GLuint viewID = glGetUniformLocation(shader->GetID(), "viewMatrix");
-	glUniformMatrix4fv(viewID, 1, GL_FALSE, Application::GetInstance()->camera->GetViewMatrix());*/
 	
+	shader->UseProgram();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
+
+	shader->Set1Int("texture0", 0);
+
+	modelMatrix.SetIdentity();
+
+	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->GetViewMatrix());
+	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->renderer3D->GetProjectionMatrix());
+	shader->SetMat4fv("modelMatrix", &modelMatrix.v[0][0]);
+	
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

@@ -6,11 +6,11 @@
 		<version>0.1</version>
 	</App>
 	<Renderer>
-		<vsync value="true" />
+		<vsync value="false" />
 		<depthtest value="true" />
 		<cullface value="true" />
 		<lighting value="false" />
-		<wireframe value="true" />
+		<wireframe value="false" />
 	</Renderer>
 	<Window>
 		<resolution width="1425" height="717" />

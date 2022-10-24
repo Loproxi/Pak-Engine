@@ -49,7 +49,7 @@ bool Application::Init()
 	bool ret = true;
 	
 	LOG("Application Start --------------");
-	AddLog(Logs::NORMAL,"Application Start --------------");
+	AddLog(Logs::NORMAL,"--------------- Application Start --------------");
 
 	InitConfigXml();
 	// Call Init() in all modules
@@ -68,7 +68,9 @@ bool Application::Init()
 
 void Application::AddModule(Module* mod)
 {
+	
 	list_modules.add(mod);
+	AddLog(Logs::NORMAL, "-------------- Module Added --------------");
 }
 
 // ---------------------------------------------

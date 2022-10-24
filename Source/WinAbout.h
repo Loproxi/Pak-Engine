@@ -32,6 +32,8 @@ private:
     std::string verImGui;
     std::string verOpenGL;
     std::string verMathGeoLib;
+    std::string verAssimp;
+    std::string verDevil;
 
 };
 
