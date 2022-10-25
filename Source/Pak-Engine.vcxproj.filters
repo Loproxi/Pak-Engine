@@ -202,6 +202,15 @@
     <ClCompile Include="Shaders.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Comp_MeshRenderer.cpp">
+      <Filter>Source\Components\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Source\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -504,6 +513,15 @@
     <ClInclude Include="Shaders.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Comp_MeshRenderer.h">
+      <Filter>Header\Components\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Header\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -586,6 +604,24 @@
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{cd356456-d003-4a76-91c5-a802225887d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components">
+      <UniqueIdentifier>{2a72b48b-b9c9-45f5-b088-0b352474d260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components\Base">
+      <UniqueIdentifier>{9e3b3a8d-5f14-4b35-b3a8-ea76e1b43010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components\Derived">
+      <UniqueIdentifier>{9a8496df-a367-4ec8-8519-37814617cca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Components">
+      <UniqueIdentifier>{089e0ccb-6c35-4af7-b272-e76c9d8b4b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Components\Base">
+      <UniqueIdentifier>{116d7664-63c6-44b2-8f3d-130aa9f11172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Components\Derived">
+      <UniqueIdentifier>{02f3949f-96c9-4cfd-bb41-98dfe638bfc1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

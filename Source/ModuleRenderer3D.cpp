@@ -3,8 +3,10 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
+#include "ModuleScene.h"
 
 #include "Mesh.h"
+#include "Comp_MeshRenderer.h"
 
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -368,7 +370,10 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	//test3.RenderMeshes();
 
-	
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i]->Draw(testshader);
+	}
 
 	for (int i = 0; i < models.size(); i++)
 	{
@@ -383,6 +388,15 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	};
 
 	SDL_GL_SwapWindow(App->window->window);
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		delete meshes[i];
+		meshes[i] = nullptr;
+	}
+
+	meshes.clear();
+
 	return ret;
 }
 

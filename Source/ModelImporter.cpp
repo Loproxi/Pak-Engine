@@ -2,7 +2,8 @@
 #include "MathGeoLib.h"
 #include "Shaders.h"
 #include "Application.h"
-
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 ModelImporter::ModelImporter()
 {
@@ -57,6 +58,8 @@ void ModelImporter::Import(std::string path)
 	{
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		
+		Application::GetInstance()->scene->root;
+
 		goThroughNodes( scene->mRootNode,scene);
 		
 		aiReleaseImport(scene);

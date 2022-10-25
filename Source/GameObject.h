@@ -1,6 +1,7 @@
 #ifndef _GAMEOBJECT_H__
 #define _GAMEOBJECT_H__
 
+#include "Component.h"
 #include <vector>
 
 class Component;
@@ -9,11 +10,15 @@ class GameObject
 {
 public:
 
-	GameObject();
+	GameObject(std::string name);
 
 	virtual ~GameObject();
 
-	void AddComponent();
+	void Update();
+
+	void PostUpdate();
+
+	Component* AddComponent(COMP_TYPE type);
 
 	void GetComponent();
 
@@ -30,6 +35,7 @@ public:
 	GameObject* parent = nullptr;
 
 	bool active;
+	std::string name;
 
 };
 

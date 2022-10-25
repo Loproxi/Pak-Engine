@@ -20,6 +20,7 @@ struct RenderStuff
 };
 
 class Primitive;
+class Comp_MeshRenderer;
 
 class ModuleRenderer3D : public Module
 {
@@ -71,6 +72,9 @@ public:
 	Mesh prueba2;
 	ModelImporter house;
 	Shaders* testshader;
+
+	std::vector<Comp_MeshRenderer*>meshes;
+
 private:
 
 	std::vector<ModelImporter*>models;

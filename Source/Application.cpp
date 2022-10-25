@@ -6,6 +6,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
 #include "ModuleFileSystem.h"
+#include "ModuleScene.h"
 
 
 Application* Application::App = nullptr;
@@ -16,6 +17,7 @@ Application::Application()
 	window = new ModuleWindow(this, true);
 	input = new ModuleInput(this, true);
 	camera = new ModuleCamera3D(this, true);
+	scene = new ModuleScene(this, true);
 	uiController = new ModuleUIcontroller(this, true);
 	renderer3D = new ModuleRenderer3D(this, true);
 	
@@ -32,6 +34,7 @@ Application::Application()
 	AddModule(camera);
 
 	// Scenes
+	AddModule(scene);
 
 	//UI controller
 	AddModule(uiController);
