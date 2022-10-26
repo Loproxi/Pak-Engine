@@ -20,7 +20,7 @@ public:
 
 	Component* AddComponent(COMP_TYPE type);
 
-	void GetComponent();
+	Component* GetComponent(COMP_TYPE type);
 
 
 private:

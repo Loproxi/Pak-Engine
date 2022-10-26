@@ -11,6 +11,18 @@ GameObject::GameObject(std::string name):active(true)
 
 GameObject::~GameObject()
 {
+	for (int i = 0; i < components.size(); i++)
+	{
+		RELEASE(components[i]);
+	}
+	components.clear();
+
+	for (int i = 0; i < children.size(); i++)
+	{
+		RELEASE(children[i]);
+	}
+	children.clear();
+
 }
 
 void GameObject::Update()
@@ -51,6 +63,17 @@ Component* GameObject::AddComponent(COMP_TYPE type)
 	return component;
 }
 
-void GameObject::GetComponent()
+Component* GameObject::GetComponent(COMP_TYPE _type)
 {
+	Component* comp = nullptr;
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (this->components[i]->type = _type)
+		{
+			comp = components[i];
+			return comp;
+		}
+	}
+	return comp;
 }
