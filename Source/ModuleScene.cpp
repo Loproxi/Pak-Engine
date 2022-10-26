@@ -3,8 +3,7 @@
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-    root = new GameObject("SceneRoot");
-    root->parent = nullptr;
+ 
 }
 
 ModuleScene::~ModuleScene()
@@ -13,6 +12,9 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init(pugi::xml_node& config)
 {
+    root = new GameObject("SceneRoot");
+    root->parent = nullptr;
+
     return true;
 }
 
@@ -28,6 +30,7 @@ UpdateStatus ModuleScene::PreUpdate()
 
 UpdateStatus ModuleScene::Update()
 {
+    UpdateGameObjects();
     return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -41,4 +44,22 @@ bool ModuleScene::CleanUp()
     RELEASE(root);
 
     return true;
+}
+
+void ModuleScene::UpdateGameObjects()
+{
+    UpdatingGameObjectTree(root);
+}
+
+void ModuleScene::UpdatingGameObjectTree(GameObject* parent)
+{
+    if (parent->active)
+    {
+        parent->Update();
+
+        for (int i = 0; i < parent->children.size(); i++)
+        {
+            UpdatingGameObjectTree(parent->children[i]);
+        }
+    }
 }

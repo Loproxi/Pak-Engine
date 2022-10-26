@@ -8,7 +8,7 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Mesh.h"
-
+#include "GameObject.h"
 
 struct LoadedMeshGeometry
 {
@@ -37,17 +37,13 @@ public:
 
 	bool CleanUp();
 
-	void Draw(Shaders* shader);
-
 	void Import(std::string);
 
-	void goThroughNodes(aiNode* node, const aiScene* scene);
+	void goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent = nullptr);
 	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 public:
 
-	std::vector<Mesh*> meshes;
-	
 };
 
 #endif // !_MODELIMPORTER_H__

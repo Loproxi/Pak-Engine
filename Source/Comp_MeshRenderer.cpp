@@ -12,14 +12,13 @@ Comp_MeshRenderer::Comp_MeshRenderer(GameObject* _go): Component(_go),mesh(nullp
 
 Comp_MeshRenderer::~Comp_MeshRenderer()
 {
+	RELEASE(mesh);
 }
 
 void Comp_MeshRenderer::Update()
 {
-	if (this->active)
-	{
-		app->renderer3D->meshes.push_back(this);
-	}
+	
+	app->renderer3D->meshes.push_back(this);
 
 }
 
@@ -27,7 +26,7 @@ void Comp_MeshRenderer::OnUIController()
 {
 
 
-
+	
 }
 
 void Comp_MeshRenderer::Draw(Shaders* shaders)

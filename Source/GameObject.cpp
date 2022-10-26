@@ -6,6 +6,7 @@
 GameObject::GameObject(std::string name):active(true)
 {
 	this->name = name;
+
 }
 
 
@@ -30,7 +31,13 @@ void GameObject::Update()
 
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i]->Update();
+		if (this->active)
+		{
+			if (this != nullptr)
+			{
+				components[i]->Update();
+			}
+		}
 	}
 
 }
@@ -76,4 +83,13 @@ Component* GameObject::GetComponent(COMP_TYPE _type)
 		}
 	}
 	return comp;
+}
+
+void GameObject::AddChild(GameObject* _go)
+{
+	this->children.push_back(_go);
+	if (_go->parent == nullptr)
+	{
+		_go->parent = this;
+	}
 }

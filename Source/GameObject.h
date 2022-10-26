@@ -22,6 +22,20 @@ public:
 
 	Component* GetComponent(COMP_TYPE type);
 
+	void AddChild(GameObject* _go);
+
+	template <class T>
+	T* GetComponent()
+	{
+		for (int i = 0; i < components.size();i++)
+		{
+			if (typeid(*components[i]) == typeid(T))
+			{
+				return (T*)components[i];
+			}
+		}
+		return nullptr;
+	}
 
 private:
 

@@ -22,6 +22,10 @@ public:
 
 	bool CleanUp() override;
 
+	void UpdateGameObjects();
+
+	void UpdatingGameObjectTree(GameObject* parent);
+
 public:
 
 	GameObject* root;

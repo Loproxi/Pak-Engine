@@ -77,8 +77,6 @@ public:
 
 private:
 
-	std::vector<ModelImporter*>models;
-
 	ModelImporter* currentModel;
 	
 	FrameBuffer framebuffer;

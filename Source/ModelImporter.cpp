@@ -3,7 +3,7 @@
 #include "Shaders.h"
 #include "Application.h"
 #include "ModuleScene.h"
-#include "GameObject.h"
+#include "Comp_MeshRenderer.h"
 
 ModelImporter::ModelImporter()
 {
@@ -31,24 +31,7 @@ bool ModelImporter::CleanUp()
 {
 	aiDetachAllLogStreams();
 
-	for (int i = 0; i < meshes.size(); i++)
-	{
-		delete meshes[i];
-		meshes[i] = nullptr;
-	}
-
-	meshes.clear();
-
-	
 	return true;
-}
-
-void ModelImporter::Draw(Shaders* shader)
-{
-	for (int i = 0; i < meshes.size(); i++)
-	{
-		meshes[i]->RenderMeshes(shader);
-	}
 }
 
 void ModelImporter::Import(std::string path)
@@ -57,8 +40,6 @@ void ModelImporter::Import(std::string path)
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		
-		Application::GetInstance()->scene->root;
 
 		goThroughNodes( scene->mRootNode,scene);
 		
@@ -71,20 +52,31 @@ void ModelImporter::Import(std::string path)
 
 }
 
-void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene)
+void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent)
 {
+	if (parent == nullptr)
+	{
+		parent = new GameObject(scene->mRootNode->mName.C_Str());
+		parent->parent = Application::GetInstance()->scene->root;
+		Application::GetInstance()->scene->root->AddChild(parent);
+	}
 
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
+		GameObject* go = new GameObject(scene->mMeshes[node->mMeshes[i]]->mName.C_Str());
+		go->AddComponent(COMP_TYPE::MESH_RENDERER);
+
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(goThroughMeshes(mesh, scene));
+		//Comp_MeshRenderer* temp = (Comp_MeshRenderer*)go->GetComponent(COMP_TYPE::MESH_RENDERER);
 		
+		go->GetComponent<Comp_MeshRenderer>()->SetMesh((goThroughMeshes(mesh, scene)));
+		parent->AddChild(go);
 	}
 	//go through all the children nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		goThroughNodes(node->mChildren[i], scene);
+		goThroughNodes(node->mChildren[i], scene,parent);
 	}
 	Application::GetInstance()->AddLog(Logs::NORMAL, "Model Loaded");
 }

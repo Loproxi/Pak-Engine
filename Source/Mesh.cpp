@@ -131,7 +131,7 @@ void Mesh::RenderMeshes(Shaders* shader)
 	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->renderer3D->GetProjectionMatrix());
 	shader->SetMat4fv("modelMatrix", &modelMatrix.v[0][0]);
 	
-	// draw mesh
+	//draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, indices.size());

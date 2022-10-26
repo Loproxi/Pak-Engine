@@ -294,7 +294,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	testshader = new Shaders("../Source/Shaders/vertexshader_core.pesh", "../Source/Shaders/fragmentshader_core.pesh");
 	
-	LoadImporter("../Output/Assets/BakerHouse.fbx");
+	//LoadImporter("../Output/Assets/BakerHouse.fbx");
 
 	return ret;
 }
@@ -375,11 +375,6 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		meshes[i]->Draw(testshader);
 	}
 
-	for (int i = 0; i < models.size(); i++)
-	{
-		models[i]->Draw(testshader);
-	}
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	if (!App->uiController->Draw())
@@ -388,12 +383,6 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	};
 
 	SDL_GL_SwapWindow(App->window->window);
-
-	for (int i = 0; i < meshes.size(); i++)
-	{
-		delete meshes[i];
-		meshes[i] = nullptr;
-	}
 
 	meshes.clear();
 
@@ -411,18 +400,7 @@ bool ModuleRenderer3D::CleanUp()
 	RELEASE(test);
 	RELEASE(cube);
 	RELEASE(testshader);
-
-	for (int i = 0; i < models.size(); i++)
-	{
-		models[i]->CleanUp();
-
-		delete models[i];
-		models[i] = nullptr;
-	}
-	models.clear();
-
-
-
+	
 	//house.CleanUp();
 
 	return true;
@@ -498,10 +476,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 void ModuleRenderer3D::LoadImporter(std::string path)
 {
 
-	currentModel = new ModelImporter();
+	ModelImporter currentModel;
 
-	currentModel->Import(path);
-
-	models.push_back(currentModel);
+	currentModel.Import(path);
 
 }
