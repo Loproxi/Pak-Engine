@@ -294,7 +294,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	testshader = new Shaders("../Source/Shaders/vertexshader_core.pesh", "../Source/Shaders/fragmentshader_core.pesh");
 	
-	//LoadImporter("../Output/Assets/BakerHouse.fbx");
+	LoadImporter("../Output/Assets/BakerHouse.fbx");
 
 	return ret;
 }

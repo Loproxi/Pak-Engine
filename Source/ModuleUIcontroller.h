@@ -13,6 +13,7 @@ enum class UIwindows
 	CONFIGURATION,
 	ABOUT,
 	CONSOLE,
+	HIERARCHY,
 	MAX
 
 };

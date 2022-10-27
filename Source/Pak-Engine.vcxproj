@@ -162,6 +162,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Comp_MeshRenderer.cpp" />
+    <ClCompile Include="Comp_Transform.cpp" />
     <ClCompile Include="External\imgui\imgui.cpp" />
     <ClCompile Include="External\imgui\imgui_demo.cpp" />
     <ClCompile Include="External\imgui\imgui_draw.cpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="WinConfig.cpp" />
     <ClCompile Include="WinConsole.cpp" />
     <ClCompile Include="WindowBaseClass.cpp" />
+    <ClCompile Include="WinHierarchy.cpp" />
     <ClCompile Include="WinScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +236,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Comp_MeshRenderer.h" />
+    <ClInclude Include="Comp_Transform.h" />
     <ClInclude Include="External\imgui\imconfig.h" />
     <ClInclude Include="External\imgui\imgui.h" />
     <ClInclude Include="External\imgui\imgui_impl_opengl3.h" />
@@ -332,6 +335,7 @@
     <ClInclude Include="WinConfig.h" />
     <ClInclude Include="WinConsole.h" />
     <ClInclude Include="WindowBaseClass.h" />
+    <ClInclude Include="WinHierarchy.h" />
     <ClInclude Include="WinScene.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "imgui.h"
+#include "Globals.h"
+
 
  // from https://github.com/juliettef/IconFontCppHeaders
 

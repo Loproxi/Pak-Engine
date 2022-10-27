@@ -11,6 +11,7 @@
 #include "WinConfig.h"
 #include "WinScene.h"
 #include "WinConsole.h"
+#include "WinHierarchy.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -59,6 +60,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
 	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
 	winenable[(uint)UIwindows::CONSOLE] = config.child("Editor").child("window_console").attribute("value").as_bool();
+	winenable[(uint)UIwindows::HIERARCHY] = config.child("Editor").child("window_hierarchy").attribute("value").as_bool();
 
 	return ret;
 }
@@ -75,7 +77,7 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 	windows[(uint)UIwindows::CONSOLE] = new WinConsole();
-
+	windows[(uint)UIwindows::HIERARCHY] = new WinHierarchy();
 
 	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
 	{
@@ -191,6 +193,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::CONSOLE]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Hierarchy"))
+			{
+				//Do something
+				windows[(uint)UIwindows::HIERARCHY]->isEnabled = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -241,6 +248,7 @@ bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 	config.child("Editor").child("window_config").attribute("value") = windows[(uint)UIwindows::CONFIGURATION]->isEnabled;		
 	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
 	config.child("Editor").child("window_console").attribute("value") = windows[(uint)UIwindows::CONSOLE]->isEnabled;
+	config.child("Editor").child("window_hierarchy").attribute("value") = windows[(uint)UIwindows::HIERARCHY]->isEnabled;
 
 	return true;
 }

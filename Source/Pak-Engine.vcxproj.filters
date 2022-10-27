@@ -211,6 +211,12 @@
     <ClCompile Include="ModuleScene.cpp">
       <Filter>Source\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Comp_Transform.cpp">
+      <Filter>Source\Components\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="WinHierarchy.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -521,6 +527,12 @@
     </ClInclude>
     <ClInclude Include="ModuleScene.h">
       <Filter>Header\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Comp_Transform.h">
+      <Filter>Header\Components\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="WinHierarchy.h">
+      <Filter>Header\Editor\Derived</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

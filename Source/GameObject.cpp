@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Comp_MeshRenderer.h"
+#include "Comp_Transform.h"
 #include "Application.h"
 
 
@@ -56,6 +57,10 @@ Component* GameObject::AddComponent(COMP_TYPE type)
 	case NONE:
 		Application::GetInstance()->AddLog(Logs::WARNING, " Can't create a None Component ");
 		break;
+	case TRANSFORM:
+		component = new Comp_Transform(this);
+		component->type = type;
+		break;
 	case MESH_RENDERER: 
 		component = new Comp_MeshRenderer(this);
 		component->type = type;
@@ -87,9 +92,12 @@ Component* GameObject::GetComponent(COMP_TYPE _type)
 
 void GameObject::AddChild(GameObject* _go)
 {
+	if (_go == nullptr) return;
+	if (this->parent == _go) return;
+
+
 	this->children.push_back(_go);
-	if (_go->parent == nullptr)
-	{
-		_go->parent = this;
-	}
+	
+	_go->parent = this;
+	
 }

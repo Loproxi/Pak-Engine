@@ -24,6 +24,7 @@
 		<window_config value="true" />
 		<window_about value="false" />
 		<window_console value="true" />
+		<window_hierarchy value="true" />
 	</Editor>
 	<scene>
 		<scene />
