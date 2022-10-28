@@ -41,7 +41,7 @@ void ModelImporter::Import(std::string path)
 	{
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 
-		goThroughNodes( scene->mRootNode,scene);
+		goThroughNodes(scene->mRootNode,scene);
 		
 		aiReleaseImport(scene);
 	}

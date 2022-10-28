@@ -25,9 +25,9 @@ void WinHierarchy::Draw()
 	{
 		if (ImGui::Begin(name.c_str(), &isEnabled))
 		{
+
 			ShowGameObjects(app->scene->root);
 
-			
 		}
 		ImGui::End();
 	}
@@ -43,6 +43,26 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 		nodeFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
 	const bool nodeOpen = ImGui::TreeNodeEx(go->name.c_str(), nodeFlags);
+
+	if (ImGui::BeginDragDropSource())
+	{
+		ImGui::SetDragDropPayload("GameObject", go, sizeof(GameObject*));
+
+		ImGui::Text("Where do you want to drop this in the hierarchy ? ");
+
+		ImGui::EndDragDropSource();
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
+		{
+
+			GameObject* temp = (GameObject*)payload->Data;
+
+			temp->SetParent(go);
+		}
+	}
 
 	if (nodeOpen && go->children.size() != 0)
 	{

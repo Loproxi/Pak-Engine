@@ -551,9 +551,6 @@
     <Filter Include="Source\Tools">
       <UniqueIdentifier>{a75a7761-695b-4845-b1a7-e6054534fdb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\GameObjects">
-      <UniqueIdentifier>{561a75a0-dafc-4aaf-9a0e-08869b37154e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header\Modules">
       <UniqueIdentifier>{ef86a9ed-0e93-4cb7-bd92-3cc8dd2eb29b}</UniqueIdentifier>
     </Filter>
@@ -634,6 +631,9 @@
     </Filter>
     <Filter Include="Header\Components\Derived">
       <UniqueIdentifier>{02f3949f-96c9-4cfd-bb41-98dfe638bfc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\GameObjects">
+      <UniqueIdentifier>{386ba65b-c82c-42dc-9f3b-c70c3e04dd8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

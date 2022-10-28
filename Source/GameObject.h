@@ -24,6 +24,10 @@ public:
 
 	void AddChild(GameObject* _go);
 
+	void SetParent(GameObject* _go);
+
+	void RemoveChild(GameObject* _go);
+
 	template <class T>
 	T* GetComponent()
 	{

@@ -101,3 +101,23 @@ void GameObject::AddChild(GameObject* _go)
 	_go->parent = this;
 	
 }
+
+void GameObject::SetParent(GameObject* _go)
+{
+	this->parent->RemoveChild(this);
+	_go->AddChild(this);
+
+}
+
+void GameObject::RemoveChild(GameObject* _go)
+{
+	if (this->children.size() == 0) return;
+
+	for (int i = 0; i < this->children.size(); i++)
+	{
+		if (this->children[i] == _go)
+		{
+			this->children.erase(this->children.end() - i);
+		}
+	}
+}
