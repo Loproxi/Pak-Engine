@@ -10,7 +10,7 @@
 		<depthtest value="true" />
 		<cullface value="true" />
 		<lighting value="false" />
-		<wireframe value="false" />
+		<wireframe value="true" />
 	</Renderer>
 	<Window>
 		<resolution width="1425" height="717" />

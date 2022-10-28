@@ -81,7 +81,6 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	{
 		goThroughNodes(node->mChildren[i], scene,parent);
 	}
-	Application::GetInstance()->AddLog(Logs::NORMAL, "Model Loaded");
 }
 
 Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)

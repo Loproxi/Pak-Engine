@@ -26,6 +26,8 @@ public:
 private:
 
     Application* app;
+
+    GameObject* goToDrop;
 };
 
 #endif // !__WIN_HIERARCHY_H__

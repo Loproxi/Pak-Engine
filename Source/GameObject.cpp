@@ -6,6 +6,10 @@
 
 GameObject::GameObject(std::string name):active(true)
 {
+	if (name == "")
+	{
+		name = "GameObject";
+	}
 	this->name = name;
 
 }
@@ -117,7 +121,7 @@ void GameObject::RemoveChild(GameObject* _go)
 	{
 		if (this->children[i] == _go)
 		{
-			this->children.erase(this->children.end() - i);
+			this->children.erase(this->children.begin() + i);
 		}
 	}
 }

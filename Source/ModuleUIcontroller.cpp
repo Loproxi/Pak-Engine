@@ -56,11 +56,12 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
-	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
+	
 	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
 	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
 	winenable[(uint)UIwindows::CONSOLE] = config.child("Editor").child("window_console").attribute("value").as_bool();
 	winenable[(uint)UIwindows::HIERARCHY] = config.child("Editor").child("window_hierarchy").attribute("value").as_bool();
+	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
 
 	return ret;
 }
@@ -73,11 +74,12 @@ bool ModuleUIcontroller::Start()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->GetSDL_GLContext());
 	ImGui_ImplOpenGL3_Init();
 
-	windows[(uint)UIwindows::SCENE] = new WinScene();
+	
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 	windows[(uint)UIwindows::CONSOLE] = new WinConsole();
 	windows[(uint)UIwindows::HIERARCHY] = new WinHierarchy();
+	windows[(uint)UIwindows::SCENE] = new WinScene();
 
 	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
 	{

@@ -2,6 +2,7 @@
 #include "ImGuiUtils.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleRenderer3D.h"
 #include "GameObject.h"
 
 WinHierarchy::WinHierarchy()
@@ -28,6 +29,43 @@ void WinHierarchy::Draw()
 
 			ShowGameObjects(app->scene->root);
 
+			if (ImGui::BeginPopupContextWindow("Primitives", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
+			{
+				if (ImGui::BeginMenu("Primitives"))
+				{
+					if (ImGui::MenuItem("Cube"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Cube.fbx");
+					}
+					if (ImGui::MenuItem("Sphere"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Sphere.fbx");
+					}
+					if (ImGui::MenuItem("Monkey"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Monkey.fbx");
+					}
+					if (ImGui::MenuItem("Plane"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Plane.fbx");
+					}
+					if (ImGui::MenuItem("Pyramid"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Pyramid.fbx");
+					}
+					if (ImGui::MenuItem("Cylinder"))
+					{
+						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Cylinder.fbx");
+					}
+
+					ImGui::EndMenu();
+				}
+					
+
+				ImGui::EndPopup();
+				
+			}
+
 		}
 		ImGui::End();
 	}
@@ -48,6 +86,8 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 	{
 		ImGui::SetDragDropPayload("GameObject", go, sizeof(GameObject*));
 
+		goToDrop = go;
+
 		ImGui::Text("Where do you want to drop this in the hierarchy ? ");
 
 		ImGui::EndDragDropSource();
@@ -57,20 +97,25 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
 		{
-
+			//Not working as intended
 			GameObject* temp = (GameObject*)payload->Data;
 
-			temp->SetParent(go);
+			goToDrop->SetParent(go);
+
+			goToDrop = nullptr;
 		}
+
+		ImGui::EndDragDropTarget();
 	}
 
 	if (nodeOpen && go->children.size() != 0)
 	{
-		
+
 		for (int i = 0; i < go->children.size(); i++)
 		{
 			ShowGameObjects(go->children[i]);
 		}
+		//Peta al fer pop de sceneroot fix it
 		
 		ImGui::TreePop();
 		

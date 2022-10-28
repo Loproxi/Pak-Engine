@@ -9,11 +9,12 @@ class WindowBaseClass;
 
 enum class UIwindows
 {
-	SCENE,
+	
 	CONFIGURATION,
 	ABOUT,
 	CONSOLE,
 	HIERARCHY,
+	SCENE,
 	MAX
 
 };
