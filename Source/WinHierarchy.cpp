@@ -75,12 +75,13 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 {
 
 	ImGuiTreeNodeFlags nodeFlags = ImGuiDockNodeFlags_None;
-	nodeFlags += ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+	nodeFlags += ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (go->children.size() == 0)
 		nodeFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
-	const bool nodeOpen = ImGui::TreeNodeEx(go->name.c_str(), nodeFlags);
+	bool nodeOpen = ImGui::TreeNodeEx(go->name.c_str(), nodeFlags);
+	if (go->children.size() == 0)nodeOpen = false;
 
 	if (ImGui::BeginDragDropSource())
 	{
@@ -110,15 +111,17 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 
 	if (nodeOpen && go->children.size() != 0)
 	{
-
+		
 		for (int i = 0; i < go->children.size(); i++)
 		{
 			ShowGameObjects(go->children[i]);
 		}
 		//Peta al fer pop de sceneroot fix it
 		
-		ImGui::TreePop();
-		
+		if (go->children.size() != 0)
+		{
+			ImGui::TreePop();
+		}
 	}
 
 	
