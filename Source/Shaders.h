@@ -16,7 +16,7 @@ public:
 
 	~Shaders();
 
-	GLuint GetID(){ return this->id; }
+	GLuint GetID(){ return this->shadID; }
 
 	void SetMat4fv(const std::string& name, const float* value);
 
@@ -34,7 +34,7 @@ private:
 
 private:
 
-	GLuint id;
+	GLuint shadID;
 	Application* app;
 
 };

@@ -12,6 +12,8 @@
 #include "External/SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "DevIL/include/ilut.h"
+#include "DevIL/include/ilu.h"
 
 #include "MathGeoLib.h"
 
@@ -61,7 +63,18 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-
+	//Init DevIL
+	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
+	{
+		/* wrong DevIL version */
+		App->AddLog(Logs::ERROR_LOG, "Error wrong DevIL version");
+	}
+	else
+	{
+		ilInit();
+		iluInit();
+		ilutInit();
+	}
 	//Init Glew
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
@@ -148,8 +161,8 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
 	//Test RapidJSON
-
-
+	LoadTextureImporter("");
+	LoadTextureImporter("../Output/Assets/Baker_house.png");
 //	using namespace rapidjson;
 //	
 //	const char json[] = " { \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4] } ";
@@ -292,9 +305,11 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 	//test = new Mesh(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
 
-	testshader = new Shaders("../Source/Shaders/vertexshader_core.pesh", "../Source/Shaders/fragmentshader_core.pesh");
+	testshader = new Shaders("../Output/Assets/Shaders/vertexshader_core.pesh", "../Output/Assets/Shaders/fragmentshader_core.pesh");
 	
-	LoadImporter("../Output/Assets/BakerHouse.fbx");
+	
+	LoadModelImporter("../Output/Assets/BakerHouse.fbx");
+	
 
 	return ret;
 }
@@ -400,6 +415,12 @@ bool ModuleRenderer3D::CleanUp()
 	RELEASE(test);
 	RELEASE(cube);
 	RELEASE(testshader);
+
+	for (int i = 0; i < textures.size(); i++)
+	{
+		RELEASE(textures[i]);
+	}
+	textures.clear();
 	
 	//house.CleanUp();
 
@@ -473,11 +494,24 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::LoadImporter(std::string path)
+void ModuleRenderer3D::LoadModelImporter(std::string path)
 {
 
 	ModelImporter currentModel;
 
 	currentModel.Import(path);
+
+}
+
+void ModuleRenderer3D::LoadTextureImporter(std::string path)
+{
+	if (path == "")
+	{
+		textures.push_back(TextureImporter::LoadCheckerImage());
+	}
+	else
+	{
+		textures.push_back(TextureImporter::Import(path));
+	}
 
 }

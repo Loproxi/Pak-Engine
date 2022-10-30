@@ -35,27 +35,27 @@ void WinHierarchy::Draw()
 				{
 					if (ImGui::MenuItem("Cube"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Cube.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cube.fbx");
 					}
 					if (ImGui::MenuItem("Sphere"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Sphere.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Sphere.fbx");
 					}
 					if (ImGui::MenuItem("Monkey"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Monkey.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Monkey.fbx");
 					}
 					if (ImGui::MenuItem("Plane"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Plane.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Plane.fbx");
 					}
 					if (ImGui::MenuItem("Pyramid"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Pyramid.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Pyramid.fbx");
 					}
 					if (ImGui::MenuItem("Cylinder"))
 					{
-						app->renderer3D->LoadImporter("../Output/Assets/Primitives/Cylinder.fbx");
+						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cylinder.fbx");
 					}
 
 					ImGui::EndMenu();

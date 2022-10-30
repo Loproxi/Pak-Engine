@@ -130,7 +130,7 @@ UpdateStatus ModuleInput::PreUpdate()
 					App->window->window
 				);
 
-				App->renderer3D->LoadImporter(dropped_filedir);
+				App->renderer3D->LoadModelImporter(dropped_filedir);
 
 
 				SDL_free(dropped_filedir);    // Free dropped_filedir memory

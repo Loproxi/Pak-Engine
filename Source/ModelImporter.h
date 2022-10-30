@@ -10,16 +10,16 @@
 #include "Mesh.h"
 #include "GameObject.h"
 
-struct LoadedMeshGeometry
-{
-	uint id_index = 0; // index in VRAM
-	uint num_index = 0;
-	GLuint* index = nullptr;
-	uint id_vertex = 0; // unique vertex in VRAM
-	uint num_vertex = 0;
-	std::vector<Vertex> vertex;
-
-};
+//struct LoadedMeshGeometry
+//{
+//	uint id_index = 0; // index in VRAM
+//	uint num_index = 0;
+//	GLuint* index = nullptr;
+//	uint id_vertex = 0; // unique vertex in VRAM
+//	uint num_vertex = 0;
+//	std::vector<Vertex> vertex;
+//
+//};
 
 class Shaders;
 
@@ -40,6 +40,7 @@ public:
 	void Import(std::string);
 
 	void goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent = nullptr);
+
 	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 public:

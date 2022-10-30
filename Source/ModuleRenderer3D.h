@@ -21,6 +21,7 @@ struct RenderStuff
 
 class Primitive;
 class Comp_MeshRenderer;
+struct Texture;
 
 class ModuleRenderer3D : public Module
 {
@@ -40,7 +41,8 @@ public:
 	bool SaveSettings(pugi::xml_node& config);
 	void OnResize(int width, int height);
 
-	void LoadImporter(std::string path);
+	void LoadModelImporter(std::string path);
+	void LoadTextureImporter(std::string path);
 
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
@@ -74,6 +76,7 @@ public:
 	Shaders* testshader;
 
 	std::vector<Comp_MeshRenderer*>meshes;
+	std::vector<Texture*>textures;
 
 private:
 

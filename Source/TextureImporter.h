@@ -2,9 +2,24 @@
 #define _TEXTUREIMPORTER_H__
 
 #include "Glew/include/glew.h"
+#include "Globals.h"
 
 #include<vector>
 #include<string>
+
+struct Texture
+{
+	Texture(GLuint* id, uint* _width, uint* _height)
+	{
+		textID = *id;
+		width = *_width;
+		height = *_height;
+	}
+
+	GLuint textID;
+	uint width;
+	uint height;
+};
 
 class TextureImporter
 {
@@ -21,11 +36,11 @@ public:
 
 	bool CleanUp();
 
-	void Draw();
+	static void Draw();
 
-	void Import(std::string);
+	static Texture* Import(std::string);
 
-	GLuint LoadCheckerImage();
+	static Texture* LoadCheckerImage();
 
 };
 

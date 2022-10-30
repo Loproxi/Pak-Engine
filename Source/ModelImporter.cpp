@@ -85,7 +85,7 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 
 Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 {
-
+	//Temp vectors in order to save all the needed information to mesh class
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	

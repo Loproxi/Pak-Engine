@@ -42,11 +42,16 @@ std::string Shaders::ProcessShaderLink(const char* filelink)
 void Shaders::ProcessShader(const char* vertexfilelink, const char* fragmentfilelink)
 {
 	GLint done;
+	uint vertexshader;
+	uint fragmentshader;
 
 	//Vertex Shader
-	uint vertexshader = glCreateShader(GL_VERTEX_SHADER);
-	std::string tempcode = this->ProcessShaderLink(vertexfilelink);
+	vertexshader = glCreateShader(GL_VERTEX_SHADER);
+
+	//It has to be this way because if not, fragmentshadercode  doesn't saves it
+	std::string tempcode = ProcessShaderLink(vertexfilelink);
 	const char* vertexshadercode = tempcode.c_str();
+
 	glShaderSource(vertexshader, 1, &vertexshadercode, NULL);
 	glCompileShader(vertexshader);
 
@@ -58,9 +63,12 @@ void Shaders::ProcessShader(const char* vertexfilelink, const char* fragmentfile
 
 
 	//Fragment Shader
-	uint fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
-	std::string tempcode2 = this->ProcessShaderLink(fragmentfilelink);
+	fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//It has to be this way because if not, fragmentshadercode  doesn't saves it
+	std::string tempcode2 = ProcessShaderLink(fragmentfilelink);
 	const char* fragmentshadercode = tempcode2.c_str();
+
 	glShaderSource(fragmentshader, 1, &fragmentshadercode, NULL);
 	glCompileShader(fragmentshader);
 
@@ -78,13 +86,13 @@ void Shaders::ProcessProgram(GLuint vertexshader, GLuint fragmentshader)
 {
 	GLint done;
 
-	this->id = glCreateProgram();
-	glAttachShader(this->id, vertexshader);
-	glAttachShader(this->id, fragmentshader);
-	glLinkProgram(this->id);
-	glValidateProgram(this->id);
+	shadID = glCreateProgram();
+	glAttachShader(shadID, vertexshader);
+	glAttachShader(shadID, fragmentshader);
+	glLinkProgram(shadID);
+	glValidateProgram(shadID);
 
-	glGetShaderiv(this->id, GL_COMPILE_STATUS, &done);
+	glGetShaderiv(shadID, GL_COMPILE_STATUS, &done);
 	if (!done)
 	{
 		app->AddLog(Logs::ERROR_LOG, "PROGRAM SHADER COULD NOT BE CREATED");
@@ -97,15 +105,15 @@ void Shaders::ProcessProgram(GLuint vertexshader, GLuint fragmentshader)
 
 void Shaders::UseProgram()
 {
-	glUseProgram(this->id);
+	glUseProgram(this->shadID);
 }
 
 void Shaders::Set1Int(const std::string& name, GLint value)
 {
-	glUniform1i(glGetUniformLocation(this->id, name.c_str()),value);
+	glUniform1i(glGetUniformLocation(this->shadID, name.c_str()),value);
 }
 
 void Shaders::SetMat4fv(const std::string& name, const float* value)
 {
-	glUniformMatrix4fv(glGetUniformLocation(this->id, name.c_str()), 1, GL_FALSE, value);
+	glUniformMatrix4fv(glGetUniformLocation(this->shadID, name.c_str()), 1, GL_FALSE, value);
 }

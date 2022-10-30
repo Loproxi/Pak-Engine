@@ -7,7 +7,7 @@
 
 
 
-Mesh::Mesh():VAO(0),EBO(0),VBO(0),texture(0)
+Mesh::Mesh():VAO(0),EBO(0),VBO(0),texture(0),shader(nullptr)
 {
 }
 
@@ -21,21 +21,21 @@ Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices
 	this->scale = scale;
 }
 
-Mesh::Mesh(const LoadedMeshGeometry* test)
-{
-	
-	for (uint i = 0; i < test->num_vertex; i++)
-	{
-		this->vertices.push_back(test->vertex[i]);
-	}
-	for (uint i = 0; i < test->num_index; i++)
-	{
-		this->indices.push_back(test->index[i]);
-	}
-
-	InitBuffers();
-
-}
+//Mesh::Mesh(const LoadedMeshGeometry* test)
+//{
+//	
+//	for (uint i = 0; i < test->num_vertex; i++)
+//	{
+//		this->vertices.push_back(test->vertex[i]);
+//	}
+//	for (uint i = 0; i < test->num_index; i++)
+//	{
+//		this->indices.push_back(test->index[i]);
+//	}
+//
+//	InitBuffers();
+//
+//}
 
 Mesh::~Mesh()
 {
@@ -83,7 +83,7 @@ void Mesh::InitBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-	texture = textimporter.LoadCheckerImage();
+	texture = Application::GetInstance()->renderer3D->textures.at(1)->textID;
 
 	glBindVertexArray(0);
 }
