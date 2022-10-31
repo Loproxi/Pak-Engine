@@ -217,6 +217,9 @@
     <ClCompile Include="WinHierarchy.cpp">
       <Filter>Source\Editor\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="WinInspector.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -532,6 +535,9 @@
       <Filter>Header\Components\Derived</Filter>
     </ClInclude>
     <ClInclude Include="WinHierarchy.h">
+      <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="WinInspector.h">
       <Filter>Header\Editor\Derived</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include <vector>
 
 class WindowBaseClass;
+class GameObject;
 
 enum class UIwindows
 {
@@ -13,6 +14,7 @@ enum class UIwindows
 	CONFIGURATION,
 	ABOUT,
 	CONSOLE,
+	INSPECTOR,
 	HIERARCHY,
 	SCENE,
 	MAX
@@ -48,9 +50,13 @@ public:
 
 	bool SaveSettings(pugi::xml_node& config);
 
-	WindowBaseClass* GetEditorWindow(UIwindows type);
+	WindowBaseClass* GetUIControllerWindow(UIwindows type);
 
 	void ReportLog(std::string msg);
+
+	GameObject* GetGameObjSelected();
+
+	void SetGameObjSelected(GameObject* _go);
 
 public:
 
@@ -58,7 +64,7 @@ public:
 
 private:
 
-	pugi::xml_node* editorNode;
+	GameObject* goToInspector;
 
 	WindowBaseClass* windows[(uint)UIwindows::MAX];
 

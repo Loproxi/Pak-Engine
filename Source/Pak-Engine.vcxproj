@@ -229,6 +229,7 @@
     <ClCompile Include="WinConsole.cpp" />
     <ClCompile Include="WindowBaseClass.cpp" />
     <ClCompile Include="WinHierarchy.cpp" />
+    <ClCompile Include="WinInspector.cpp" />
     <ClCompile Include="WinScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +337,7 @@
     <ClInclude Include="WinConsole.h" />
     <ClInclude Include="WindowBaseClass.h" />
     <ClInclude Include="WinHierarchy.h" />
+    <ClInclude Include="WinInspector.h" />
     <ClInclude Include="WinScene.h" />
   </ItemGroup>
   <ItemGroup>

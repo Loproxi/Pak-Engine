@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleUIcontroller.h"
 #include "GameObject.h"
 
 WinHierarchy::WinHierarchy()
@@ -29,45 +30,52 @@ void WinHierarchy::Draw()
 
 			ShowGameObjects(app->scene->root);
 
-			if (ImGui::BeginPopupContextWindow("Primitives", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
-			{
-				if (ImGui::BeginMenu("Primitives"))
-				{
-					if (ImGui::MenuItem("Cube"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cube.fbx");
-					}
-					if (ImGui::MenuItem("Sphere"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Sphere.fbx");
-					}
-					if (ImGui::MenuItem("Monkey"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Monkey.fbx");
-					}
-					if (ImGui::MenuItem("Plane"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Plane.fbx");
-					}
-					if (ImGui::MenuItem("Pyramid"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Pyramid.fbx");
-					}
-					if (ImGui::MenuItem("Cylinder"))
-					{
-						app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cylinder.fbx");
-					}
-
-					ImGui::EndMenu();
-				}
-					
-
-				ImGui::EndPopup();
-				
-			}
-
+			PrimitivesMenu();
 		}
 		ImGui::End();
+	}
+}
+
+void WinHierarchy::PrimitivesMenu()
+{
+	if (!ImGui::IsItemHovered())
+	{
+		if (ImGui::BeginPopupContextWindow("Primitives", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
+		{
+			if (ImGui::BeginMenu("Primitives"))
+			{
+				if (ImGui::MenuItem("Cube"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cube.fbx");
+				}
+				if (ImGui::MenuItem("Sphere"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Sphere.fbx");
+				}
+				if (ImGui::MenuItem("Monkey"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Monkey.fbx");
+				}
+				if (ImGui::MenuItem("Plane"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Plane.fbx");
+				}
+				if (ImGui::MenuItem("Pyramid"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Pyramid.fbx");
+				}
+				if (ImGui::MenuItem("Cylinder"))
+				{
+					app->renderer3D->LoadModelImporter("../Output/Assets/Primitives/Cylinder.fbx");
+				}
+
+				ImGui::EndMenu();
+			}
+
+
+			ImGui::EndPopup();
+
+		}
 	}
 }
 
@@ -78,20 +86,35 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 	nodeFlags += ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (go->children.size() == 0)
+	{
 		nodeFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
+	if (go == app->uiController->GetGameObjSelected())
+	{
+		nodeFlags |= ImGuiTreeNodeFlags_Selected;
+	};
 
 	bool nodeOpen = ImGui::TreeNodeEx(go->name.c_str(), nodeFlags);
 	if (go->children.size() == 0)nodeOpen = false;
 
-	if (ImGui::BeginDragDropSource())
+	if (ImGui::IsItemClicked(0)) 
 	{
-		ImGui::SetDragDropPayload("GameObject", go, sizeof(GameObject*));
+		app->uiController->SetGameObjSelected(go);
+	}
 
-		goToDrop = go;
+	if (go->parent != nullptr)
+	{
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload("GameObject", go, sizeof(GameObject*));
 
-		ImGui::Text("Where do you want to drop this in the hierarchy ? ");
+			goToDrop = go;
 
-		ImGui::EndDragDropSource();
+			ImGui::Text("Where do you want to drop this in the hierarchy ? ");
+
+			ImGui::EndDragDropSource();
+		}
 	}
 
 	if (ImGui::BeginDragDropTarget())
@@ -108,7 +131,7 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 
 		ImGui::EndDragDropTarget();
 	}
-
+	
 	if (nodeOpen && go->children.size() != 0)
 	{
 		
@@ -127,9 +150,3 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 	
 }
 
-void WinHierarchy::DisplayGameObject(GameObject* go)
-{
-	
-
-	
-}

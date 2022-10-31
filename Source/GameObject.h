@@ -41,6 +41,8 @@ public:
 		return nullptr;
 	}
 
+	bool CheckifGameObjIsParent(GameObject* _go);
+
 private:
 
 

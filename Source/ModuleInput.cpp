@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleFileSystem.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 
@@ -130,7 +131,7 @@ UpdateStatus ModuleInput::PreUpdate()
 					App->window->window
 				);
 
-				App->renderer3D->LoadModelImporter(dropped_filedir);
+				App->fileSystem->DragAndDropOnEngine(dropped_filedir);
 
 
 				SDL_free(dropped_filedir);    // Free dropped_filedir memory

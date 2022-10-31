@@ -21,6 +21,8 @@ public:
 
     bool SaveSettings(pugi::xml_node& config);
 
+    void DragAndDropOnEngine(std::string path);
+
 };
 
 #endif // !_MODULEFILESYSTEM_H__

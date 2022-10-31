@@ -108,6 +108,11 @@ void GameObject::AddChild(GameObject* _go)
 
 void GameObject::SetParent(GameObject* _go)
 {
+	if (_go->CheckifGameObjIsParent(this))
+	{
+		return;
+	}
+
 	this->parent->RemoveChild(this);
 	_go->AddChild(this);
 
@@ -124,4 +129,27 @@ void GameObject::RemoveChild(GameObject* _go)
 			this->children.erase(this->children.begin() + i);
 		}
 	}
+}
+
+bool GameObject::CheckifGameObjIsParent(GameObject* _goToDrop)
+{
+	//Parent of go in begindragdrop
+	GameObject* temp = this->parent;
+
+	//When temp is root stop searching
+	while (temp != nullptr)
+	{
+		//if goToDrop is this gameobject parent not set Parent
+		if (temp == _goToDrop)
+		{
+			return true;
+		}
+		else
+		{
+			//Update temp in order to see if someone else in the tree should not be set parent
+			temp = temp->parent;
+		}
+	}
+	//if goToDrop is not this gameobject parent then, Set Parent
+	return false;
 }

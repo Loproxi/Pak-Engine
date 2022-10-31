@@ -12,6 +12,7 @@
 #include "WinScene.h"
 #include "WinConsole.h"
 #include "WinHierarchy.h"
+#include "WinInspector.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -60,6 +61,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 	winenable[(uint)UIwindows::CONFIGURATION] = config.child("Editor").child("window_config").attribute("value").as_bool();
 	winenable[(uint)UIwindows::ABOUT] = config.child("Editor").child("window_about").attribute("value").as_bool();
 	winenable[(uint)UIwindows::CONSOLE] = config.child("Editor").child("window_console").attribute("value").as_bool();
+	winenable[(uint)UIwindows::INSPECTOR] = config.child("Editor").child("window_inspector").attribute("value").as_bool();
 	winenable[(uint)UIwindows::HIERARCHY] = config.child("Editor").child("window_hierarchy").attribute("value").as_bool();
 	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
 
@@ -78,6 +80,7 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::CONFIGURATION] = new WinConfig();
 	windows[(uint)UIwindows::ABOUT] = new WinAbout();
 	windows[(uint)UIwindows::CONSOLE] = new WinConsole();
+	windows[(uint)UIwindows::INSPECTOR] = new WinInspector();
 	windows[(uint)UIwindows::HIERARCHY] = new WinHierarchy();
 	windows[(uint)UIwindows::SCENE] = new WinScene();
 
@@ -200,6 +203,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::HIERARCHY]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Inspector"))
+			{
+				//Do something
+				windows[(uint)UIwindows::INSPECTOR]->isEnabled = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -251,7 +259,7 @@ bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
 	config.child("Editor").child("window_console").attribute("value") = windows[(uint)UIwindows::CONSOLE]->isEnabled;
 	config.child("Editor").child("window_hierarchy").attribute("value") = windows[(uint)UIwindows::HIERARCHY]->isEnabled;
-
+	config.child("Editor").child("window_inspector").attribute("value") = windows[(uint)UIwindows::INSPECTOR]->isEnabled;
 	return true;
 }
 
@@ -275,20 +283,36 @@ bool ModuleUIcontroller::CleanUp()
 	return ret;
 }
 
-WindowBaseClass* ModuleUIcontroller::GetEditorWindow(UIwindows type)
+WindowBaseClass* ModuleUIcontroller::GetUIControllerWindow(UIwindows type)
 {
-	uint vecPosition = (uint)type;
+	uint windowinvec = (uint)type;
 	
-	if (vecPosition < (uint)UIwindows::MAX)
-	{
-		return windows[vecPosition];
-	}
-	return nullptr;
+	return windows[windowinvec];
 }
 
 void ModuleUIcontroller::ReportLog(std::string msg)
 {
-	WinConsole* temp = (WinConsole*)App->uiController->GetEditorWindow(UIwindows::CONSOLE);
+	WinConsole* temp = (WinConsole*)App->uiController->GetUIControllerWindow(UIwindows::CONSOLE);
 
 	//temp->AddLog(msg);
 }
+
+GameObject* ModuleUIcontroller::GetGameObjSelected()
+{
+
+	WinInspector* windowInspectorRef = (WinInspector*)GetUIControllerWindow(UIwindows::INSPECTOR);
+
+	return windowInspectorRef->goToInspect;
+}
+
+void ModuleUIcontroller::SetGameObjSelected(GameObject* _go)
+{
+
+	goToInspector = _go;
+	
+	WinInspector* windowInspectorRef = (WinInspector*)GetUIControllerWindow(UIwindows::INSPECTOR);
+
+	windowInspectorRef->goToInspect = goToInspector;
+
+}
+

@@ -25,6 +25,7 @@
 		<window_about value="false" />
 		<window_console value="true" />
 		<window_hierarchy value="true" />
+		<window_inspector value="true" />
 	</Editor>
 	<scene>
 		<scene />

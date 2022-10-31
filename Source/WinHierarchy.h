@@ -19,9 +19,9 @@ public:
 
     void Draw();
 
-    void ShowGameObjects(GameObject* go);
+    void PrimitivesMenu();
 
-    void DisplayGameObject(GameObject* go);
+    void ShowGameObjects(GameObject* go);
 
 private:
 
