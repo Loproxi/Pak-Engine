@@ -65,7 +65,7 @@ void ModuleFileSystem::DragAndDropOnEngine(std::string path)
     {
         App->renderer3D->LoadModelImporter(path);
     }
-    else if (fileExtension == "png")
+    else if (fileExtension == "png" || fileExtension == "dds")
     {
         App->renderer3D->LoadTextureImporter(path);
     }

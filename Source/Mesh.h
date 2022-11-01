@@ -49,6 +49,8 @@ public:
 
 	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }
+	GLuint* GetTextureID() { return &texture; }
+	void SetTextureID(GLuint id);
 
 private:
 

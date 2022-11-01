@@ -22,7 +22,7 @@ void WinInspector::Draw()
 		if (ImGui::Begin(name.c_str(), &isEnabled))
 		{
 
-			
+			ImGui::Text("Not implemented yet");
 
 			
 		}

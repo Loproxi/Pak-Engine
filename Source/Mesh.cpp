@@ -83,7 +83,7 @@ void Mesh::InitBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-	texture = Application::GetInstance()->renderer3D->textures.at(1)->textID;
+	texture = Application::GetInstance()->renderer3D->textures.at(0)->textID;
 
 	glBindVertexArray(0);
 }
@@ -95,13 +95,7 @@ void Mesh::Update()
 void Mesh::GenModelMatrix()
 {
 	modelMatrix.SetIdentity();
-	//if (modelMatrix.IsIdentity())
-	//{
-	//	//Crear una matriu nova i li pasem els valors de position rotation scale
-	//	modelMatrix.Transpose();
-	//	PrintMatrix(&modelMatrix);
-	//	
-	//}
+
 }
 
 void Mesh::PrintMatrix(float4x4* matrix)
@@ -136,4 +130,9 @@ void Mesh::RenderMeshes(Shaders* shader)
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 	glBindVertexArray(0);
+}
+
+void Mesh::SetTextureID(GLuint id)
+{
+	texture = id;
 }

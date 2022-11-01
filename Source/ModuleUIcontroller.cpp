@@ -15,7 +15,7 @@
 #include "WinInspector.h"
 
 
-ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled),goToInspector(nullptr)
 {
 }
 
@@ -300,9 +300,9 @@ void ModuleUIcontroller::ReportLog(std::string msg)
 GameObject* ModuleUIcontroller::GetGameObjSelected()
 {
 
-	WinInspector* windowInspectorRef = (WinInspector*)GetUIControllerWindow(UIwindows::INSPECTOR);
+	//WinInspector* windowInspectorRef = (WinInspector*)GetUIControllerWindow(UIwindows::INSPECTOR);
 
-	return windowInspectorRef->goToInspect;
+	return goToInspector;
 }
 
 void ModuleUIcontroller::SetGameObjSelected(GameObject* _go)

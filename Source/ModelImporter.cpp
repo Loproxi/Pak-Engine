@@ -66,7 +66,7 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		GameObject* go = new GameObject(scene->mMeshes[node->mMeshes[i]]->mName.C_Str());
+		GameObject* go = new GameObject(node->mName.C_Str());
 		go->AddComponent(COMP_TYPE::TRANSFORM);
 		go->AddComponent(COMP_TYPE::MESH_RENDERER);
 		

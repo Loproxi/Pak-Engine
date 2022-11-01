@@ -163,6 +163,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	//Test RapidJSON
 	LoadTextureImporter("");
 	LoadTextureImporter("../Output/Assets/Baker_house.png");
+	
 //	using namespace rapidjson;
 //	
 //	const char json[] = " { \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4] } ";
@@ -300,11 +301,6 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
-	cube = new Cube(4.0f, 4.0f, 4.0f);
-
-	test = new Mesh(cube->GetVertices(), cube->GetNumVertices(), cube->Getindices(), cube->GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
-	//test = new Mesh(cube.GetVertices(), cube.GetNumVertices(), cube.Getindices(), cube.GetNumIndices(), float3{ 2.0f,1.0f,4.0f }, float3{ 0.0f,0.0f,0.0f }, float3{ 2.0f,2.0f,2.0f });
-
 	testshader = new Shaders("../Output/Assets/Shaders/vertexshader_core.pesh", "../Output/Assets/Shaders/fragmentshader_core.pesh");
 	
 	
@@ -374,16 +370,6 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		App->DebugDraw();
 		EndDebugDraw();
 	}*/
-	
-	//test->RenderMeshes(testshader);
-
-	//Mesh test2(sphere.GetVertices(), sphere.GetNumVertices(), sphere.Getindices(), sphere.GetNumIndices());
-
-	//test2.RenderMeshes();
-
-	//Mesh test3(pyramid.GetVertices(), pyramid.GetNumVertices(), pyramid.Getindices(), pyramid.GetNumIndices());
-
-	//test3.RenderMeshes();
 
 	for (int i = 0; i < meshes.size(); i++)
 	{
@@ -507,11 +493,26 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 {
 	if (path == "")
 	{
+		texturenum++;
 		textures.push_back(TextureImporter::LoadCheckerImage());
 	}
 	else
 	{
+		//TODO Enhance this system
+		texturenum++;
 		textures.push_back(TextureImporter::Import(path));
+
+		if (App->uiController->GetGameObjSelected() != nullptr)
+		{
+			if (App->uiController->GetGameObjSelected()->GetComponent<Comp_MeshRenderer>() == nullptr)
+			{
+				App->AddLog(Logs::ERROR_LOG, "This GameObject doesnt has MeshRenderer");
+			}
+			else
+			{
+				App->uiController->GetGameObjSelected()->GetComponent<Comp_MeshRenderer>()->GetMesh()->SetTextureID(textures.at(texturenum)->textID);
+			}
+		}
 	}
 
 }

@@ -67,18 +67,15 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	Cube* cube;
-	Spheree sphere;
-	Pyramid pyramid;
 	Mesh* test;
-	Mesh prueba1;
-	Mesh prueba2;
-	ModelImporter house;
 	Shaders* testshader;
 
 	std::vector<Comp_MeshRenderer*>meshes;
 	std::vector<Texture*>textures;
 
 private:
+
+	int texturenum = -1;
 
 	ModelImporter* currentModel;
 	
