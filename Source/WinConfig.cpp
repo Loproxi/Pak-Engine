@@ -29,7 +29,6 @@ WinConfig::WinConfig()
 
 	limitframerate = app->GetFrameRateLimit();
 
-	fullscreen = app->window->GetFullscreen();
 	resizable = app->window->GetResizable();
 	borderless = app->window->GetBorderless();
 	fulldesktop = app->window->GetFullscreenDesktop();
@@ -161,11 +160,7 @@ void WinConfig::WindowHeader()
 	ImGui::Text("Refresh Rate: ");
 	ImGui::SameLine();
 	ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "%u", app->window->GetRefreshRate());
-	if (ImGui::Checkbox("Fullscreen", fullscreen))
-	{
-		app->window->SetFullScreen();
-	}
-	ImGui::SameLine();
+	
 	if (ImGui::Checkbox("Resizable", resizable))
 	{
 		app->window->SetWindowResizable();

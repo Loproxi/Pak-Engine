@@ -42,15 +42,10 @@ bool ModuleWindow::Init(pugi::xml_node& config)
 		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		fullscreen = config.child("Window").child("fullscreen").attribute("value").as_bool();
 		resizable = config.child("Window").child("resizable").attribute("value").as_bool();
 		borderless = config.child("Window").child("borderless").attribute("value").as_bool();
 		fullscreen_desktop = config.child("Window").child("fullscreen_window").attribute("value").as_bool();
 
-		if(fullscreen == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN;
-		}
 		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
