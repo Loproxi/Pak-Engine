@@ -162,7 +162,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	//Test RapidJSON
 	LoadTextureImporter("");
-	LoadTextureImporter("../Output/Assets/Baker_house.png");
+	LoadTextureImporter("Assets/Baker_house.png");
 	
 //	using namespace rapidjson;
 //	
@@ -301,10 +301,10 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 //	document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
 //	puts(sb.GetString());
 
-	testshader = new Shaders("../Output/Assets/Shaders/vertexshader_core.pesh", "../Output/Assets/Shaders/fragmentshader_core.pesh");
+	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 	
-	LoadModelImporter("../Output/Assets/BakerHouse.fbx");
+	LoadModelImporter("Assets/BakerHouse.fbx");
 	
 
 	return ret;
