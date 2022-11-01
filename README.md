@@ -16,6 +16,8 @@ The engine is being developed by:
 
 # Controls:
 
+## Camera:
+
 * Right Click on scene window to rotate the camera
 
 * Right Click on scene window + W/A/S/D to move the camera
@@ -24,8 +26,21 @@ The engine is being developed by:
 
 * Hold Shift + W/A/S/D to move faster
 
+## Hierarchy:
+
+* In Hierarchy window, RightClick opens a pop-up that creates primitives
+
+* In Hierarchy window, LeftClick on a gameObject in order to select it
+
+* In Hierarchy window, LeftClick + Drag Mouse on a gameobject into another to change a gameobject parent or child
+
+## Drag And Drop:
+
+* This engine can handle the import of an fbx.
+
+* This engine handles the import of a PNG/DDS convert it into a texture and apply it on a gameobject, but the gameobject has to be selected first.
+
 ## License
-***
 
 MIT License
 
