@@ -14,6 +14,22 @@ The engine is being developed by:
 * Extract the .zip
 * Click on the Pak-Engine folder and Execute Pak-Engine.exe
 
+# Features
+
+**Pak-Engine v.0.1:**
+
+* Transform & MeshRenderer Components
+
+* Import fbx by doing Drag&Drop
+
+* Import PNG/DDS and convert it into texture by doing Drag&Drop
+
+* Primitives Library
+
+* Camera Movement
+
+* XML saves&Load window states and settings
+
 # Controls:
 
 ## Camera:
