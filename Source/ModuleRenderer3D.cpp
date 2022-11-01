@@ -164,6 +164,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	LoadTextureImporter("");
 	LoadTextureImporter("Assets/Baker_house.png");
 	
+	
 //	using namespace rapidjson;
 //	
 //	const char json[] = " { \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4] } ";
@@ -305,7 +306,8 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	
 	
 	LoadModelImporter("Assets/BakerHouse.fbx");
-	
+	LoadModelImporter("Assets/Fence.fbx");
+	LoadModelImporter("Assets/ColumnaDune2.fbx");
 
 	return ret;
 }
