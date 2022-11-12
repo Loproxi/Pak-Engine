@@ -11,14 +11,14 @@ Mesh::Mesh():VAO(0),EBO(0),VBO(0),texture(0),shader(nullptr)
 {
 }
 
-Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, const float3 position, const float3 rotation, const float3 scale)
+Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, std::string path)
 {
 	SetVertexData(numvertices, vertices, numindices, indices);
 	InitBuffers();
 	
-	this->position = position;
-	this->rotation = rotation;
-	this->scale = scale;
+	this->numvertices = numvertices;
+	this->numindices = numindices;
+	this->path = path;
 }
 
 //Mesh::Mesh(const LoadedMeshGeometry* test)

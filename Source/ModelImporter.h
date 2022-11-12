@@ -45,6 +45,8 @@ public:
 
 public:
 
+	std::string modelpath;
+
 };
 
 #endif // !_MODELIMPORTER_H__

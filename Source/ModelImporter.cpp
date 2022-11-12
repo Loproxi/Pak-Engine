@@ -39,6 +39,7 @@ void ModelImporter::Import(std::string path)
 	const aiScene* scene = aiImportFile(path.c_str(), aiProcess_FlipUVs | aiProcess_Triangulate);
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		modelpath = path;
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 
 		goThroughNodes(scene->mRootNode,scene);
@@ -138,7 +139,7 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 	}
 	Application::GetInstance()->AddLog(Logs::NORMAL, "Mesh Loaded");
 	//With new we avoid calling the destructor till the application is closing
-	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size());
+	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size(),modelpath);
 }
 
 

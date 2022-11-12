@@ -1,5 +1,6 @@
 #include "WinInspector.h"
 #include "ImGuiUtils.h"
+#include "GameObject.h"
 
 WinInspector::WinInspector():goToInspect(nullptr)
 {
@@ -21,10 +22,13 @@ void WinInspector::Draw()
 	{
 		if (ImGui::Begin(name.c_str(), &isEnabled))
 		{
-
-			ImGui::Text("Not implemented yet");
-
-			
+			if (goToInspect != nullptr)
+			{
+				for each (Component* comp in goToInspect->components)
+				{
+					comp->OnUIController();
+				}
+			}
 		}
 		ImGui::End();
 	}

@@ -38,9 +38,12 @@ void GameObject::Update()
 	{
 		if (this->active)
 		{
-			if (this != nullptr)
+			if (components[i]->active)
 			{
-				components[i]->Update();
+				if (this != nullptr)
+				{
+					components[i]->Update();
+				}
 			}
 		}
 	}
