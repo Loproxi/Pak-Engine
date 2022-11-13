@@ -220,6 +220,12 @@
     <ClCompile Include="WinInspector.cpp">
       <Filter>Source\Editor\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="Comp_Camera.cpp">
+      <Filter>Source\Components\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera3D.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -539,6 +545,12 @@
     </ClInclude>
     <ClInclude Include="WinInspector.h">
       <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="Comp_Camera.h">
+      <Filter>Header\Components\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera3D.h">
+      <Filter>Header\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
