@@ -121,8 +121,8 @@ void Mesh::RenderMeshes(Shaders* shader)
 
 	modelMatrix.SetIdentity();
 
-	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->GetViewMatrix());
-	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->renderer3D->GetProjectionMatrix());
+	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->cameratobedrawn->GetViewMatrix());
+	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->camera->cameratobedrawn->GetProjMatrix());
 	shader->SetMat4fv("modelMatrix", &modelMatrix.v[0][0]);
 	
 	//draw mesh

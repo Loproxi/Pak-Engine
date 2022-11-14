@@ -230,6 +230,7 @@
     <ClCompile Include="WinConfig.cpp" />
     <ClCompile Include="WinConsole.cpp" />
     <ClCompile Include="WindowBaseClass.cpp" />
+    <ClCompile Include="WinGame.cpp" />
     <ClCompile Include="WinHierarchy.cpp" />
     <ClCompile Include="WinInspector.cpp" />
     <ClCompile Include="WinScene.cpp" />
@@ -340,6 +341,7 @@
     <ClInclude Include="WinConfig.h" />
     <ClInclude Include="WinConsole.h" />
     <ClInclude Include="WindowBaseClass.h" />
+    <ClInclude Include="WinGame.h" />
     <ClInclude Include="WinHierarchy.h" />
     <ClInclude Include="WinInspector.h" />
     <ClInclude Include="WinScene.h" />

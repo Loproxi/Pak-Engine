@@ -7,14 +7,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	CalculateViewMatrix();
 
-	X = vec3(1.0f, 0.0f, 0.0f);
-	Y = vec3(0.0f, 1.0f, 0.0f);
-	Z = vec3(0.0f, 0.0f, 1.0f);
-
-	Position = vec3(0.0f, 0.0f, 5.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -26,6 +19,8 @@ bool ModuleCamera3D::Start()
 	LOG("Setting up the camera");
 	bool ret = true;
 
+	
+
 	return ret;
 }
 
@@ -34,6 +29,11 @@ bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
 
+	for (int i = 0; i < gamecams.size(); i++)
+	{
+		RELEASE(gamecams[i]);
+	}
+	gamecams.clear();
 	return true;
 }
 
@@ -42,52 +42,62 @@ bool ModuleCamera3D::SaveSettings(pugi::xml_node& config)
 	return true;
 }
 
+Camera3D* ModuleCamera3D::AddCamera()
+{
+	Camera3D* camera = new Camera3D();
+	gamecams.push_back(camera);
+	return camera;
+}
+
 // -----------------------------------------------------------------
 UpdateStatus ModuleCamera3D::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-	{
-		std::cout << "Cam Pos: x(" << Position.x << ") y(" << Position.y << ") z(" << Position.z << ")" << std::endl;
-	}
-	//if (target != nullptr)
-	//{
-	//	Look(target->GetObserverPos(), target->GetPosition());
-	//}
-	else
-	{
-		// Implement a debug camera with keys and mouse
-		// Now we can make this movememnt frame rate independant!
 
-		Camera3DHandleInput();
-	}
-
-	LOG("Recalculate matrix -------------");
-	CalculateViewMatrix();
+	SceneCameraHandleInput();
 
 	return UPDATE_CONTINUE;
 }
 
-void ModuleCamera3D::Camera3DHandleInput()
+void ModuleCamera3D::SceneCameraHandleInput()
+{
+
+	CamMovementInput();
+	// Mouse motion ----------------
+	CamRotationInput();
+
+	/*if (App->input->GetMouseZ() != 0)
+	{
+		scenecam.ScrollZoom();
+	}*/
+}
+
+void ModuleCamera3D::CamMovementInput()
 {
 	float3 newPos(0, 0, 0);
 	float speed = 3.0f * App->fps;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 20.0f * App->fps;
-	
+
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos.y += speed;
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos.y -= speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= scenecam.CameraFrustrum.front * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += scenecam.CameraFrustrum.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos += scenecam.CameraFrustrum.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos -= scenecam.CameraFrustrum.front * speed;
 
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= scenecam.CameraFrustrum.WorldRight() * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += scenecam.CameraFrustrum.WorldRight() * speed;
 
+	scenecam.Move(newPos);
 	scenecam.position += newPos;
 	scenecam.reference += newPos;
+}
 
-	// Mouse motion ----------------
+void ModuleCamera3D::CamRotationInput()
+{
+
+	Quat DirectionTolook = Quat::identity;
+	scenecam.CameraFrustrum.WorldMatrix().Decompose(float3(0.0f,0.0f,0.0f), DirectionTolook, float3(0.0f, 0.0f, 0.0f));
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
@@ -103,11 +113,13 @@ void ModuleCamera3D::Camera3DHandleInput()
 			float DeltaX = (float)dx * Sensitivity;
 
 			Quat tempX = Quat::identity;
-
+			//Apply delta X rotation on Y axis and apply it on the quaternion
 			tempX.SetFromAxisAngle(float3(0.0f, 1.0f, 0.0f), DegToRad(DeltaX));
 			//X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			//Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			//Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+
+			DirectionTolook = tempX * DirectionTolook;
 		}
 
 		if (dy != 0)
@@ -115,20 +127,15 @@ void ModuleCamera3D::Camera3DHandleInput()
 			float DeltaY = (float)dy * Sensitivity;
 
 			Quat tempY = Quat::identity;
-
+			//Apply delta Y rotation on X axis and apply it on the quaternion
 			tempY.SetFromAxisAngle(float3(1.0f, 0.0f, 0.0f), DegToRad(DeltaY));
 
-			/*Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);*/
-
-			if (Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
+			DirectionTolook = DirectionTolook * tempY;
 		}
 
-		Position = Reference + Z * length(Position);
+		float4x4 aux = scenecam.CameraFrustrum.WorldMatrix();
+		aux.SetRotatePart(DirectionTolook.Normalized());
+		scenecam.CameraFrustrum.SetWorldMatrix(aux.Float3x4Part());
 	}
 }
 
@@ -144,8 +151,3 @@ void ModuleCamera3D::Camera3DHandleInput()
 //}
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::CalculateViewMatrix()
-{
-	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
-	ViewMatrixInverse = inverse(ViewMatrix);
-}

@@ -1,40 +1,36 @@
-#include "WinScene.h"
+#include "WinGame.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleUIcontroller.h"
-#include "imgui.h"
+#include "ImGuiUtils.h"
 
-WinScene::WinScene()
+WinGame::WinGame()
 {
-	
-	name = "Scene";
+	name = "Game";
 	app = Application::GetInstance();
-	framebuffer = &app->camera->scenecam.framebuffer;
+	framebuffer = &app->camera->gamecams.at(0)->framebuffer;
 }
 
-WinScene::~WinScene()
+WinGame::~WinGame()
 {
 }
 
-void WinScene::Start()
+void WinGame::Start()
 {
-	app->AddLog(Logs::NORMAL, "WinScene Created");
-	
+	app->AddLog(Logs::NORMAL, "WinGame Created");
 }
 
-void WinScene::Draw()
+void WinGame::Draw()
 {
-	if (ImGui::Begin(name.c_str(),&isEnabled))
+	if (ImGui::Begin(name.c_str(), &isEnabled))
 	{
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
 		{
-			
+
 			framebuffer->SettingUpFrameBuffer(size.x, size.y);
 		}
-		
+
 		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 	}
 	ImGui::End();

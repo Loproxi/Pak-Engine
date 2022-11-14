@@ -1,8 +1,10 @@
 #include "Camera3D.h"
 #include "MathGeoLib.h"
+#include "Application.h"
+#include "ModuleInput.h"
 
 
-Camera3D::Camera3D()
+Camera3D::Camera3D():FieldOfView(60.0f)
 {
 
 	X = float3(1.0f, 0.0f, 0.0f);
@@ -10,7 +12,7 @@ Camera3D::Camera3D()
 	Z = float3(0.0f, 0.0f, 1.0f);
 
 	CameraFrustrum.type = FrustumType::PerspectiveFrustum;
-	CameraFrustrum.verticalFov = DegToRad(60.0f);
+	CameraFrustrum.verticalFov = DegToRad(FieldOfView);
 	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov / 2.0f) * 1.77f);
 
 	CameraFrustrum.farPlaneDistance = 500.0f;
@@ -66,16 +68,33 @@ void Camera3D::Move(const float3& Movement)
 
 float* Camera3D::GetViewMatrix()
 {
-	ViewMatrix = CameraFrustrum.ViewMatrix();
+	//ViewMatrix;
+	float4x4 tempview = CameraFrustrum.ViewMatrix();
 	//In order to pass it to opengl we have to transpose it
-	ViewMatrix.Transpose();
-	return &ViewMatrix.v[0][0];
+	tempview.Transpose();
+	return &tempview.v[0][0];
 }
 
 float* Camera3D::GetProjMatrix()
 {
-	ProjMatrix = CameraFrustrum.ProjectionMatrix();
+	//ProjMatrix = 
+	float4x4 tempproj = CameraFrustrum.ProjectionMatrix();
 	//In order to pass it to opengl we have to transpose it
-	ProjMatrix.Transpose();
-	return &ProjMatrix.v[0][0];
+	tempproj.Transpose();
+	return &tempproj.v[0][0];
+}
+
+void Camera3D::SetUpFrameBuffer(int width, int height)
+{
+	framebuffer.SettingUpFrameBuffer(width, height);
+}
+
+void Camera3D::ScrollZoom()
+{
+	/*FieldOfView = FieldOfView - Application::GetInstance()->input->GetMouseZ();
+	if (FieldOfView < 20.0f)FieldOfView = 20.0f;
+	if (FieldOfView > 60.0f)FieldOfView = 60.0f;
+
+	CameraFrustrum.verticalFov = DegToRad(FieldOfView);
+	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov / 2.0f) * 1.77f);*/
 }

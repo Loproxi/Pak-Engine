@@ -21,6 +21,7 @@ struct RenderStuff
 
 class Primitive;
 class Comp_MeshRenderer;
+class Camera3D;
 struct Texture;
 
 class ModuleRenderer3D : public Module
@@ -51,8 +52,6 @@ public:
 	bool* GetCullFace() { return &renderstuff.cullface; }
 	bool* GetLightning() { return &renderstuff.lighting; }
 	bool* GetWireframe() { return &renderstuff.wireframe; }
-	FrameBuffer* GetFrameBufferRef() { return &framebuffer; }
-	float* GetProjectionMatrix();
 
 	//Setters
 	void SetVsync(bool vsync);
@@ -65,7 +64,7 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	mat4x4 ModelMatrix, ViewMatrix;
 	Cube* cube;
 	Mesh* test;
 	Shaders* testshader;
@@ -75,11 +74,11 @@ public:
 
 private:
 
+	Camera3D* gamecam;
+
 	int texturenum = -1;
 
 	ModelImporter* currentModel;
-	
-	FrameBuffer framebuffer;
 
 	SDL_GLContext context;
 	

@@ -13,6 +13,7 @@
 #include "WinConsole.h"
 #include "WinHierarchy.h"
 #include "WinInspector.h"
+#include "WinGame.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled),goToInspector(nullptr)
@@ -64,6 +65,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 	winenable[(uint)UIwindows::INSPECTOR] = config.child("Editor").child("window_inspector").attribute("value").as_bool();
 	winenable[(uint)UIwindows::HIERARCHY] = config.child("Editor").child("window_hierarchy").attribute("value").as_bool();
 	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
+	winenable[(uint)UIwindows::GAME] = config.child("Editor").child("window_game").attribute("value").as_bool();
 
 	return ret;
 }
@@ -83,6 +85,7 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::INSPECTOR] = new WinInspector();
 	windows[(uint)UIwindows::HIERARCHY] = new WinHierarchy();
 	windows[(uint)UIwindows::SCENE] = new WinScene();
+	windows[(uint)UIwindows::GAME] = new WinGame();
 
 	for (uint i = 0; i < (uint)UIwindows::MAX; i++)
 	{
@@ -193,6 +196,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::SCENE]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Game"))
+			{
+				//Do something
+				windows[(uint)UIwindows::GAME]->isEnabled = true;
+			}
 			if (ImGui::MenuItem("Console"))
 			{
 				//Do something
@@ -255,6 +263,7 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 {
 	config.child("Editor").child("window_scene").attribute("value") = windows[(uint)UIwindows::SCENE]->isEnabled;
+	config.child("Editor").child("window_game").attribute("value") = windows[(uint)UIwindows::GAME]->isEnabled;
 	config.child("Editor").child("window_config").attribute("value") = windows[(uint)UIwindows::CONFIGURATION]->isEnabled;		
 	config.child("Editor").child("window_about").attribute("value") = windows[(uint)UIwindows::ABOUT]->isEnabled;
 	config.child("Editor").child("window_console").attribute("value") = windows[(uint)UIwindows::CONSOLE]->isEnabled;

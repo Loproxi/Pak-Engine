@@ -17,6 +17,7 @@ enum class UIwindows
 	INSPECTOR,
 	HIERARCHY,
 	SCENE,
+	GAME,
 	MAX
 
 };

@@ -21,10 +21,14 @@ public:
 	void Look(const float3& Position, const float3& Reference, bool RotateAroundReference = false);
 	void LookAt(const float3& toLookAt);
 	void Move(const float3& Movement);
+	void ScrollZoom();
+	
 
 	//Getters
 	float* GetViewMatrix();
 	float* GetProjMatrix();
+
+	void SetUpFrameBuffer(int width, int height);
 
 public:
 
@@ -34,15 +38,19 @@ public:
 	float3 position;
 	float3 reference;
 
+	FrameBuffer framebuffer;
+
 private:
 
 	float4x4 ViewMatrix;
 	float4x4 ViewMatrixInverse;
 	float4x4 ProjMatrix;
 
+	float FieldOfView;
+
 	Frustum CameraFrustrum;
 
-	FrameBuffer framebuffer;
+	
 
 	friend class ModuleCamera3D;
 };

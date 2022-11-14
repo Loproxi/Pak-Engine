@@ -32,6 +32,7 @@ ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Modul
 	renderstuff.vsync = false;
 	context = NULL;
 	testshader = nullptr;
+	gamecam = App->camera->AddCamera();
 }
 
 // Destructor
@@ -156,7 +157,6 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	framebuffer.SettingUpFrameBuffer(1280, 720);
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
@@ -325,17 +325,7 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 {
 	//CLEANING Every Frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
-
-	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-
-	for(uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
-
+	
 	// Test Intersections Mathgeo
 	/*bool intersects = false;
 
@@ -363,7 +353,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 {
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 	
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.GetFrameBuffer());
+	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->scenecam.framebuffer.GetFrameBuffer());
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	/*if (debug_draw == true)
@@ -372,6 +362,20 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		App->DebugDraw();
 		EndDebugDraw();
 	}*/
+	App->camera->cameratobedrawn = &App->camera->scenecam;
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i]->Draw(testshader);
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//cambiar el gamecams por una variable active bool en camera 3D
+	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->gamecams.at(0)->framebuffer.GetFrameBuffer());
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+	App->camera->cameratobedrawn = App->camera->gamecams.at(0);
 
 	for (int i = 0; i < meshes.size(); i++)
 	{
@@ -427,12 +431,6 @@ bool ModuleRenderer3D::SaveSettings(pugi::xml_node& config)
 	return true;
 }
 
-
-float* ModuleRenderer3D::GetProjectionMatrix()
-{
-	return &ProjectionMatrix.M[0];
-}
-
 void ModuleRenderer3D::SetVsync(bool vsync)
 {
 	renderstuff.vsync = vsync;
@@ -471,11 +469,16 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	App->window->SetScreenWidth(width);
 	App->window->SetScreenHeight(height);
 
+	App->camera->scenecam.SetUpFrameBuffer(width, height);
+	if (App->camera->gamecams.size() != 0)
+	{
+		App->camera->gamecams.at(0)->SetUpFrameBuffer(width, height);
+	}
 	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
+	//ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
 	//glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);

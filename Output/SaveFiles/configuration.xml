@@ -20,6 +20,7 @@
 	</Window>
 	<Editor>
 		<window_scene value="true" />
+		<window_game value="true" />
 		<window_config value="true" />
 		<window_about value="false" />
 		<window_console value="true" />

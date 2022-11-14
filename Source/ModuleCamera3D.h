@@ -15,29 +15,24 @@ public:
 
 	bool Start();
 	UpdateStatus Update();
-	void Camera3DHandleInput();
+	void SceneCameraHandleInput();
+	void CamMovementInput();
+	void CamRotationInput();
 	bool CleanUp();
 
 	bool SaveSettings(pugi::xml_node& config);
 
 	//void SetTarget(Vehicle* tg, vec3 offset);
 	//void RemoveTarget();
-
-private:
-
-	void CalculateViewMatrix();
+	Camera3D* AddCamera();
 
 public:
-	
-	vec3 X, Y, Z, Position, Reference;
 
-private:
-
-	mat4x4 ViewMatrix, ViewMatrixInverse;
-
-	vec3 offset;
+	std::vector<Camera3D*> gamecams;
 
 	Camera3D scenecam;
+
+	Camera3D* cameratobedrawn;
 
 };
 

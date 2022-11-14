@@ -45,18 +45,12 @@ void FrameBuffer::SettingUpFrameBuffer(int widthh,int heightt)
 
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbodepthstencil);
 
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		printf("FrameBuffer is not complete!!!");
-	}
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
 void FrameBuffer::ClearFrameBuffer()
 {
-
 	
 	glDeleteFramebuffers(1, &framebuffer); 
 	glDeleteTextures(1, &texcolorbuffer); 
