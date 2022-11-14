@@ -6,6 +6,8 @@
 #include "MathGeoLib/include/Math/float4x4.h"
 #include "FrameBuffer.h"
 
+class ModuleCamera3D;
+
 class Camera3D
 {
 public:
@@ -42,6 +44,7 @@ private:
 
 	FrameBuffer framebuffer;
 
+	friend class ModuleCamera3D;
 };
 
 #endif // !_CAMERA_3D_H__
