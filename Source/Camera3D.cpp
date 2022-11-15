@@ -2,6 +2,8 @@
 #include "MathGeoLib.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleCamera3D.h"
+#include "ModuleWindow.h"
 
 
 Camera3D::Camera3D():FieldOfView(60.0f)
@@ -87,6 +89,30 @@ float* Camera3D::GetProjMatrix()
 void Camera3D::SetUpFrameBuffer(int width, int height)
 {
 	framebuffer.SettingUpFrameBuffer(width, height);
+}
+
+void Camera3D::SetAsGameCamera()
+{
+	app = Application::GetInstance();
+
+	if (app->camera->gamecamactive != nullptr)
+	{
+		for (int i = 0; i < app->camera->gamecams.size(); i++)
+		{
+			if (app->camera->gamecams[i]->isgamecameractive == true)
+			{
+				app->camera->gamecams[i]->isgamecameractive = false;
+				app->camera->gamecamactive = nullptr;
+				break;
+			}
+		}
+	}
+	if(app->camera->gamecamactive == nullptr)
+	{
+		this->isgamecameractive = true;
+		app->camera->gamecamactive = this;
+		
+	}
 }
 
 void Camera3D::ScrollZoom()

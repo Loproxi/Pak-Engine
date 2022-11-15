@@ -21,7 +21,6 @@ public:
 private:
 
     Application* app = nullptr;
-    FrameBuffer* framebuffer = nullptr;
 
 };
 

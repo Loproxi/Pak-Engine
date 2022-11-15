@@ -7,6 +7,7 @@
 #include "FrameBuffer.h"
 
 class ModuleCamera3D;
+class Application;
 
 class Camera3D
 {
@@ -30,6 +31,8 @@ public:
 
 	void SetUpFrameBuffer(int width, int height);
 
+	void SetAsGameCamera();
+
 public:
 
 	float3 X;
@@ -40,6 +43,10 @@ public:
 
 	FrameBuffer framebuffer;
 
+	bool isgamecameractive = false;
+
+	Frustum CameraFrustrum;
+
 private:
 
 	float4x4 ViewMatrix;
@@ -48,11 +55,10 @@ private:
 
 	float FieldOfView;
 
-	Frustum CameraFrustrum;
-
 	
 
-	friend class ModuleCamera3D;
+	Application* app = nullptr;
+
 };
 
 #endif // !_CAMERA_3D_H__

@@ -5,6 +5,7 @@
 #include "Component.h"
 
 class Application;
+class Camera3D;
 
 class Comp_Camera :
     public Component
@@ -19,9 +20,13 @@ public:
 
     void OnUIController() override;
 
+public:
+    Camera3D* camera;
+
 private:
 
     Application* app;
+    
 };
 
 #endif // !__COMP_CAMERA_H__

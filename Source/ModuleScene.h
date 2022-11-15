@@ -28,6 +28,9 @@ public:
 
 public:
 
+	GameObject* test;
+	GameObject* test2;
+
 	GameObject* root;
 
 

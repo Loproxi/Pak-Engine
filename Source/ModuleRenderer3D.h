@@ -74,11 +74,9 @@ public:
 
 private:
 
-	Camera3D* gamecam;
-
 	int texturenum = -1;
 
-	ModelImporter* currentModel;
+	ModelImporter* currentModel = nullptr;
 
 	SDL_GLContext context;
 	

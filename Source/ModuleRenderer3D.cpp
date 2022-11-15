@@ -17,6 +17,7 @@
 
 #include "MathGeoLib.h"
 
+#include "ModuleInput.h"
 
 //#include "document.h"     // rapidjson's DOM-style API
 //#include "prettywriter.h" // for stringify JSON
@@ -32,7 +33,7 @@ ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Modul
 	renderstuff.vsync = false;
 	context = NULL;
 	testshader = nullptr;
-	gamecam = App->camera->AddCamera();
+
 }
 
 // Destructor
@@ -156,7 +157,6 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
-
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
@@ -306,8 +306,6 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	
 	
 	LoadModelImporter("Assets/BakerHouse.fbx");
-	LoadModelImporter("Assets/Fence.fbx");
-	LoadModelImporter("Assets/ColumnaDune2.fbx");
 
 	return ret;
 }
@@ -371,18 +369,21 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//cambiar el gamecams por una variable active bool en camera 3D
-	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->gamecams.at(0)->framebuffer.GetFrameBuffer());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-
-	App->camera->cameratobedrawn = App->camera->gamecams.at(0);
-
-	for (int i = 0; i < meshes.size(); i++)
+	if (App->camera->gamecams.size() != 0)
 	{
-		meshes[i]->Draw(testshader);
-	}
+		glBindFramebuffer(GL_FRAMEBUFFER, App->camera->gamecamactive->framebuffer.GetFrameBuffer());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		App->camera->cameratobedrawn = App->camera->gamecamactive;
+
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			meshes[i]->Draw(testshader);
+		}
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
 	if (!App->uiController->Draw())
 	{
@@ -472,17 +473,10 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	App->camera->scenecam.SetUpFrameBuffer(width, height);
 	if (App->camera->gamecams.size() != 0)
 	{
-		App->camera->gamecams.at(0)->SetUpFrameBuffer(width, height);
+		App->camera->gamecamactive->SetUpFrameBuffer(width, height);
 	}
 	glViewport(0, 0, width, height);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	//ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
-	//glLoadMatrixf(&ProjectionMatrix);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 }
 
 void ModuleRenderer3D::LoadModelImporter(std::string path)

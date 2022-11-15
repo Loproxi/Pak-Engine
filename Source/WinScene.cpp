@@ -11,7 +11,6 @@ WinScene::WinScene()
 	
 	name = "Scene";
 	app = Application::GetInstance();
-	framebuffer = &app->camera->scenecam.framebuffer;
 }
 
 WinScene::~WinScene()
@@ -29,13 +28,13 @@ void WinScene::Draw()
 	if (ImGui::Begin(name.c_str(),&isEnabled))
 	{
 		ImVec2 size = ImGui::GetContentRegionAvail();
-		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
+		if (size.x != app->camera->scenecam.framebuffer.GetWidthFrame() || size.y != app->camera->scenecam.framebuffer.GetHeightFrame())
 		{
 			
-			framebuffer->SettingUpFrameBuffer(size.x, size.y);
+			app->camera->scenecam.framebuffer.SettingUpFrameBuffer(size.x, size.y);
 		}
 		
-		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image((ImTextureID)app->camera->scenecam.framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 	}
 	ImGui::End();
 }

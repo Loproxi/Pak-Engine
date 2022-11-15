@@ -1,7 +1,10 @@
 #include "GameObject.h"
+#include "Application.h"
+
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
-#include "Application.h"
+#include "Comp_Camera.h"
+
 
 
 GameObject::GameObject(std::string name):active(true)
@@ -72,6 +75,10 @@ Component* GameObject::AddComponent(COMP_TYPE type)
 		component = new Comp_MeshRenderer(this);
 		component->type = type;
 		break;
+	case CAMERA: 
+		component = new Comp_Camera(this);
+		component->type = type;
+		break;
 	}
 
 	if (component != nullptr)
@@ -116,7 +123,10 @@ void GameObject::SetParent(GameObject* _go)
 		return;
 	}
 
-	this->parent->RemoveChild(this);
+	if (this->parent != nullptr)
+	{
+		this->parent->RemoveChild(this);
+	}
 	_go->AddChild(this);
 
 }

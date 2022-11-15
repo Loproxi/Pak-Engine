@@ -32,7 +32,9 @@ public:
 
 	Camera3D scenecam;
 
-	Camera3D* cameratobedrawn;
+	Camera3D* cameratobedrawn = nullptr;
+
+	Camera3D* gamecamactive = nullptr;
 
 };
 

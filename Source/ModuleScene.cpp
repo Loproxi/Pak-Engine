@@ -1,5 +1,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
+#include "Comp_Camera.h"
+#include "Camera3D.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -14,12 +16,21 @@ bool ModuleScene::Init(pugi::xml_node& config)
 {
     root = new GameObject("SceneRoot");
     root->parent = nullptr;
-
+    test = new GameObject("Prueba");
+    test->SetParent(root);
+    test2 = new GameObject("Prueba2");
+    test2->SetParent(root);
     return true;
 }
 
 bool ModuleScene::Start()
 {
+
+    test->AddComponent(COMP_TYPE::CAMERA);
+    
+    Comp_Camera* prueba = (Comp_Camera*)test2->AddComponent(COMP_TYPE::CAMERA);
+    prueba->camera->Move(float3(0.0f, 5.0f, -10.0f));
+
     return true;
 }
 

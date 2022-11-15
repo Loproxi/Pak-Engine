@@ -8,7 +8,7 @@ WinGame::WinGame()
 {
 	name = "Game";
 	app = Application::GetInstance();
-	framebuffer = &app->camera->gamecams.at(0)->framebuffer;
+	
 }
 
 WinGame::~WinGame()
@@ -22,16 +22,27 @@ void WinGame::Start()
 
 void WinGame::Draw()
 {
+	//framebuffer = &app->camera->gamecamactive->framebuffer;
 	if (ImGui::Begin(name.c_str(), &isEnabled))
 	{
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		if (size.x != framebuffer->GetWidthFrame() || size.y != framebuffer->GetHeightFrame())
+		
+		if (app->camera->gamecams.size() != 0)
 		{
+			ImVec2 size = ImGui::GetContentRegionAvail();
+			if (size.x != app->camera->gamecamactive->framebuffer.GetWidthFrame() || size.y != app->camera->gamecamactive->framebuffer.GetHeightFrame())
+			{
 
-			framebuffer->SettingUpFrameBuffer(size.x, size.y);
+				app->camera->gamecamactive->framebuffer.SettingUpFrameBuffer(size.x, size.y);
+			}
+
+			ImGui::Image((ImTextureID)app->camera->gamecamactive->framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		}
-
-		ImGui::Image((ImTextureID)framebuffer->GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+		else
+		{
+			ImGui::SetWindowFontScale(2.0f);
+			
+			ImGui::TextCentered("There are no Game Cameras Available");
+		}
 	}
 	ImGui::End();
 }
