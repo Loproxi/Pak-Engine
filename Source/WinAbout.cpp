@@ -6,7 +6,7 @@
 #include "MathGeoLib.h"
 #include "glew.h"
 #include "ModuleUIcontroller.h"
-#include "Assimp/include/version.h"
+#include "assimp/version.h"
 
 
 

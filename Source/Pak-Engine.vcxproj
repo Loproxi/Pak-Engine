@@ -94,14 +94,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\External\SDL\libx86;$(SolutionDir)Source\External\Glew\libx86;$(SolutionDir)Source\External\Assimp\libx86;$(SolutionDir)Source\External\DevIL\libx86;$(SolutionDir)Source\External\MathGeoLib\libx86\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\External\SDL\libx86;$(SolutionDir)Source\External\Glew\libx86;$(SolutionDir)Source\External\Assimp\libx86\Debug;$(SolutionDir)Source\External\DevIL\libx86;$(SolutionDir)Source\External\MathGeoLib\libx86\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -114,7 +114,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
@@ -122,8 +122,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\External\SDL\libx86;$(SolutionDir)Source\External\Glew\libx86;$(SolutionDir)Source\External\Assimp\libx86;$(SolutionDir)Source\External\DevIL\libx86;$(SolutionDir)Source\External\MathGeoLib\libx86\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\External\SDL\libx86;$(SolutionDir)Source\External\Glew\libx86;$(SolutionDir)Source\External\Assimp\libx86\Release;$(SolutionDir)Source\External\DevIL\libx86;$(SolutionDir)Source\External\MathGeoLib\libx86\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
