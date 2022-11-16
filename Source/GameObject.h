@@ -5,6 +5,7 @@
 #include <vector>
 
 class Component;
+class Application;
 
 class GameObject
 {
@@ -46,6 +47,9 @@ public:
 private:
 
 
+protected:
+
+	Application* app = nullptr;
 
 public:
 

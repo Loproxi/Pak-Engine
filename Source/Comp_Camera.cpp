@@ -1,9 +1,12 @@
 #include "Comp_Camera.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ModuleWindow.h"
+
+#include "GameObject.h"
 #include "Camera3D.h"
 #include "ImGuiUtils.h"
-#include "ModuleWindow.h"
+
 
 
 Comp_Camera::Comp_Camera(GameObject* go):Component(go)
@@ -38,7 +41,9 @@ void Comp_Camera::OnUIController()
 
 		if (ImGui::Button("Set as Game Camera "))
 		{
+			std::string phrase = comp_owner->name + " camera set as game camera";
 			this->camera->SetAsGameCamera();
+			app->AddLog(Logs::NORMAL, phrase);
 		}
 
 	}

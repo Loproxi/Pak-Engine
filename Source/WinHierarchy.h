@@ -28,6 +28,8 @@ private:
     Application* app;
 
     GameObject* goToDrop;
+
+    int emptycounter = 0;
 };
 
 #endif // !__WIN_HIERARCHY_H__

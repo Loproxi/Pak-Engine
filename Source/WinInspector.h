@@ -21,6 +21,9 @@ public:
 public:
     
     GameObject* goToInspect;
+
+private:
+    std::string items[2] = { "Mesh Renderer","Camera" };
 };
 
 #endif // !__WIN_INSPECTOR_H__

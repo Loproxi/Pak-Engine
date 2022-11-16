@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Application.h"
+#include "ModuleScene.h"
 
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
@@ -14,6 +15,8 @@ GameObject::GameObject(std::string name):active(true)
 		name = "GameObject";
 	}
 	this->name = name;
+
+	this->AddComponent(COMP_TYPE::TRANSFORM);
 
 }
 
@@ -59,6 +62,15 @@ void GameObject::PostUpdate()
 
 Component* GameObject::AddComponent(COMP_TYPE type)
 {
+
+	for each (Component* var in this->components)
+	{
+		if (var->type == type)
+		{
+			Application::GetInstance()->AddLog(Logs::WARNING, this->name + " already has this type of component!");
+			return nullptr;
+		}
+	}
 
 	Component* component = nullptr;
 

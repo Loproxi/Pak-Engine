@@ -40,8 +40,19 @@ void WinHierarchy::PrimitivesMenu()
 {
 	if (!ImGui::IsItemHovered())
 	{
-		if (ImGui::BeginPopupContextWindow("Primitives", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
+		if (ImGui::BeginPopupContextWindow("GameObjects", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
 		{
+			if (ImGui::BeginMenu("Empty GameObjects"))
+			{
+				if (ImGui::MenuItem("Empty"))
+				{
+					GameObject* empty = new GameObject("Empty" + std::to_string(emptycounter));
+					empty->SetParent(app->scene->root);
+					emptycounter++;
+					
+				}
+				ImGui::EndMenu();
+			}
 			if (ImGui::BeginMenu("Primitives"))
 			{
 				if (ImGui::MenuItem("Cube"))
@@ -100,7 +111,10 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 
 	if (ImGui::IsItemClicked(0)) 
 	{
-		app->uiController->SetGameObjSelected(go);
+		if (go->parent != nullptr)
+		{
+			app->uiController->SetGameObjSelected(go);
+		}
 	}
 
 	if (go->parent != nullptr)

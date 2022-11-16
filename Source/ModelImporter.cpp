@@ -59,7 +59,6 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	{
 		
 		parent = new GameObject(scene->mRootNode->mName.C_Str());
-		parent->AddComponent(COMP_TYPE::TRANSFORM);
 		parent->parent = Application::GetInstance()->scene->root;
 		Application::GetInstance()->scene->root->AddChild(parent);
 	}
@@ -68,7 +67,6 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		GameObject* go = new GameObject(node->mName.C_Str());
-		go->AddComponent(COMP_TYPE::TRANSFORM);
 		go->AddComponent(COMP_TYPE::MESH_RENDERER);
 		
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];

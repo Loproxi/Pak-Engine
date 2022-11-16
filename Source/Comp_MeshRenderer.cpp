@@ -39,7 +39,7 @@ void Comp_MeshRenderer::OnUIController()
 			ImGui::Text("Indices: "); 
 			ImGui::SameLine(); 
 			ImGui::TextColored(ImVec4(1.f, 0.f, 1.f, 1.f), tempindices.c_str());
-
+			ImGui::Spacing();
 			ImGui::Text("Path: ");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.f, 0.f, 1.f, 1.f), mesh->GetPath().c_str());
@@ -49,7 +49,10 @@ void Comp_MeshRenderer::OnUIController()
 
 void Comp_MeshRenderer::Draw(Shaders* shaders)
 {
-	this->mesh->RenderMeshes(shaders);
+	if (this->mesh != nullptr)
+	{
+		this->mesh->RenderMeshes(shaders);
+	}
 }
 
 void Comp_MeshRenderer::SetMesh(Mesh* _mesh)
