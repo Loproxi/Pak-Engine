@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Comp_MeshRenderer.h"
+#include "Comp_Transform.h"
 
 ModelImporter::ModelImporter()
 {
@@ -71,7 +72,25 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		//Comp_MeshRenderer* temp = (Comp_MeshRenderer*)go->GetComponent(COMP_TYPE::MESH_RENDERER);
+
+		aiVector3D aiscale;
+		aiVector3D aiposition;
+		aiVector3D airotation;
+
+		node->mTransformation.Decompose(aiscale, airotation, aiposition);
+
+		float3 position(aiposition.x, aiposition.y, aiposition.z);
+		float3 scale(aiscale.x, aiscale.y, aiscale.z);
+		float3 rotation;
+		rotation.x = math::RadToDeg(airotation.x);
+		rotation.y = math::RadToDeg(airotation.y);
+		rotation.z = math::RadToDeg(airotation.z);
 		
+		go->GetComponent<Comp_Transform>()->position = position;
+		go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
+		go->GetComponent<Comp_Transform>()->localScale = {1.0f,1.0f,1.0f};
+ 		
+
 		go->GetComponent<Comp_MeshRenderer>()->SetMesh((goThroughMeshes(mesh, scene)));
 		parent->AddChild(go);
 	}
@@ -140,38 +159,3 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size(),modelpath);
 }
 
-
-
-//Mesh* ModelImporter::LoadModel(const aiScene* scene,aiMesh* meshfromfbx)
-//{
-//	LoadedMeshGeometry ourMesh;
-//	// copy vertices
-//	ourMesh.num_vertex = meshfromfbx->mNumVertices;
-//
-//	for (uint i = 0; i < ourMesh.num_vertex; i++)
-//	{
-//		ourMesh.vertex.push_back(Vertex(float3(meshfromfbx->mVertices[i].x, meshfromfbx->mVertices[i].y, meshfromfbx->mVertices[i].z), float3(meshfromfbx->mNormals[i].x, meshfromfbx->mNormals[i].y, meshfromfbx->mNormals[i].z)));
-//	}
-//	LOG("New mesh with %d vertices", ourMesh.num_vertex);
-//
-//	if (meshfromfbx->HasFaces())
-//	{
-//		ourMesh.num_index = meshfromfbx->mNumFaces * 3;
-//		ourMesh.index = new GLuint[ourMesh.num_index]; // assume each face is a triangle
-//		for (uint i = 0; i < meshfromfbx->mNumFaces; ++i)
-//		{
-//			if (meshfromfbx->mFaces[i].mNumIndices != 3)
-//			{
-//				LOG("WARNING, geometry face with != 3 indices!");
-//			}
-//			else
-//			{
-//				memcpy(&ourMesh.index[i * 3], meshfromfbx->mFaces[i].mIndices, 3 * sizeof(GLuint));
-//			}
-//		}
-//	}
-//
-//	
-//	
-//	return new Mesh(&ourMesh.vertex[0],ourMesh.num_vertex,ourMesh.index,ourMesh.num_index);
-//}

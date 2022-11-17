@@ -110,7 +110,7 @@ void Mesh::PrintMatrix(float4x4* matrix)
 	}
 }
 
-void Mesh::RenderMeshes(Shaders* shader)
+void Mesh::RenderMeshes(Shaders* shader,float4x4 modelmatrix)
 {
 	
 	shader->UseProgram();
@@ -119,11 +119,9 @@ void Mesh::RenderMeshes(Shaders* shader)
 
 	shader->Set1Int("texture0", 0);
 
-	modelMatrix.SetIdentity();
-
 	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->cameratobedrawn->GetViewMatrix());
 	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->camera->cameratobedrawn->GetProjMatrix());
-	shader->SetMat4fv("modelMatrix", &modelMatrix.v[0][0]);
+	shader->SetMat4fv("modelMatrix", &modelmatrix.v[0][0]);
 	
 	//draw mesh
 	glBindVertexArray(VAO);

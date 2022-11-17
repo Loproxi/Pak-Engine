@@ -45,7 +45,7 @@ public:
 
 	~Mesh();
 
-	void RenderMeshes(Shaders* shader);
+	void RenderMeshes(Shaders* shader,float4x4 modelmatrix);
 
 	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }
@@ -75,7 +75,7 @@ private:
 	uint numvertices;
 	uint numindices;
 
-	float4x4 modelMatrix;
+	
 
 	GLuint VAO;
 	GLuint VBO;
@@ -87,6 +87,11 @@ private:
 	Shaders* shader;
 
 	std::string path;
+
+protected:
+	float4x4 modelMatrix;
+
+	friend class Comp_MeshRenderer;
 };
 
 #endif // !_MESHRENDER_H_

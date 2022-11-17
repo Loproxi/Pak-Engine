@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Camera3D.h"
 #include "ImGuiUtils.h"
+#include "Comp_Transform.h"
 
 
 
@@ -23,6 +24,10 @@ Comp_Camera::~Comp_Camera()
 
 void Comp_Camera::Update()
 {
+	camera->CameraFrustrum.pos = comp_owner->GetComponent<Comp_Transform>()->position;
+	camera->CameraFrustrum.front = comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().RotatePart().Col(2);
+	camera->CameraFrustrum.up = comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().RotatePart().Col(1);
+	
 }
 
 void Comp_Camera::OnUIController()

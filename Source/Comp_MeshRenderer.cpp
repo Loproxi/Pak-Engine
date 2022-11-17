@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ImGuiUtils.h"
+#include "Comp_Transform.h"
 
 Comp_MeshRenderer::Comp_MeshRenderer(GameObject* _go): Component(_go),mesh(nullptr)
 {
@@ -51,7 +52,8 @@ void Comp_MeshRenderer::Draw(Shaders* shaders)
 {
 	if (this->mesh != nullptr)
 	{
-		this->mesh->RenderMeshes(shaders);
+		 
+		this->mesh->RenderMeshes(shaders,comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix());
 	}
 }
 
