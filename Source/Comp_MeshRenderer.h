@@ -31,6 +31,10 @@ public:
     Mesh* mesh;
     Application* app;
 
+private:
+
+    bool showAxisAlignBB;
+
 };
 
 #endif // !__COMPONENT_MESH_RENDERER_H_

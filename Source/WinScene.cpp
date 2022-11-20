@@ -31,7 +31,8 @@ void WinScene::Draw()
 		if (size.x != app->camera->scenecam.framebuffer.GetWidthFrame() || size.y != app->camera->scenecam.framebuffer.GetHeightFrame())
 		{
 			
-			app->camera->scenecam.framebuffer.SettingUpFrameBuffer(size.x, size.y);
+			//app->camera->scenecam.framebuffer.SettingUpFrameBuffer(size.x, size.y);
+			app->camera->scenecam.SetAspectRatio(size.x, size.y);
 		}
 		
 		ImGui::Image((ImTextureID)app->camera->scenecam.framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));

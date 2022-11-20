@@ -23,7 +23,7 @@ public:
 	void LookAt(const float3& toLookAt);
 	void Move(const float3& Movement);
 	void ScrollZoom();
-	
+	bool FrustrumContainsBB(AABB& globalBB);
 
 	//Getters
 	float* GetViewMatrix();
@@ -32,6 +32,8 @@ public:
 	void SetUpFrameBuffer(int width, int height);
 
 	void SetAsGameCamera();
+
+	void SetAspectRatio(float width, float height);
 
 public:
 

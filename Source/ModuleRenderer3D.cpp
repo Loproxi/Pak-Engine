@@ -368,7 +368,8 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	//cambiar el gamecams por una variable active bool en camera 3D
+
+
 	if (App->camera->gamecams.size() != 0)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, App->camera->gamecamactive->framebuffer.GetFrameBuffer());
@@ -513,5 +514,30 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 			}
 		}
 	}
+
+}
+
+void ModuleRenderer3D::DrawDebug(float3* points)
+{
+	
+	/*glBegin(GL_LINES);
+	
+		glColor3f(0.f, 1.f, 0.f);
+
+		glVertex3fv(points[0].ptr()); glVertex3fv(points[2].ptr());
+		glVertex3fv(points[2].ptr()); glVertex3fv(points[6].ptr());
+		glVertex3fv(points[6].ptr()); glVertex3fv(points[4].ptr());
+		glVertex3fv(points[4].ptr()); glVertex3fv(points[0].ptr());
+		glVertex3fv(points[0].ptr()); glVertex3fv(points[1].ptr());
+		glVertex3fv(points[1].ptr()); glVertex3fv(points[3].ptr());
+		glVertex3fv(points[3].ptr()); glVertex3fv(points[2].ptr());
+		glVertex3fv(points[4].ptr()); glVertex3fv(points[5].ptr());
+		glVertex3fv(points[6].ptr()); glVertex3fv(points[7].ptr());
+		glVertex3fv(points[5].ptr()); glVertex3fv(points[7].ptr());
+		glVertex3fv(points[3].ptr()); glVertex3fv(points[7].ptr());
+		glVertex3fv(points[1].ptr()); glVertex3fv(points[5].ptr());
+	
+	glEnd();*/
+
 
 }

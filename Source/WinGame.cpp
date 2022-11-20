@@ -32,9 +32,9 @@ void WinGame::Draw()
 			if (size.x != app->camera->gamecamactive->framebuffer.GetWidthFrame() || size.y != app->camera->gamecamactive->framebuffer.GetHeightFrame())
 			{
 
-				app->camera->gamecamactive->framebuffer.SettingUpFrameBuffer(size.x, size.y);
+				//app->camera->gamecamactive->framebuffer.SettingUpFrameBuffer(size.x, size.y);
+				app->camera->gamecamactive->SetAspectRatio(size.x, size.y);
 			}
-
 			ImGui::Image((ImTextureID)app->camera->gamecamactive->framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		}
 		else

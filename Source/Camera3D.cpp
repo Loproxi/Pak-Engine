@@ -115,6 +115,11 @@ void Camera3D::SetAsGameCamera()
 	}
 }
 
+void Camera3D::SetAspectRatio(float width, float height)
+{
+	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov * 0.5f) * (width/height));
+}
+
 void Camera3D::ScrollZoom()
 {
 	/*FieldOfView = FieldOfView - Application::GetInstance()->input->GetMouseZ();
@@ -123,4 +128,40 @@ void Camera3D::ScrollZoom()
 
 	CameraFrustrum.verticalFov = DegToRad(FieldOfView);
 	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov / 2.0f) * 1.77f);*/
+}
+
+bool Camera3D::FrustrumContainsBB(AABB& globalBB)
+{
+	bool isBBcontained = false;
+
+	float3 OBBCornerpoints[8];
+	Plane camerafrustrumplanes[6];
+	int iTotalIn = 0;
+	CameraFrustrum.GetPlanes(camerafrustrumplanes);
+	globalBB.GetCornerPoints(OBBCornerpoints); // get the corners of the box into the vCorner array
+	// test all 8 corners against the 6 sides
+	// if all points are behind 1 specific plane, we are out
+	// if we are in with all points, then we are fully in
+	for (int p = 0; p < 6; ++p) {
+		int iInCount = 8;
+		int iPtIn = 1;
+		for (int i = 0; i < 8; ++i) {
+			// test this point against the planes
+			if (camerafrustrumplanes[p].IsOnPositiveSide(OBBCornerpoints[i]) ) { //<-- “IsOnPositiveSide” from MathGeoLib
+				iPtIn = 0;
+				--iInCount;
+			}
+		}
+		// were all the points outside of plane p?
+		if (iInCount == 0)
+		{
+			isBBcontained = false;
+			return isBBcontained;
+		}
+		// check if they were all on the right side of the plane
+		iTotalIn += iPtIn;
+	}
+
+	isBBcontained = true;
+	return isBBcontained;
 }

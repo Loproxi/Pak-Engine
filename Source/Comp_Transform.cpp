@@ -48,7 +48,8 @@ float4x4 Comp_Transform::GetLocalMatrix()
 	rotation.Normalize();
 
 	aux = float4x4::FromTRS(position, rotation, localScale);
-	aux.Transpose();
+
+	
 	return aux;
 }
 
@@ -58,13 +59,13 @@ float4x4 Comp_Transform::GetGlobalMatrix()
 	if (comp_owner->parent == nullptr)
 	{
 		aux = GetidentityMatrix() * GetLocalMatrix();
+		
 	}
 	else
 	{
 		aux = comp_owner->parent->GetComponent<Comp_Transform>()->GetGlobalMatrix() * GetLocalMatrix();
+		
 	}
-
-	aux.Transpose();
 
 	return aux;
 }

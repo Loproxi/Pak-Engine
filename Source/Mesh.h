@@ -32,6 +32,7 @@ struct Vertex
 
 struct LoadedMeshGeometry;
 class Shaders;
+class GameObject;
 
 class Mesh
 {
@@ -51,7 +52,7 @@ public:
 	GLuint* GetIndices() { return &indices[0]; }
 	GLuint* GetTextureID() { return &texture; }
 	void SetTextureID(GLuint id);
-	uint GetNumVertices() { return numvertices; }
+	int GetNumVertices() { return numvertices; }
 	uint GetNumIndices() { return numindices; }
 	std::string GetPath() { return path; }
 
@@ -66,6 +67,10 @@ private:
 	void GenModelMatrix();
 	
 	void PrintMatrix(float4x4* matrix);
+
+	AABB GenLocalAABB();
+
+	AABB GenGlobalBB(GameObject* go);
 	
 private:
 
@@ -87,6 +92,10 @@ private:
 	Shaders* shader;
 
 	std::string path;
+
+	AABB LocalAxisAlignBB;
+	AABB GlobalAxisAlignBB;
+	OBB GlobalOrientedBB;
 
 protected:
 	float4x4 modelMatrix;

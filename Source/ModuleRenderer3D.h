@@ -37,13 +37,13 @@ public:
 	UpdateStatus PreUpdate();
 	UpdateStatus PostUpdate();
 
-	
-
 	bool SaveSettings(pugi::xml_node& config);
 	void OnResize(int width, int height);
 
 	void LoadModelImporter(std::string path);
 	void LoadTextureImporter(std::string path);
+
+	void DrawDebug(float3* points);
 
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
@@ -68,9 +68,11 @@ public:
 	Cube* cube;
 	Mesh* test;
 	Shaders* testshader;
+	bool showBB;
 
 	std::vector<Comp_MeshRenderer*>meshes;
 	std::vector<Texture*>textures;
+	std::vector<float3>debugpoints;
 
 private:
 

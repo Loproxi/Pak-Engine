@@ -4,6 +4,8 @@
 #include "ModuleRenderer3D.h"
 #include "ModelImporter.h"
 #include "Shaders.h"
+#include "GameObject.h"
+#include "Comp_Transform.h"
 
 
 
@@ -108,6 +110,27 @@ void Mesh::PrintMatrix(float4x4* matrix)
 		}
 		printf("\n");
 	}
+}
+
+AABB Mesh::GenLocalAABB()
+{
+
+	LocalAxisAlignBB.SetNegativeInfinity();
+	LocalAxisAlignBB.Enclose(&GetVertices()->position, GetNumVertices());
+
+	return LocalAxisAlignBB;
+}
+
+AABB Mesh::GenGlobalBB(GameObject* go)
+{
+
+	GlobalOrientedBB = GenLocalAABB();
+	GlobalOrientedBB.Transform(go->GetComponent<Comp_Transform>()->GetGlobalMatrix());
+
+	GlobalAxisAlignBB.SetNegativeInfinity();
+	GlobalAxisAlignBB.Enclose(GlobalOrientedBB);
+
+	return GlobalAxisAlignBB;
 }
 
 void Mesh::RenderMeshes(Shaders* shader,float4x4 modelmatrix)

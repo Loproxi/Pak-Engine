@@ -1,6 +1,7 @@
 #include "Comp_MeshRenderer.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
 #include "ImGuiUtils.h"
 #include "Comp_Transform.h"
 
@@ -10,6 +11,7 @@ Comp_MeshRenderer::Comp_MeshRenderer(GameObject* _go): Component(_go),mesh(nullp
 	this->type = COMP_TYPE::MESH_RENDERER;
 	
 	app = Application::GetInstance();
+	
 }
 
 Comp_MeshRenderer::~Comp_MeshRenderer()
@@ -19,9 +21,26 @@ Comp_MeshRenderer::~Comp_MeshRenderer()
 
 void Comp_MeshRenderer::Update()
 {
-	
-	app->renderer3D->meshes.push_back(this);
+	if (mesh == nullptr)
+		return;
 
+	AABB tempglobalAABB = mesh->GenGlobalBB(comp_owner);
+	
+	if (app->camera->gamecamactive != nullptr && app->camera->gamecamactive->FrustrumContainsBB(tempglobalAABB))
+	{
+		app->renderer3D->meshes.push_back(this);
+	}
+	else if (app->camera->cameratobedrawn == &app->camera->scenecam)
+	{
+		app->renderer3D->meshes.push_back(this);
+	}
+
+	if (showAxisAlignBB)
+	{
+		float3 aabbcorner[8];
+		mesh->GenGlobalBB(comp_owner).GetCornerPoints(aabbcorner);
+		
+	}
 }
 
 void Comp_MeshRenderer::OnUIController()
@@ -44,6 +63,9 @@ void Comp_MeshRenderer::OnUIController()
 			ImGui::Text("Path: ");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.f, 0.f, 1.f, 1.f), mesh->GetPath().c_str());
+			ImGui::Spacing();
+			ImGui::Checkbox("AABB", &showAxisAlignBB);
+
 		}
 	}
 }
@@ -53,7 +75,7 @@ void Comp_MeshRenderer::Draw(Shaders* shaders)
 	if (this->mesh != nullptr)
 	{
 		 
-		this->mesh->RenderMeshes(shaders,comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix());
+		this->mesh->RenderMeshes(shaders,comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().Transposed());
 	}
 }
 
