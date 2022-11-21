@@ -48,6 +48,8 @@ public:
 
 	void RenderMeshes(Shaders* shader,float4x4 modelmatrix);
 
+	AABB GenGlobalBB(GameObject* go);
+
 	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }
 	GLuint* GetTextureID() { return &texture; }
@@ -69,8 +71,6 @@ private:
 	void PrintMatrix(float4x4* matrix);
 
 	AABB GenLocalAABB();
-
-	AABB GenGlobalBB(GameObject* go);
 	
 private:
 
@@ -96,6 +96,10 @@ private:
 	AABB LocalAxisAlignBB;
 	AABB GlobalAxisAlignBB;
 	OBB GlobalOrientedBB;
+
+public:
+
+	float3 aabbcorner[8];
 
 protected:
 	float4x4 modelMatrix;

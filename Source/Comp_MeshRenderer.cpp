@@ -37,9 +37,8 @@ void Comp_MeshRenderer::Update()
 
 	if (showAxisAlignBB)
 	{
-		float3 aabbcorner[8];
-		mesh->GenGlobalBB(comp_owner).GetCornerPoints(aabbcorner);
-		
+		mesh->GenGlobalBB(comp_owner).GetCornerPoints(mesh->aabbcorner);
+		app->renderer3D->showBB = !app->renderer3D->showBB;
 	}
 }
 

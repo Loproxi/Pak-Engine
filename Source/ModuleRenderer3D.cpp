@@ -365,6 +365,10 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	for (int i = 0; i < meshes.size(); i++)
 	{
 		meshes[i]->Draw(testshader);
+		if (showBB == true)
+		{
+			AddDebug(meshes[i]->GetMesh()->aabbcorner);
+		}
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -517,27 +521,19 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 
 }
 
-void ModuleRenderer3D::DrawDebug(float3* points)
+void ModuleRenderer3D::AddDebug(float3* points)
 {
 	
-	/*glBegin(GL_LINES);
+	glBegin(GL_LINES);
 	
-		glColor3f(0.f, 1.f, 0.f);
-
-		glVertex3fv(points[0].ptr()); glVertex3fv(points[2].ptr());
-		glVertex3fv(points[2].ptr()); glVertex3fv(points[6].ptr());
-		glVertex3fv(points[6].ptr()); glVertex3fv(points[4].ptr());
-		glVertex3fv(points[4].ptr()); glVertex3fv(points[0].ptr());
-		glVertex3fv(points[0].ptr()); glVertex3fv(points[1].ptr());
-		glVertex3fv(points[1].ptr()); glVertex3fv(points[3].ptr());
-		glVertex3fv(points[3].ptr()); glVertex3fv(points[2].ptr());
-		glVertex3fv(points[4].ptr()); glVertex3fv(points[5].ptr());
-		glVertex3fv(points[6].ptr()); glVertex3fv(points[7].ptr());
-		glVertex3fv(points[5].ptr()); glVertex3fv(points[7].ptr());
-		glVertex3fv(points[3].ptr()); glVertex3fv(points[7].ptr());
-		glVertex3fv(points[1].ptr()); glVertex3fv(points[5].ptr());
+		glColor3f(1.f, 0.f, 0.f);
+		
+		glVertex3f(points[0].x, points[0].y, points[0].z); glVertex3f(points[2].x, points[2].y, points[2].z);
+		glVertex3f(points[2].x, points[2].y, points[2].z); glVertex3f(points[6].x, points[6].y, points[6].z);
+		glVertex3f(points[6].x, points[6].y, points[6].z); glVertex3f(points[4].x, points[4].y, points[4].z);
+		glVertex3f(points[4].x, points[4].y, points[4].z); glVertex3f(points[0].x, points[0].y, points[0].z);
 	
-	glEnd();*/
+	glEnd();
 
 
 }
