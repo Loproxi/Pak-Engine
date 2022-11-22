@@ -352,8 +352,9 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	UpdateStatus ret = UpdateStatus::UPDATE_CONTINUE;
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->scenecam.framebuffer.GetFrameBuffer());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	/*if (debug_draw == true)
 	{
 		BeginDebugDraw();
@@ -374,7 +375,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
-	if (App->camera->gamecams.size() != 0)
+	if (App->camera->gamecams.size() != 0 && App->camera->gamecamactive != nullptr)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, App->camera->gamecamactive->framebuffer.GetFrameBuffer());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -523,15 +524,20 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 
 void ModuleRenderer3D::AddDebug(float3* points)
 {
+	glMatrixMode(GL_MODELVIEW);
 	
 	glBegin(GL_LINES);
 	
 		glColor3f(1.f, 0.f, 0.f);
 		
-		glVertex3f(points[0].x, points[0].y, points[0].z); glVertex3f(points[2].x, points[2].y, points[2].z);
-		glVertex3f(points[2].x, points[2].y, points[2].z); glVertex3f(points[6].x, points[6].y, points[6].z);
-		glVertex3f(points[6].x, points[6].y, points[6].z); glVertex3f(points[4].x, points[4].y, points[4].z);
-		glVertex3f(points[4].x, points[4].y, points[4].z); glVertex3f(points[0].x, points[0].y, points[0].z);
+		glVertex3f(points[0].x, points[0].y, points[0].z); 
+		glVertex3f(points[2].x, points[2].y, points[2].z);
+		glVertex3f(points[2].x, points[2].y, points[2].z); 
+		glVertex3f(points[6].x, points[6].y, points[6].z);
+		glVertex3f(points[6].x, points[6].y, points[6].z); 
+		glVertex3f(points[4].x, points[4].y, points[4].z);
+		glVertex3f(points[4].x, points[4].y, points[4].z); 
+		glVertex3f(points[0].x, points[0].y, points[0].z);
 	
 	glEnd();
 

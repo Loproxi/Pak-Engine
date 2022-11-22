@@ -15,6 +15,8 @@ public:
 
 	virtual ~GameObject();
 
+	void PreUpdate();
+
 	void Update();
 
 	void PostUpdate();
@@ -60,6 +62,8 @@ public:
 
 	bool active;
 	std::string name;
+
+	bool readytobedeleted;
 
 };
 

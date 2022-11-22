@@ -82,6 +82,23 @@ void WinHierarchy::PrimitivesMenu()
 
 				ImGui::EndMenu();
 			}
+			if (ImGui::BeginMenu("Delete GameObjects"))
+			{
+				if (ImGui::MenuItem("Delete"))
+				{
+					if (app->uiController->GetGameObjSelected() != nullptr)
+					{
+						app->uiController->GetGameObjSelected()->readytobedeleted = true;
+						//app->AddLog(Logs::WARNING, "Still On Development");
+					}
+					else
+					{
+						app->AddLog(Logs::WARNING, "Select the gameobject that you would like to delete.");
+					}
+
+				}
+				ImGui::EndMenu();
+			}
 
 
 			ImGui::EndPopup();

@@ -49,16 +49,16 @@ public:
 
 	Frustum CameraFrustrum;
 
+	float FieldOfView;
+
+	float aspectratio;
+
 private:
 
 	float4x4 ViewMatrix;
 	float4x4 ViewMatrixInverse;
 	float4x4 ProjMatrix;
-
-	float FieldOfView;
-
 	
-
 	Application* app = nullptr;
 
 };

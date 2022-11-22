@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleUIcontroller.h"
 
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
@@ -8,7 +9,7 @@
 
 
 
-GameObject::GameObject(std::string name):active(true)
+GameObject::GameObject(std::string name):active(true),readytobedeleted(false)
 {
 	if (name == "")
 	{
@@ -17,6 +18,8 @@ GameObject::GameObject(std::string name):active(true)
 	this->name = name;
 
 	this->AddComponent(COMP_TYPE::TRANSFORM);
+
+	
 
 }
 
@@ -35,6 +38,24 @@ GameObject::~GameObject()
 	}
 	children.clear();
 
+}
+
+void GameObject::PreUpdate()
+{
+	if (this->readytobedeleted == true)
+	{
+
+		GameObject* parenttemp = this->parent;
+		
+		parenttemp->RemoveChild(this);
+			
+		delete this;
+
+		app = Application::GetInstance();
+		
+		app->uiController->SetGameObjSelected(nullptr);
+
+	}
 }
 
 void GameObject::Update()

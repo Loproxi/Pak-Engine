@@ -13,9 +13,11 @@ Camera3D::Camera3D():FieldOfView(60.0f)
 	Y = float3(0.0f, 1.0f, 0.0f);
 	Z = float3(0.0f, 0.0f, 1.0f);
 
+	aspectratio = 1.77f;
+
 	CameraFrustrum.type = FrustumType::PerspectiveFrustum;
 	CameraFrustrum.verticalFov = DegToRad(FieldOfView);
-	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov / 2.0f) * 1.77f);
+	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov / 2.0f) * aspectratio);
 
 	CameraFrustrum.farPlaneDistance = 500.0f;
 	CameraFrustrum.nearPlaneDistance = 0.1f;
@@ -31,6 +33,7 @@ Camera3D::Camera3D():FieldOfView(60.0f)
 
 Camera3D::~Camera3D()
 {
+	
 }
 
 void Camera3D::Look(const float3& Position, const float3& Reference, bool RotateAroundReference)
@@ -118,6 +121,7 @@ void Camera3D::SetAsGameCamera()
 void Camera3D::SetAspectRatio(float width, float height)
 {
 	CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(CameraFrustrum.verticalFov * 0.5f) * (width/height));
+	aspectratio = (width / height);
 }
 
 void Camera3D::ScrollZoom()

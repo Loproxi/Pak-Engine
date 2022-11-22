@@ -151,6 +151,7 @@ void Mesh::RenderMeshes(Shaders* shader,float4x4 modelmatrix)
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 	glBindVertexArray(0);
+
 }
 
 void Mesh::SetTextureID(GLuint id)

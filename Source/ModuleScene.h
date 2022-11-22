@@ -24,6 +24,7 @@ public:
 
 	void UpdateGameObjects();
 
+	void PreUpdateGameObjectTree(GameObject* parent);
 	void UpdatingGameObjectTree(GameObject* parent);
 
 public:

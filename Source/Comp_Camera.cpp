@@ -20,6 +20,10 @@ Comp_Camera::Comp_Camera(GameObject* go):Component(go)
 
 Comp_Camera::~Comp_Camera()
 {
+	/*if (Application::GetInstance()->camera->gamecamactive == this->camera)
+	{
+		Application::GetInstance()->camera->gamecamactive = nullptr;
+	}*/
 }
 
 void Comp_Camera::Update()
@@ -35,19 +39,20 @@ void Comp_Camera::OnUIController()
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 
-		//if (ImGui::SliderInt("FOV"))
-		//{
-	
-		//}
+		if (ImGui::SliderFloat("FOV",&camera->FieldOfView,55.0f,110.0f,"%.2f"))
+		{
+			camera->CameraFrustrum.verticalFov = math::DegToRad(camera->FieldOfView);
+			camera->CameraFrustrum.horizontalFov = 2.0f * atanf(tanf(camera->CameraFrustrum.verticalFov / 2.0f) * camera->aspectratio);
+		}
 
 		ImGui::DragFloat("Near plane Distance ", &camera->CameraFrustrum.nearPlaneDistance, 0.1f, 0.01);
 
-		ImGui::DragFloat("Far plane Distance ", &camera->CameraFrustrum.farPlaneDistance, 1.0f, 0.01);
+		ImGui::DragFloat("Far plane Distance ", &camera->CameraFrustrum.farPlaneDistance, 0.5f, 0.03);
 
 		if (ImGui::Button("Set as Game Camera "))
 		{
-			std::string phrase = comp_owner->name + " camera set as game camera";
-			this->camera->SetAsGameCamera();
+			std::string phrase = comp_owner->name + " Camera set as game camera";
+			this->camera->SetAsGameCamera(); 
 			app->AddLog(Logs::NORMAL, phrase);
 		}
 

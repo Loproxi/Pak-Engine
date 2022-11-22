@@ -36,6 +36,8 @@ bool ModuleScene::Start()
 
 UpdateStatus ModuleScene::PreUpdate()
 {
+    PreUpdateGameObjectTree(root);
+
     return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -71,6 +73,19 @@ void ModuleScene::UpdatingGameObjectTree(GameObject* parent)
         for (int i = 0; i < parent->children.size(); i++)
         {
             UpdatingGameObjectTree(parent->children[i]);
+        }
+    }
+}
+
+void ModuleScene::PreUpdateGameObjectTree(GameObject* parent)
+{
+    if (parent->active)
+    {
+        parent->PreUpdate();
+
+        for (int i = 0; i < parent->children.size(); i++)
+        {
+            PreUpdateGameObjectTree(parent->children[i]);
         }
     }
 }
