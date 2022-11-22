@@ -26,7 +26,7 @@ void WinGame::Draw()
 	if (ImGui::Begin(name.c_str(), &isEnabled))
 	{
 		
-		if (app->camera->gamecams.size() != 0)
+		if (app->camera->gamecams.size() != 0 && app->camera->gamecamactive != nullptr)
 		{
 			ImVec2 size = ImGui::GetContentRegionAvail();
 			if (size.x != app->camera->gamecamactive->framebuffer.GetWidthFrame() || size.y != app->camera->gamecamactive->framebuffer.GetHeightFrame())

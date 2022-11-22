@@ -20,10 +20,12 @@ Comp_Camera::Comp_Camera(GameObject* go):Component(go)
 
 Comp_Camera::~Comp_Camera()
 {
-	/*if (Application::GetInstance()->camera->gamecamactive == this->camera)
+	if (Application::GetInstance()->camera->gamecamactive == this->camera)
 	{
 		Application::GetInstance()->camera->gamecamactive = nullptr;
-	}*/
+		
+		app->camera->DestroyCamera3D(this->camera);
+	}
 }
 
 void Comp_Camera::Update()

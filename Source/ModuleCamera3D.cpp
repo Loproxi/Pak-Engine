@@ -49,6 +49,19 @@ Camera3D* ModuleCamera3D::AddCamera()
 	return camera;
 }
 
+void ModuleCamera3D::DestroyCamera3D(Camera3D* camToDestroy)
+{
+
+	for (int i = 0; i < gamecams.size(); i++)
+	{
+		if (gamecams[i] == camToDestroy)
+		{
+			RELEASE(gamecams[i]);
+			gamecams.erase(gamecams.begin() + i);
+		}
+	}
+}
+
 // -----------------------------------------------------------------
 UpdateStatus ModuleCamera3D::Update()
 {

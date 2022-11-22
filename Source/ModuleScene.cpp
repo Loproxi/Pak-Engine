@@ -20,6 +20,7 @@ bool ModuleScene::Init(pugi::xml_node& config)
     test->SetParent(root);
     test2 = new GameObject("Prueba2");
     test2->SetParent(root);
+
     return true;
 }
 
@@ -75,6 +76,22 @@ void ModuleScene::UpdatingGameObjectTree(GameObject* parent)
             UpdatingGameObjectTree(parent->children[i]);
         }
     }
+}
+
+void ModuleScene::DestroyGameObject(GameObject* goToDestroy)
+{
+
+    for (int i = 0;i<gameobjects.size();i++)
+    {
+
+        if (gameobjects[i] == goToDestroy)
+        {
+            RELEASE(gameobjects[i]);
+            gameobjects.erase(gameobjects.begin() + i);
+        }
+
+    }
+
 }
 
 void ModuleScene::PreUpdateGameObjectTree(GameObject* parent)

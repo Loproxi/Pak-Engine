@@ -19,7 +19,7 @@ GameObject::GameObject(std::string name):active(true),readytobedeleted(false)
 
 	this->AddComponent(COMP_TYPE::TRANSFORM);
 
-	
+	Application::GetInstance()->scene->gameobjects.push_back(this);
 
 }
 
@@ -48,12 +48,10 @@ void GameObject::PreUpdate()
 		GameObject* parenttemp = this->parent;
 		
 		parenttemp->RemoveChild(this);
-			
-		delete this;
-
-		app = Application::GetInstance();
 		
-		app->uiController->SetGameObjSelected(nullptr);
+		Application::GetInstance()->uiController->SetGameObjSelected(nullptr);
+
+		Application::GetInstance()->scene->DestroyGameObject(this);
 
 	}
 }

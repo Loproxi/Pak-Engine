@@ -26,6 +26,8 @@ public:
 	//void RemoveTarget();
 	Camera3D* AddCamera();
 
+	void DestroyCamera3D(Camera3D* camToDestroy);
+
 public:
 
 	std::vector<Camera3D*> gamecams;

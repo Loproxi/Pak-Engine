@@ -2,6 +2,7 @@
 #define __MODULE_SCENE_H__
 
 #include "Module.h"
+#include <vector>
 
 class GameObject;
 
@@ -27,6 +28,8 @@ public:
 	void PreUpdateGameObjectTree(GameObject* parent);
 	void UpdatingGameObjectTree(GameObject* parent);
 
+	void DestroyGameObject(GameObject* goToDestroy);
+
 public:
 
 	GameObject* test;
@@ -34,6 +37,7 @@ public:
 
 	GameObject* root;
 
+	std::vector<GameObject*> gameobjects;
 
 };
 
