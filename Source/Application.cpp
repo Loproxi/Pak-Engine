@@ -13,8 +13,8 @@ Application* Application::App = nullptr;
 
 Application::Application()
 {
-	fileSystem = new ModuleFileSystem(this, true);
 	window = new ModuleWindow(this, true);
+	fileSystem = new ModuleFileSystem(this, true);
 	input = new ModuleInput(this, true);
 	camera = new ModuleCamera3D(this, true);
 	scene = new ModuleScene(this, true);
@@ -29,6 +29,8 @@ Application::Application()
 	// Main Modules
 	AddModule(fileSystem);
 	AddModule(window);
+	
+	
 	
 	AddModule(input);
 	AddModule(camera);
