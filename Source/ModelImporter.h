@@ -46,6 +46,7 @@ public:
 public:
 
 	std::string modelpath;
+	std::vector<std::string>meshnames;
 
 };
 

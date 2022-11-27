@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleFileSystem.h"
 #include "ModelImporter.h"
 #include "Shaders.h"
 #include "GameObject.h"
@@ -9,7 +10,7 @@
 
 
 
-Mesh::Mesh():VAO(0),EBO(0),VBO(0),texture(0),shader(nullptr)
+Mesh::Mesh():VAO(-1),EBO(-1),VBO(-1),texture(-1),shader(nullptr)
 {
 }
 
@@ -112,6 +113,27 @@ void Mesh::PrintMatrix(float4x4* matrix)
 	}
 }
 
+void Mesh::RenderMeshes(Shaders* shader,float4x4 modelmatrix)
+{
+	
+	shader->UseProgram();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	shader->Set1Int("texture0", 0);
+
+	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->cameratobedrawn->GetViewMatrix());
+	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->camera->cameratobedrawn->GetProjMatrix());
+	shader->SetMat4fv("modelMatrix", &modelmatrix.v[0][0]);
+	
+	//draw mesh
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, indices.size());
+	glBindVertexArray(0);
+
+}
+
 AABB Mesh::GenLocalAABB()
 {
 
@@ -133,24 +155,71 @@ AABB Mesh::GenGlobalBB(GameObject* go)
 	return GlobalAxisAlignBB;
 }
 
-void Mesh::RenderMeshes(Shaders* shader,float4x4 modelmatrix)
+void Mesh::SaveMeshIntoCustomFile(std::string meshname)
 {
-	
-	shader->UseProgram();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	uint ranges[2] = { this->vertices.size(), this->indices.size() };
 
-	shader->Set1Int("texture0", 0);
+	std::string meshfilepath = "Library/Meshes/" + meshname + ".PKmesh";
 
-	shader->SetMat4fv("viewMatrix", Application::GetInstance()->camera->cameratobedrawn->GetViewMatrix());
-	shader->SetMat4fv("projectionMatrix", Application::GetInstance()->camera->cameratobedrawn->GetProjMatrix());
-	shader->SetMat4fv("modelMatrix", &modelmatrix.v[0][0]);
+	uint size = sizeof(ranges) + sizeof(GLuint) * this->GetNumIndices() + sizeof(Vertex) * this->GetNumVertices();
+
+	char* fileBuffer = new char[size]; 
+
+	char* cursor = fileBuffer;
+
+	uint bytes = sizeof(ranges); //Store ranges
+
+	memcpy(cursor, ranges, bytes);
+	cursor += bytes;
+
+	// Store indices
+
+	bytes = sizeof(GLuint) * this->indices.size();
+	memcpy(cursor, &this->indices, bytes);
+	cursor += bytes;
+
+	// Store Vertices
+
+	bytes = sizeof(Vertex) * this->vertices.size();
+	memcpy(cursor, &this->vertices, bytes);
+	cursor += bytes;
+
+	Application::GetInstance()->fileSystem->SaveBufferToFile(meshfilepath, fileBuffer,size,false);
+
+	RELEASE_ARRAY(fileBuffer);
+}
+
+void Mesh::LoadCustomFileIntoMesh(std::string meshname)
+{
+
+	char* buffer = nullptr;
+
+	Application::GetInstance()->fileSystem->LoadFileToBuffer(meshname.c_str(), &buffer);
+
+	char* cursor = buffer;
+	// amount of indices / Vertex
+	uint ranges[2];
+	uint bytes = sizeof(ranges);
+	memcpy(ranges, cursor, bytes);
+	cursor += bytes;
+	this->numindices = ranges[0];
+	this->numvertices = ranges[1];
+	indices.resize(numindices);
+	vertices.resize(numvertices);
 	
-	//draw mesh
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	//glDrawArrays(GL_TRIANGLES, 0, indices.size());
-	glBindVertexArray(0);
+	// Load indices
+	bytes = sizeof(uint) * this->numindices;
+	
+	memcpy(&indices, cursor, bytes);
+	cursor += bytes;
+
+	// Load Vertices
+	bytes = sizeof(Vertex) * this->numvertices;
+	
+	memcpy(&vertices, cursor, bytes);
+	cursor += bytes;
+
+	RELEASE_ARRAY(buffer);
 
 }
 

@@ -50,6 +50,10 @@ public:
 
 	AABB GenGlobalBB(GameObject* go);
 
+	void SaveMeshIntoCustomFile(std::string meshname);
+
+	void LoadCustomFileIntoMesh(std::string meshname);
+
 	Vertex* GetVertices(){ return &vertices[0]; }
 	GLuint* GetIndices() { return &indices[0]; }
 	GLuint* GetTextureID() { return &texture; }
@@ -105,6 +109,7 @@ protected:
 	float4x4 modelMatrix;
 
 	friend class Comp_MeshRenderer;
+	friend class ModelImporter;
 };
 
 #endif // !_MESHRENDER_H_

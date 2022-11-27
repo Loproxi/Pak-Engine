@@ -13,6 +13,8 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled):Module(
     }
 
     AddArchiveToPath(".");
+
+    Init();
 }
 
 ModuleFileSystem::~ModuleFileSystem()
@@ -23,6 +25,9 @@ ModuleFileSystem::~ModuleFileSystem()
 
 bool ModuleFileSystem::Init()
 {
+    CreateDir("Assets/");
+    CreateDir(MESHES_FILE_DIR);
+    CreateDir(TEXTURES_FILE_DIR);
 
     return true;
 }
@@ -198,7 +203,7 @@ uint ModuleFileSystem::SaveBufferToFile(std::string file, char* buffer, uint siz
                     App->AddLog(Logs::ERROR_LOG, "FILE SYSTEM: Append bytes to file ");
                 }
                 else
-                    App->AddLog(Logs::ERROR_LOG, "FILE SYSTEM: File overwritten with bytes");
+                    App->AddLog(Logs::NORMAL, "FILE SYSTEM: File overwritten with bytes");
             }
             else
                 App->AddLog(Logs::NORMAL, "FILE SYSTEM: New file created with bytes" );
@@ -213,4 +218,24 @@ uint ModuleFileSystem::SaveBufferToFile(std::string file, char* buffer, uint siz
         App->AddLog(Logs::ERROR_LOG, "FILE SYSTEM: Could not open file to write ");
 
     return objCount;
+}
+
+void ModuleFileSystem::GetFileName(std::string file, std::string& fileName, bool extension)
+{
+    fileName = file;
+
+    uint found = fileName.find_last_of("\\");
+    if (found != std::string::npos)
+        fileName = fileName.substr(found + 1, fileName.size());
+
+    found = fileName.find_last_of("//");
+    if (found != std::string::npos)
+        fileName = fileName.substr(found + 1, fileName.size());
+
+    if (!extension)
+    {
+        found = fileName.find_last_of(".");
+        if (found != std::string::npos)
+            fileName = fileName.substr(0, found);
+    }
 }

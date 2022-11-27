@@ -1,6 +1,8 @@
 #ifndef _MODULEFILESYSTEM_H__
 #define _MODULEFILESYSTEM_H__
 
+#define MESHES_FILE_DIR "Library/Meshes"
+#define TEXTURES_FILE_DIR "Library/Textures"
 
 #include "Module.h"
 class ModuleFileSystem :
@@ -41,6 +43,8 @@ public:
     uint LoadFileToBuffer(const char* file, char** buffer);
 	
     uint SaveBufferToFile(std::string file, char* buffer, uint size, bool append);
+
+    void GetFileName(std::string file, std::string& fileName, bool extension);
 };
 
 #endif // !_MODULEFILESYSTEM_H__

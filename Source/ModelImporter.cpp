@@ -3,6 +3,7 @@
 #include "Shaders.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleFileSystem.h"
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
 
@@ -37,6 +38,7 @@ bool ModelImporter::CleanUp()
 
 void ModelImporter::Import(std::string path)
 {
+	
 	const aiScene* scene = aiImportFile(path.c_str(), aiProcess_FlipUVs | aiProcess_Triangulate);
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -89,9 +91,14 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		go->GetComponent<Comp_Transform>()->position = position;
 		go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
 		go->GetComponent<Comp_Transform>()->localScale = {1.0f,1.0f,1.0f};
- 		
 
-		go->GetComponent<Comp_MeshRenderer>()->SetMesh((goThroughMeshes(mesh, scene)));
+		Mesh* meshinlib = nullptr;
+
+		meshinlib = goThroughMeshes(mesh, scene);
+
+		meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
+		
+		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinlib);
 		parent->AddChild(go);
 	}
 	//go through all the children nodes meshes in the tree

@@ -43,7 +43,7 @@ public:
 	void LoadModelImporter(std::string path);
 	void LoadTextureImporter(std::string path);
 
-	void AddDebug(float3* points);
+	void AddDebug(/*float3* points*/);
 
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
