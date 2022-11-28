@@ -30,7 +30,6 @@ struct Vertex
 	float2 texcoords;
 };
 
-struct LoadedMeshGeometry;
 class Shaders;
 class GameObject;
 
@@ -41,8 +40,6 @@ public:
 	Mesh();
 	
 	Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices,std::string path ="");
-
-	Mesh(const LoadedMeshGeometry* test);
 
 	~Mesh();
 

@@ -3,7 +3,6 @@
 
 #include "List.h"
 #include "Timer.hpp"
-#include "External/rapidjson/rapidjson.h"
 #include "src/pugixml.hpp"
 #include <vector>
 

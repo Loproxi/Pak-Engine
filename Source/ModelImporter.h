@@ -21,6 +21,16 @@
 //
 //};
 
+struct NodeCustom
+{
+	std::string name = "CustomFileNode";
+	std::vector<NodeCustom>children;
+	std::string pathtomesh = "NOMESH";
+	float3 position = { 0.0f,0.0f,0.0f };
+	float3 rotation = { 0.0f,0.0f,0.0f };
+	float3 scale = { 1.0f,1.0f,1.0f };
+};
+
 class Shaders;
 
 class ModelImporter
@@ -42,6 +52,8 @@ public:
 	void goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent = nullptr);
 
 	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
+
+	void SaveModelIntoCF(NodeCustom& custnode);
 
 public:
 

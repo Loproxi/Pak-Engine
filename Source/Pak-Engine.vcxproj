@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;$(SolutionDir)Source\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\nlohmannjson\include;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;$(SolutionDir)Source\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
@@ -114,7 +114,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\rapidjson;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;$(SolutionDir)Source\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\External\SDL\include;$(SolutionDir)Source\External\imgui;$(SolutionDir)Source\External\MathGeoLib\include;$(SolutionDir)Source\External\Glew\include;$(SolutionDir)Source\External\nlohmannjson\include;$(SolutionDir)Source\External;$(SolutionDir)Source\External\Assimp\include;$(SolutionDir)Source\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>

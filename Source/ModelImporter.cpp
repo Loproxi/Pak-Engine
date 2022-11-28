@@ -6,6 +6,9 @@
 #include "ModuleFileSystem.h"
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
+#include "single_include/nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 ModelImporter::ModelImporter()
 {
@@ -26,6 +29,11 @@ bool ModelImporter::init()
 
 bool ModelImporter::Update()
 {
+
+	json ex3 = {
+  {"happy", true},
+  {"pi", 3.141},
+	};
 	return true;
 }
 
