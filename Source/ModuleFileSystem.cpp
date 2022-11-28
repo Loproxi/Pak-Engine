@@ -74,7 +74,7 @@ void ModuleFileSystem::DragAndDropOnEngine(std::string path)
 
     fileExtension = fileExtension.substr(fileExtension.find_last_of(".") + 1);
 
-    if (fileExtension == "fbx")
+    if (fileExtension == "fbx" || fileExtension == "FBX")
     {
         App->renderer3D->LoadModelImporter(path);
     }

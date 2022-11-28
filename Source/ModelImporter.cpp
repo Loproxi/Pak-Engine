@@ -58,18 +58,23 @@ void ModelImporter::Import(std::string path)
 
 void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent)
 {
+	GameObject* go = new GameObject(node->mName.C_Str());
 	if (parent == nullptr)
 	{
 		
-		parent = new GameObject(scene->mRootNode->mName.C_Str());
-		parent->parent = Application::GetInstance()->scene->root;
-		Application::GetInstance()->scene->root->AddChild(parent);
+		go->parent = Application::GetInstance()->scene->root;
+		Application::GetInstance()->scene->root->AddChild(go);
+	}
+	else 
+	{
+		go->parent = parent;
+		parent->AddChild(go);
 	}
 
+	
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		GameObject* go = new GameObject(node->mName.C_Str());
 		go->AddComponent(COMP_TYPE::MESH_RENDERER);
 		
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -99,12 +104,12 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
 		
 		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinlib);
-		parent->AddChild(go);
+		
 	}
 	//go through all the children nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		goThroughNodes(node->mChildren[i], scene,parent);
+		goThroughNodes(node->mChildren[i], scene,go);
 	}
 }
 
