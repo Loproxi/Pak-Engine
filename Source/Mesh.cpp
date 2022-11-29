@@ -161,7 +161,7 @@ void Mesh::SaveMeshIntoCustomFile(std::string meshname)
 
 	std::string meshfilepath = "Library/Meshes/" + meshname + ".PKmesh";
 
-	uint size = sizeof(ranges) + sizeof(GLuint) * this->GetNumIndices() + sizeof(Vertex) * this->GetNumVertices();
+	uint size = sizeof(ranges) + sizeof(uint) * this->indices.size() + sizeof(Vertex) * this->vertices.size();
 
 	char* fileBuffer = new char[size]; 
 
@@ -174,14 +174,14 @@ void Mesh::SaveMeshIntoCustomFile(std::string meshname)
 
 	// Store indices
 
-	bytes = sizeof(GLuint) * this->indices.size();
-	memcpy(cursor, &this->indices, bytes);
+	bytes = sizeof(uint) * this->indices.size();
+	memcpy(cursor, &this->indices[0], bytes);
 	cursor += bytes;
 
 	// Store Vertices
 
 	bytes = sizeof(Vertex) * this->vertices.size();
-	memcpy(cursor, &this->vertices, bytes);
+	memcpy(cursor, &this->vertices[0], bytes);
 	cursor += bytes;
 
 	Application::GetInstance()->fileSystem->SaveBufferToFile(meshfilepath, fileBuffer,size,false);
