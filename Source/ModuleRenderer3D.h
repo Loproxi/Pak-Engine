@@ -45,6 +45,8 @@ public:
 
 	void AddDebug(/*float3* points*/);
 
+	void RayIntersects(LineSegment& line);
+
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
 	bool GetVsync() { return renderstuff.vsync; }

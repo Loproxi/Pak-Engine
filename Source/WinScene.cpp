@@ -36,6 +36,36 @@ void WinScene::Draw()
 		}
 		
 		ImGui::Image((ImTextureID)app->camera->scenecam.framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
+
+		if (app->uiController->GetGameObjSelected() != nullptr)
+		{
+
+			if (ImGui::IsMouseClicked(0))
+			{
+				//ScreenPos 
+				ImVec2 mouseposinscreen = ImGui::GetMousePos();
+				ImVec2 winscenepos = ImGui::GetWindowPos();
+				//Position in win scene
+				ImVec2 mouseposinwinscene;
+				mouseposinwinscene.x = (mouseposinscreen.x - winscenepos.x);
+				mouseposinwinscene.y = mouseposinscreen.y - (winscenepos.y + ImGui::GetFrameHeight());
+				
+				//normalize mouse pos in win scene
+				ImVec2 mousewinscenenorm;
+				mousewinscenenorm.x = mouseposinwinscene.x / ImGui::GetWindowSize().x;
+				mousewinscenenorm.y = mouseposinwinscene.y / (ImGui::GetWindowSize().y - ImGui::GetFrameHeight());
+				
+				//Transform each point into the center of win scene
+				mousewinscenenorm.x = (mousewinscenenorm.x - 0.5f) / 0.5f;
+				mousewinscenenorm.y = -(mousewinscenenorm.y - 0.5f) / 0.5f;
+				LOG("Position : %f,%f", mousewinscenenorm.x, mousewinscenenorm.y);
+
+				LineSegment picking = app->camera->scenecam.CameraFrustrum.UnProjectLineSegment(mousewinscenenorm.x, mousewinscenenorm.y);
+
+
+			}
+		}
+
 	}
 	ImGui::End();
 }

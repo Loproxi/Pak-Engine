@@ -7,6 +7,7 @@
 
 #include "Mesh.h"
 #include "Comp_MeshRenderer.h"
+#include "Comp_Transform.h"
 
 #include "glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -18,6 +19,7 @@
 #include "MathGeoLib.h"
 
 #include "ModuleInput.h"
+#include <map>
 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled),test(nullptr),cube(nullptr)
@@ -227,11 +229,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		meshes[i]->Draw(testshader);
 	}
 
-	
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	AddDebug(/*meshes[i]->GetMesh()->aabbcorner*/);
 
 	if (App->camera->gamecams.size() != 0 && App->camera->gamecamactive != nullptr)
 	{
@@ -401,4 +399,53 @@ void ModuleRenderer3D::AddDebug(/*float3* points*/)
 	glEnd();
 
 
+}
+
+void ModuleRenderer3D::RayIntersects(LineSegment& line)
+{
+	std::vector<Comp_MeshRenderer*> meshIntersectedbyAABB;
+	for (uint i = 0; i < meshes.size(); i++)
+	{
+		if (line.Intersects(meshes[i]->GetMesh()->GlobalAxisAlignBB))
+		{
+			meshIntersectedbyAABB.push_back(meshes[i]);
+		}
+	}
+
+	std::map<float, Comp_MeshRenderer*> meshhitsdistmap;
+
+	for (int j = 0; j < meshIntersectedbyAABB.size(); j++)
+	{
+		//New variable to save the ray in local coordinates
+		LineSegment rayinlocalspace = line;
+
+		float4x4 meshglobalmatrix = meshIntersectedbyAABB[j]->comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix();
+
+		float4x4 meshlocalmatrix = meshglobalmatrix.Inverted();
+
+		rayinlocalspace.Transform(meshlocalmatrix);
+
+		Mesh* tempmesh = meshIntersectedbyAABB[j]->GetMesh();
+
+		for (uint k = 0; k < tempmesh->GetNumIndices(); k += 3)
+		{
+			float intersectlength = 0;
+			//Creating vertices from the vertices of the mesh at the index of the indices
+			float3 vertex1 = tempmesh->GetVertices()[tempmesh->GetIndices()[j]].position;
+			float3 vertex2 = tempmesh->GetVertices()[tempmesh->GetIndices()[j + 1]].position;
+			float3 vertex3 = tempmesh->GetVertices()[tempmesh->GetIndices()[j + 2]].position;
+
+			//Create the triangle using the 3 vertices previously created
+			Triangle triIntersects(vertex1, vertex2, vertex3);
+
+			if (rayinlocalspace.Intersects(triIntersects, &intersectlength, nullptr))
+			{
+				meshhitsdistmap[intersectlength] = meshIntersectedbyAABB[j];
+			}
+		}
+	}
+	meshIntersectedbyAABB.clear();
+	App->uiController->SetGameObjSelected((meshhitsdistmap.begin())->second->comp_owner);
+	meshhitsdistmap.clear();
+	
 }

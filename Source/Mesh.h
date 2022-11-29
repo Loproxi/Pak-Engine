@@ -95,13 +95,12 @@ private:
 	std::string path;
 
 	AABB LocalAxisAlignBB;
-	AABB GlobalAxisAlignBB;
 	OBB GlobalOrientedBB;
 
 public:
 
 	float3 aabbcorner[8];
-
+	AABB GlobalAxisAlignBB;
 protected:
 	float4x4 modelMatrix;
 
