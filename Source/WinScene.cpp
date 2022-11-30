@@ -38,7 +38,7 @@ void WinScene::Draw()
 		
 		ImGui::Image((ImTextureID)app->camera->scenecam.framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 
-		if (app->uiController->GetGameObjSelected()!= nullptr)
+		if (ImGui::IsWindowHovered())
 		{
 
 			if (ImGui::IsMouseClicked(0))
@@ -57,8 +57,8 @@ void WinScene::Draw()
 				mousewinscenenorm.y = mouseposinwinscene.y / (ImGui::GetWindowSize().y - ImGui::GetFrameHeight());
 				
 				//Transform each point into the center of win scene
-				mousewinscenenorm.x = (mousewinscenenorm.x - 0.5f) / 0.5f;
-				mousewinscenenorm.y = -(mousewinscenenorm.y - 0.5f) / 0.5f;
+				mousewinscenenorm.x = mousewinscenenorm.x * 2.0f - 1.0f;
+				mousewinscenenorm.y = mousewinscenenorm.y * -2.0f + 1.0f;
 				LOG("Position : %f,%f", mousewinscenenorm.x, mousewinscenenorm.y);
 
 				LineSegment picking = app->camera->scenecam.CameraFrustrum.UnProjectLineSegment(mousewinscenenorm.x, mousewinscenenorm.y);

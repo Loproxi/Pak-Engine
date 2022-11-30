@@ -165,8 +165,10 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
-	
+
 	LoadModelImporter("Assets/BakerHouse.fbx");
+
+	
 
 	return ret;
 }
@@ -406,7 +408,8 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 	std::vector<Comp_MeshRenderer*> meshIntersectedbyAABB;
 	for (uint i = 0; i < meshes.size(); i++)
 	{
-		if (line.Intersects(meshes[i]->GetMesh()->GlobalAxisAlignBB))
+		AABB tempabb = meshes[i]->GetMesh()->GlobalAxisAlignBB;
+		if (line.Intersects(tempabb))
 		{
 			meshIntersectedbyAABB.push_back(meshes[i]);
 		}
@@ -416,9 +419,6 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 	{
 		App->uiController->SetGameObjSelected(nullptr);
 	}
-
-
-	
 
 	for (int j = 0; j < meshIntersectedbyAABB.size(); j++)
 	{
@@ -438,9 +438,9 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 		{
 			float intersectlength = 0;
 			//Creating vertices from the vertices of the mesh at the index of the indices
-			float3 vertex1 = tempmesh->GetVertices()[tempmesh->GetIndices()[j]].position;
-			float3 vertex2 = tempmesh->GetVertices()[tempmesh->GetIndices()[j + 1]].position;
-			float3 vertex3 = tempmesh->GetVertices()[tempmesh->GetIndices()[j + 2]].position;
+			float3 vertex1 = tempmesh->GetVertices()[tempmesh->GetIndices()[k]].position;
+			float3 vertex2 = tempmesh->GetVertices()[tempmesh->GetIndices()[k + 1]].position;
+			float3 vertex3 = tempmesh->GetVertices()[tempmesh->GetIndices()[k + 2]].position;
 
 			//Create the triangle using the 3 vertices previously created
 			Triangle triIntersects(vertex1, vertex2, vertex3);
@@ -452,7 +452,7 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 		}
 	}
 	meshIntersectedbyAABB.clear();
-
+	
 	if (trihitsdistmap.size() == 0)
 	{
 		return nullptr;

@@ -79,6 +79,23 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		parent->AddChild(go);
 	}
 
+	aiVector3D aiscale;
+	aiVector3D aiposition;
+	aiVector3D airotation;
+
+	node->mTransformation.Decompose(aiscale, airotation, aiposition);
+
+	float3 position(aiposition.x, aiposition.y, aiposition.z);
+	float3 scale(aiscale.x, aiscale.y, aiscale.z);
+	float3 rotation;
+	rotation.x = math::RadToDeg(airotation.x);
+	rotation.y = math::RadToDeg(airotation.y);
+	rotation.z = math::RadToDeg(airotation.z);
+
+	go->GetComponent<Comp_Transform>()->position = position;
+	go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
+	go->GetComponent<Comp_Transform>()->localScale = { 1.0f,1.0f,1.0f };
+
 	
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -87,23 +104,6 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		//Comp_MeshRenderer* temp = (Comp_MeshRenderer*)go->GetComponent(COMP_TYPE::MESH_RENDERER);
-
-		aiVector3D aiscale;
-		aiVector3D aiposition;
-		aiVector3D airotation;
-
-		node->mTransformation.Decompose(aiscale, airotation, aiposition);
-
-		float3 position(aiposition.x, aiposition.y, aiposition.z);
-		float3 scale(aiscale.x, aiscale.y, aiscale.z);
-		float3 rotation;
-		rotation.x = math::RadToDeg(airotation.x);
-		rotation.y = math::RadToDeg(airotation.y);
-		rotation.z = math::RadToDeg(airotation.z);
-		
-		go->GetComponent<Comp_Transform>()->position = position;
-		go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
-		go->GetComponent<Comp_Transform>()->localScale = {1.0f,1.0f,1.0f};
 
 		Mesh* meshinlib = nullptr;
 

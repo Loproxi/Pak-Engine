@@ -123,7 +123,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\External\SDL\libx86;$(SolutionDir)Source\External\Glew\libx86;$(SolutionDir)Source\External\Assimp\libx86\Release;$(SolutionDir)Source\External\DevIL\libx86;$(SolutionDir)Source\External\MathGeoLib\libx86\Release;$(SolutionDir)Source\External\PhysFS\libx86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;glew32s.lib;DevIL.lib;ILU.lib;ILUT.lib;assimp-vc142-mt.lib;physfs.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
