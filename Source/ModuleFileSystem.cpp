@@ -28,6 +28,7 @@ bool ModuleFileSystem::Init()
     CreateDir("Assets/");
     CreateDir(MESHES_FILE_DIR);
     CreateDir(TEXTURES_FILE_DIR);
+    CreateDir(MODELS_FILE_DIR);
 
     return true;
 }

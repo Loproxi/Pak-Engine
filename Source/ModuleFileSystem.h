@@ -3,6 +3,7 @@
 
 #define MESHES_FILE_DIR "Library/Meshes"
 #define TEXTURES_FILE_DIR "Library/Textures"
+#define MODELS_FILE_DIR "Library/Models"
 
 #include "Module.h"
 class ModuleFileSystem :

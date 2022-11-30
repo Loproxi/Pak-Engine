@@ -6,9 +6,6 @@
 #include "ModuleFileSystem.h"
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
-#include "single_include/nlohmann/json.hpp"
-
-using json = nlohmann::json;
 
 ModelImporter::ModelImporter()
 {
@@ -66,6 +63,9 @@ void ModelImporter::Import(std::string path)
 
 void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent)
 {
+	NodeCustom modelnode;
+	modelnode.name = node->mName.C_Str();
+	
 	GameObject* go = new GameObject(node->mName.C_Str());
 	if (parent == nullptr)
 	{
@@ -79,6 +79,17 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 		parent->AddChild(go);
 	}
 
+	if (node->mNumMeshes != 0)
+	{
+		modelnode.pathtomesh = "NOMESH";
+	}
+	else
+	{
+		modelnode.pathtomesh = "Library/Models/";
+		modelnode.pathtomesh += node->mName.C_Str();
+		modelnode.pathtomesh += ".PKmesh";
+	}
+
 	aiVector3D aiscale;
 	aiVector3D aiposition;
 	aiVector3D airotation;
@@ -88,14 +99,15 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	float3 position(aiposition.x, aiposition.y, aiposition.z);
 	float3 scale(aiscale.x, aiscale.y, aiscale.z);
 	float3 rotation;
+	modelnode.position = position;
 	rotation.x = math::RadToDeg(airotation.x);
 	rotation.y = math::RadToDeg(airotation.y);
 	rotation.z = math::RadToDeg(airotation.z);
-
+	modelnode.rotation = rotation;
 	go->GetComponent<Comp_Transform>()->position = position;
 	go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
 	go->GetComponent<Comp_Transform>()->localScale = { 1.0f,1.0f,1.0f };
-
+	modelnode.scale = { 1.0f,1.0f,1.0f };
 	
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -119,6 +131,8 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	{
 		goThroughNodes(node->mChildren[i], scene,go);
 	}
+
+	SaveModelIntoCF(modelnode);
 }
 
 Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
@@ -177,5 +191,85 @@ Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
 	Application::GetInstance()->AddLog(Logs::NORMAL, "Mesh Loaded");
 	//With new we avoid calling the destructor till the application is closing
 	return new Mesh(&vertices[0], vertices.size(),&indices[0],indices.size(),modelpath);
+}
+
+void ModelImporter::SaveModelIntoCF(NodeCustom& custnode)
+{
+	/*{"answer", {
+			{"everything", 42}
+		}},
+
+			{"children", {
+			{"currency", "USD"},
+		}}
+		*/
+
+	std::string modelfilepath = "Library/Models/" + custnode.name + ".PKmodel";
+
+	std::vector<std::string> childnames;
+
+	for (uint i = 0; i < custnode.children.size(); i++)
+	{
+		childnames.push_back(custnode.children[i].name);
+	}
+
+	json models = {
+
+		{"modelroot",
+			{
+				{"name", custnode.name},
+				{"pathtomesh", custnode.pathtomesh},
+				{"position", {custnode.position.x, custnode.position.y, custnode.position.z}},
+				{"rotation", {custnode.rotation.x, custnode.rotation.y, custnode.rotation.z}},
+				{"scale", {custnode.scale.x, custnode.scale.y, custnode.scale.z}},
+				{"childsnames", childnames},
+			}
+		}
+	};
+
+	for (int i = 0; i < custnode.children.size(); i++)
+	{
+		IterateNodeCustomChildren(models, custnode.children[i]);
+	}
+
+	std::string s = models.dump();
+	char* buffer = new char[s.length() + 1];
+	strcpy(buffer, s.c_str());
+	
+
+	Application::GetInstance()->fileSystem->SaveBufferToFile(modelfilepath, buffer, s.size(),false);
+	RELEASE_ARRAY(buffer);
+
+}
+
+void ModelImporter::IterateNodeCustomChildren(json& refjson, NodeCustom& childnode)
+{
+	std::vector<std::string> childnames;
+
+	for (uint i = 0; i < childnode.children.size(); i++)
+	{
+		childnames.push_back(childnode.children[i].name);
+	}
+
+	json childmodels = {
+
+		{childnode.name,
+			{
+				{"name", childnode.name},
+				{"pathtomesh", childnode.pathtomesh},
+				{"position", {childnode.position.x, childnode.position.y, childnode.position.z}},
+				{"rotation", {childnode.rotation.x, childnode.rotation.y, childnode.rotation.z}},
+				{"scale", {childnode.scale.x, childnode.scale.y, childnode.scale.z}},
+				{"childsnames", childnames},
+			}
+		}
+	};
+
+	refjson += childmodels;
+
+	for (int i = 0; i < childnode.children.size(); i++)
+	{
+		IterateNodeCustomChildren(refjson, childnode.children[i]);
+	}
 }
 

@@ -210,13 +210,13 @@ void Mesh::LoadCustomFileIntoMesh(std::string meshname)
 	// Load indices
 	bytes = sizeof(uint) * this->numindices;
 	
-	memcpy(&indices, cursor, bytes);
+	memcpy(&indices[0], cursor, bytes);
 	cursor += bytes;
 
 	// Load Vertices
 	bytes = sizeof(Vertex) * this->numvertices;
 	
-	memcpy(&vertices, cursor, bytes);
+	memcpy(&vertices[0], cursor, bytes);
 	cursor += bytes;
 
 	RELEASE_ARRAY(buffer);

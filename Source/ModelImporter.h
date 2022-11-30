@@ -9,6 +9,10 @@
 #include "assimp/postprocess.h"
 #include "Mesh.h"
 #include "GameObject.h"
+#include "single_include/nlohmann/json.hpp"
+
+using json = nlohmann::json;
+
 
 //struct LoadedMeshGeometry
 //{
@@ -29,6 +33,7 @@ struct NodeCustom
 	float3 position = { 0.0f,0.0f,0.0f };
 	float3 rotation = { 0.0f,0.0f,0.0f };
 	float3 scale = { 1.0f,1.0f,1.0f };
+
 };
 
 class Shaders;
@@ -54,6 +59,8 @@ public:
 	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 	void SaveModelIntoCF(NodeCustom& custnode);
+
+	void IterateNodeCustomChildren(json& json, NodeCustom& childnode);
 
 public:
 
