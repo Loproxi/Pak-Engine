@@ -19,7 +19,7 @@
 #include "MathGeoLib.h"
 
 #include "ModuleInput.h"
-#include <map>
+
 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled),test(nullptr),cube(nullptr)
@@ -216,12 +216,6 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	/*if (debug_draw == true)
-	{
-		BeginDebugDraw();
-		App->DebugDraw();
-		EndDebugDraw();
-	}*/
 	App->camera->cameratobedrawn = &App->camera->scenecam;
 
 	for (int i = 0; i < meshes.size(); i++)
@@ -276,7 +270,13 @@ bool ModuleRenderer3D::CleanUp()
 		RELEASE(textures[i]);
 	}
 	textures.clear();
-	
+
+	auto iter = trihitsdistmap.begin();
+	while (iter != trihitsdistmap.end()) 
+	{
+		RELEASE(iter->second);
+	}
+
 	//house.CleanUp();
 
 	return true;
@@ -401,7 +401,7 @@ void ModuleRenderer3D::AddDebug(/*float3* points*/)
 
 }
 
-void ModuleRenderer3D::RayIntersects(LineSegment& line)
+Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 {
 	std::vector<Comp_MeshRenderer*> meshIntersectedbyAABB;
 	for (uint i = 0; i < meshes.size(); i++)
@@ -412,7 +412,13 @@ void ModuleRenderer3D::RayIntersects(LineSegment& line)
 		}
 	}
 
-	std::map<float, Comp_MeshRenderer*> meshhitsdistmap;
+	if (meshIntersectedbyAABB.size() == 0)
+	{
+		App->uiController->SetGameObjSelected(nullptr);
+	}
+
+
+	
 
 	for (int j = 0; j < meshIntersectedbyAABB.size(); j++)
 	{
@@ -423,6 +429,7 @@ void ModuleRenderer3D::RayIntersects(LineSegment& line)
 
 		float4x4 meshlocalmatrix = meshglobalmatrix.Inverted();
 
+		//multiply ray's position by the inverted global matrix of the mesh in order to convert ray in global position to mesh's local space
 		rayinlocalspace.Transform(meshlocalmatrix);
 
 		Mesh* tempmesh = meshIntersectedbyAABB[j]->GetMesh();
@@ -440,12 +447,19 @@ void ModuleRenderer3D::RayIntersects(LineSegment& line)
 
 			if (rayinlocalspace.Intersects(triIntersects, &intersectlength, nullptr))
 			{
-				meshhitsdistmap[intersectlength] = meshIntersectedbyAABB[j];
+				trihitsdistmap[intersectlength] = meshIntersectedbyAABB[j];
 			}
 		}
 	}
 	meshIntersectedbyAABB.clear();
-	App->uiController->SetGameObjSelected((meshhitsdistmap.begin())->second->comp_owner);
-	meshhitsdistmap.clear();
+
+	if (trihitsdistmap.size() == 0)
+	{
+		return nullptr;
+	}
+	else
+	{
+		return trihitsdistmap.begin()->second;
+	}
 	
 }

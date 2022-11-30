@@ -151,7 +151,7 @@ bool Camera3D::FrustrumContainsBB(AABB& globalBB)
 		int iPtIn = 1;
 		for (int i = 0; i < 8; ++i) {
 			// test this point against the planes
-			if (camerafrustrumplanes[p].IsOnPositiveSide(OBBCornerpoints[i]) ) { //<-- “IsOnPositiveSide” from MathGeoLib
+			if (camerafrustrumplanes[p].IsOnPositiveSide(OBBCornerpoints[i]) ) { 
 				iPtIn = 0;
 				--iInCount;
 			}

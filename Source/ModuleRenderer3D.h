@@ -7,6 +7,7 @@
 #include "Primitive.h"
 #include "ModelImporter.h"
 #include "Shaders.h"
+#include <map>
 
 #define MAX_LIGHTS 8
 
@@ -45,7 +46,7 @@ public:
 
 	void AddDebug(/*float3* points*/);
 
-	void RayIntersects(LineSegment& line);
+	Comp_MeshRenderer* RayIntersects(LineSegment& line);
 
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
@@ -75,6 +76,7 @@ public:
 	std::vector<Comp_MeshRenderer*>meshes;
 	std::vector<Texture*>textures;
 	std::vector<float3>debugpoints;
+	std::map<float, Comp_MeshRenderer*> trihitsdistmap;
 
 private:
 
@@ -85,6 +87,8 @@ private:
 	SDL_GLContext context;
 	
 	RenderStuff renderstuff;
+
+	
 };
 
 #endif // !__MODULERENDERER3D_H__

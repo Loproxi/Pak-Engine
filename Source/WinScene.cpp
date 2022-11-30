@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleUIcontroller.h"
 #include "imgui.h"
+#include "Comp_MeshRenderer.h"
 
 WinScene::WinScene()
 {
@@ -37,7 +38,7 @@ void WinScene::Draw()
 		
 		ImGui::Image((ImTextureID)app->camera->scenecam.framebuffer.GetTextureBuffer(), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 
-		if (app->uiController->GetGameObjSelected() != nullptr)
+		if (app->uiController->GetGameObjSelected()!= nullptr)
 		{
 
 			if (ImGui::IsMouseClicked(0))
@@ -62,7 +63,18 @@ void WinScene::Draw()
 
 				LineSegment picking = app->camera->scenecam.CameraFrustrum.UnProjectLineSegment(mousewinscenenorm.x, mousewinscenenorm.y);
 
-
+				Comp_MeshRenderer* meshhit = app->renderer3D->RayIntersects(picking);
+				
+				if (meshhit != nullptr)
+				{
+					app->uiController->SetGameObjSelected(meshhit->comp_owner);
+				}
+				else
+				{
+					app->uiController->SetGameObjSelected(nullptr);
+				}
+				app->renderer3D->trihitsdistmap.clear();
+				
 			}
 		}
 
