@@ -14,25 +14,23 @@
 using json = nlohmann::json;
 
 
-//struct LoadedMeshGeometry
-//{
-//	uint id_index = 0; // index in VRAM
-//	uint num_index = 0;
-//	GLuint* index = nullptr;
-//	uint id_vertex = 0; // unique vertex in VRAM
-//	uint num_vertex = 0;
-//	std::vector<Vertex> vertex;
-//
-//};
-
 struct NodeCustom
 {
+	NodeCustom()
+	{}
+
+	NodeCustom(std::string nodename)
+	{
+		this->name = nodename;
+	}
+
 	std::string name = "CustomFileNode";
-	std::vector<NodeCustom>children;
+	std::vector<NodeCustom*>children;
 	std::string pathtomesh = "NOMESH";
 	float3 position = { 0.0f,0.0f,0.0f };
 	float3 rotation = { 0.0f,0.0f,0.0f };
 	float3 scale = { 1.0f,1.0f,1.0f };
+	bool IsRoot = false;
 
 };
 
@@ -54,13 +52,19 @@ public:
 
 	void Import(std::string);
 
-	void goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent = nullptr);
+	void goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent = nullptr,NodeCustom* nodetoCFF = nullptr);
 
 	Mesh* goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene);
 
 	void SaveModelIntoCF(NodeCustom& custnode);
 
 	void IterateNodeCustomChildren(json& json, NodeCustom& childnode);
+
+	void LoadCFInEngine(json& modelfile);
+
+	void IterateCFIntoGO(json& jsonfile, GameObject* parent,std::string childname);
+
+	void DeletechildrenRecursively(NodeCustom* custnode);
 
 public:
 

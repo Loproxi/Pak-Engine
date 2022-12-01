@@ -47,12 +47,19 @@ void ModelImporter::Import(std::string path)
 	const aiScene* scene = aiImportFile(path.c_str(), aiProcess_FlipUVs | aiProcess_Triangulate);
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		NodeCustom modelnode;
+		modelnode.IsRoot = true;
 		modelpath = path;
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 
-		goThroughNodes(scene->mRootNode,scene);
+		goThroughNodes(scene->mRootNode,scene,nullptr,&modelnode);
 		
 		aiReleaseImport(scene);
+
+		SaveModelIntoCF(modelnode);
+
+		DeletechildrenRecursively(&modelnode);
+		
 	}
 	else
 	{
@@ -61,33 +68,30 @@ void ModelImporter::Import(std::string path)
 
 }
 
-void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent)
+void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject* parent, NodeCustom* nodetoCFF)
 {
-	NodeCustom modelnode;
-	modelnode.name = node->mName.C_Str();
 	
-	GameObject* go = new GameObject(node->mName.C_Str());
-	if (parent == nullptr)
+	//GameObject* go = new GameObject(node->mName.C_Str());
+	//if (parent == nullptr)
+	//{
+	//	
+	//	go->parent = Application::GetInstance()->scene->root;
+	//	Application::GetInstance()->scene->root->AddChild(go);
+	//}
+	//else 
+	//{
+	//	go->parent = parent;
+	//	parent->AddChild(go);
+	//}
+
+	NodeCustom* nc = new NodeCustom(node->mName.C_Str());
+	if (nodetoCFF->IsRoot == true)
 	{
-		
-		go->parent = Application::GetInstance()->scene->root;
-		Application::GetInstance()->scene->root->AddChild(go);
+		nodetoCFF->children.push_back(nc);
 	}
 	else 
 	{
-		go->parent = parent;
-		parent->AddChild(go);
-	}
-
-	if (node->mNumMeshes != 0)
-	{
-		modelnode.pathtomesh = "NOMESH";
-	}
-	else
-	{
-		modelnode.pathtomesh = "Library/Models/";
-		modelnode.pathtomesh += node->mName.C_Str();
-		modelnode.pathtomesh += ".PKmesh";
+		nodetoCFF->children.push_back(nc);
 	}
 
 	aiVector3D aiscale;
@@ -99,40 +103,45 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	float3 position(aiposition.x, aiposition.y, aiposition.z);
 	float3 scale(aiscale.x, aiscale.y, aiscale.z);
 	float3 rotation;
-	modelnode.position = position;
+	nc->position = position;
 	rotation.x = math::RadToDeg(airotation.x);
 	rotation.y = math::RadToDeg(airotation.y);
 	rotation.z = math::RadToDeg(airotation.z);
-	modelnode.rotation = rotation;
-	go->GetComponent<Comp_Transform>()->position = position;
-	go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
-	go->GetComponent<Comp_Transform>()->localScale = { 1.0f,1.0f,1.0f };
-	modelnode.scale = { 1.0f,1.0f,1.0f };
+	nc->rotation = rotation;
+	//go->GetComponent<Comp_Transform>()->position = position;
+	//go->GetComponent<Comp_Transform>()->eulerRotation = rotation;
+	//go->GetComponent<Comp_Transform>()->localScale = { 1.0f,1.0f,1.0f };
+	nc->scale = { 1.0f,1.0f,1.0f };
 	
 	// go through all the nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		go->AddComponent(COMP_TYPE::MESH_RENDERER);
+		/*go->AddComponent(COMP_TYPE::MESH_RENDERER);*/
 		
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		//Comp_MeshRenderer* temp = (Comp_MeshRenderer*)go->GetComponent(COMP_TYPE::MESH_RENDERER);
 
+		nc->pathtomesh = "Library/Meshes/";
+		nc->pathtomesh += node->mName.C_Str();
+		nc->pathtomesh += ".PKmesh";
+
 		Mesh* meshinlib = nullptr;
 
-		meshinlib = goThroughMeshes(mesh, scene);
+		//meshinlib = goThroughMeshes(mesh, scene);
 
-		meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
+		//meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
 		
-		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinlib);
+		/*go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinlib);*/
 		
 	}
 	//go through all the children nodes meshes in the tree
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		goThroughNodes(node->mChildren[i], scene,go);
+		
+		goThroughNodes(node->mChildren[i], scene,nullptr, nc);
 	}
 
-	SaveModelIntoCF(modelnode);
+	
 }
 
 Mesh* ModelImporter::goThroughMeshes(aiMesh* meshfromfbx, const aiScene* scene)
@@ -210,7 +219,7 @@ void ModelImporter::SaveModelIntoCF(NodeCustom& custnode)
 
 	for (uint i = 0; i < custnode.children.size(); i++)
 	{
-		childnames.push_back(custnode.children[i].name);
+		childnames.push_back(custnode.children[i]->name);
 	}
 
 	json models = {
@@ -229,7 +238,7 @@ void ModelImporter::SaveModelIntoCF(NodeCustom& custnode)
 
 	for (int i = 0; i < custnode.children.size(); i++)
 	{
-		IterateNodeCustomChildren(models, custnode.children[i]);
+		IterateNodeCustomChildren(models, *custnode.children[i]);
 	}
 
 	std::string s = models.dump();
@@ -248,7 +257,7 @@ void ModelImporter::IterateNodeCustomChildren(json& refjson, NodeCustom& childno
 
 	for (uint i = 0; i < childnode.children.size(); i++)
 	{
-		childnames.push_back(childnode.children[i].name);
+		childnames.push_back(childnode.children[i]->name);
 	}
 
 	json childmodels = {
@@ -265,11 +274,86 @@ void ModelImporter::IterateNodeCustomChildren(json& refjson, NodeCustom& childno
 		}
 	};
 
-	refjson += childmodels;
+	//
+
+	refjson[childnode.name] = childmodels;
 
 	for (int i = 0; i < childnode.children.size(); i++)
 	{
-		IterateNodeCustomChildren(refjson, childnode.children[i]);
+		IterateNodeCustomChildren(refjson, *childnode.children[i]);
 	}
 }
 
+void ModelImporter::DeletechildrenRecursively(NodeCustom* custnode)
+{
+	for (uint i = 0; i < custnode->children.size(); i++)
+	{
+		DeletechildrenRecursively(custnode->children[i]);
+
+		RELEASE(custnode->children[i]);
+
+	}
+	custnode->children.clear();
+}
+
+void ModelImporter::LoadCFInEngine(json& modelfile)
+{
+	GameObject* go = new GameObject(modelfile["modelroot"]["name"]);
+
+	go->parent = Application::GetInstance()->scene->root;
+	Application::GetInstance()->scene->root->AddChild(go);
+
+	go->GetComponent<Comp_Transform>()->position.x = modelfile["modelroot"]["position"][0];
+	go->GetComponent<Comp_Transform>()->position.y = modelfile["modelroot"]["position"][1];
+	go->GetComponent<Comp_Transform>()->position.z = modelfile["modelroot"]["position"][2];
+
+	go->GetComponent<Comp_Transform>()->rotation.x = modelfile["modelroot"]["rotation"][0];
+	go->GetComponent<Comp_Transform>()->rotation.y = modelfile["modelroot"]["rotation"][1];
+	go->GetComponent<Comp_Transform>()->rotation.z = modelfile["modelroot"]["rotation"][2];
+
+	go->GetComponent<Comp_Transform>()->localScale.x = modelfile["modelroot"]["scale"][0];
+	go->GetComponent<Comp_Transform>()->localScale.y = modelfile["modelroot"]["scale"][1];
+	go->GetComponent<Comp_Transform>()->localScale.z = modelfile["modelroot"]["scale"][2];
+
+	if (modelfile["modelroot"]["pathtomesh"] != "NOMESH")
+	{
+		//LOAD PKMESH into COMP_MESHRENDERER
+	}
+
+	std::vector<std::string> childnames = modelfile["modelroot"]["childsnames"];
+	for (uint i = 0; i < childnames.size(); i++)
+	{
+		IterateCFIntoGO(modelfile, go, childnames[i]);
+	}
+
+}
+
+void ModelImporter::IterateCFIntoGO(json& jsonfile, GameObject* parent, std::string childname)
+{
+	GameObject* go = new GameObject(jsonfile[childname]["name"]);
+
+	parent->AddChild(go);
+
+	go->GetComponent<Comp_Transform>()->position.x = jsonfile[childname]["position"][0];
+	go->GetComponent<Comp_Transform>()->position.y = jsonfile[childname]["position"][1];
+	go->GetComponent<Comp_Transform>()->position.z = jsonfile[childname]["position"][2];
+
+	go->GetComponent<Comp_Transform>()->rotation.x = jsonfile[childname]["rotation"][0];
+	go->GetComponent<Comp_Transform>()->rotation.y = jsonfile[childname]["rotation"][1];
+	go->GetComponent<Comp_Transform>()->rotation.z = jsonfile[childname]["rotation"][2];
+
+	go->GetComponent<Comp_Transform>()->localScale.x = jsonfile[childname]["scale"][0];
+	go->GetComponent<Comp_Transform>()->localScale.y = jsonfile[childname]["scale"][1];
+	go->GetComponent<Comp_Transform>()->localScale.z = jsonfile[childname]["scale"][2];
+
+	if (jsonfile["modelroot"]["pathtomesh"] != "NOMESH")
+	{
+		//LOAD PKMESH into COMP_MESHRENDERER
+	}
+
+	std::vector<std::string> childnames = jsonfile[childname]["childsnames"];
+	for (uint i = 0; i < childnames.size(); i++)
+	{
+		IterateCFIntoGO(jsonfile, go, childnames[i]);
+	}
+}

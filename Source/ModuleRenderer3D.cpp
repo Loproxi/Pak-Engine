@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUIcontroller.h"
 #include "ModuleScene.h"
+#include "ModuleFileSystem.h"
 
 #include "Mesh.h"
 #include "Comp_MeshRenderer.h"
@@ -166,9 +167,9 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 
-	LoadModelImporter("Assets/BakerHouse.fbx");
+	//LoadModelImporter("Library/Models/CustomFileNode.PKmodel");
 
-	
+	LoadModelImporter("Assets/BakerHouse.fbx");
 
 	return ret;
 }
@@ -349,6 +350,15 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 	ModelImporter currentModel;
 
 	currentModel.Import(path);
+	/*char* buffer;
+
+	json file;
+
+	App->fileSystem->LoadFileToBuffer(path.c_str(), &buffer);
+
+	file = json::parse(buffer);
+
+	currentModel.LoadCFInEngine(file);*/
 
 }
 
