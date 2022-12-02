@@ -226,6 +226,8 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		meshes[i]->Draw(testshader);
 	}
 
+	AddDebug();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	if (App->camera->gamecams.size() != 0 && App->camera->gamecamactive != nullptr)
@@ -360,6 +362,8 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 	currentModel.LoadCFInEngine(file);
 
+	RELEASE_ARRAY(buffer);
+
 }
 
 void ModuleRenderer3D::LoadTextureImporter(std::string path)
@@ -392,12 +396,18 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 
 void ModuleRenderer3D::AddDebug(/*float3* points*/)
 {
+
+	/*glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf();
+	glMatrixMode(GL_MODELVIEW);*/
 	
 	glBegin(GL_POINTS);
 	
+		glPopMatrix();
+		glLoadIdentity();
 		glColor3f(1.f, 0.f, 0.f);
 
-		glPointSize(8.0f);
+		glPointSize(50.0f);
 		
 		glVertex3f(5.0f, 0.0f, 0.0f); 
 		glVertex3f(10.0f, 0.0f, 0.0f);
