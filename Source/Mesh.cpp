@@ -12,6 +12,8 @@
 
 Mesh::Mesh():VAO(-1),EBO(-1),VBO(-1),texture(-1),shader(nullptr)
 {
+	numindices = 0;
+	numvertices = 0;
 }
 
 Mesh::Mesh(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices, std::string path)

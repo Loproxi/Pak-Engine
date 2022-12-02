@@ -317,7 +317,15 @@ void ModelImporter::LoadCFInEngine(json& modelfile)
 
 	if (modelfile["modelroot"]["pathtomesh"] != "NOMESH")
 	{
-		//LOAD PKMESH into COMP_MESHRENDERER
+		go->AddComponent(COMP_TYPE::MESH_RENDERER);
+
+		Mesh* meshinbinary = new Mesh();
+
+		meshinbinary->LoadCustomFileIntoMesh(modelfile["modelroot"]["pathtomesh"]);
+
+		meshinbinary->InitBuffers();
+
+		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinbinary);
 	}
 
 	std::vector<std::string> childnames = modelfile["modelroot"]["childsnames"];
@@ -346,9 +354,22 @@ void ModelImporter::IterateCFIntoGO(json& jsonfile, GameObject* parent, std::str
 	go->GetComponent<Comp_Transform>()->localScale.y = jsonfile[childname][childname]["scale"][1];
 	go->GetComponent<Comp_Transform>()->localScale.z = jsonfile[childname][childname]["scale"][2];
 
-	if (jsonfile["modelroot"]["pathtomesh"] != "NOMESH")
+	if (jsonfile[childname][childname]["pathtomesh"] != "NOMESH")
 	{
 		//LOAD PKMESH into COMP_MESHRENDERER
+
+		go->AddComponent(COMP_TYPE::MESH_RENDERER);
+
+		Mesh* meshinbinary = new Mesh();
+
+		meshinbinary->LoadCustomFileIntoMesh(jsonfile[childname][childname]["pathtomesh"]);
+
+		meshinbinary->InitBuffers();
+		
+		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinbinary);
+
+		
+
 	}
 
 	std::vector<std::string> childnames = jsonfile[childname][childname]["childsnames"];
