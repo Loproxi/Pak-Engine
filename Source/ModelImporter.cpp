@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
+#include "ModuleRenderer3D.h"
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
 
@@ -58,6 +59,8 @@ void ModelImporter::Import(std::string path)
 
 		SaveModelIntoCF(modelnode);
 
+		Application::GetInstance()->renderer3D->modelname = modelnode.name;
+
 		DeletechildrenRecursively(&modelnode);
 		
 	}
@@ -87,6 +90,7 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 	NodeCustom* nc = new NodeCustom(node->mName.C_Str());
 	if (nodetoCFF->IsRoot == true)
 	{
+		nodetoCFF->name = nc->name;
 		nodetoCFF->children.push_back(nc);
 	}
 	else 
@@ -367,8 +371,6 @@ void ModelImporter::IterateCFIntoGO(json& jsonfile, GameObject* parent, std::str
 		meshinbinary->InitBuffers();
 		
 		go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinbinary);
-
-		
 
 	}
 

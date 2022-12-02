@@ -72,6 +72,7 @@ public:
 	Mesh* test;
 	Shaders* testshader;
 	bool showBB;
+	std::string modelname;
 
 	std::vector<Comp_MeshRenderer*>meshes;
 	std::vector<Texture*>textures;

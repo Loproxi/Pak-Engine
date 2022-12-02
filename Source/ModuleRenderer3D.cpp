@@ -167,7 +167,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 
-	LoadModelImporter("Library/Models/CustomFileNode.PKmodel");
+	//LoadModelImporter("Library/Models/scene.PKmodel");
 
 	//LoadModelImporter("Assets/BakerHouse.fbx");
 
@@ -348,21 +348,45 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::LoadModelImporter(std::string path)
 {
+	std::string fileExtension(path);
+
+	fileExtension = fileExtension.substr(fileExtension.find_last_of(".") + 1);
 
 	ModelImporter currentModel;
 
-	//currentModel.Import(path);
-	char* buffer;
+	if (fileExtension != "PKmodel")
+	{
 
-	json file;
+		currentModel.Import(path);
 
-	App->fileSystem->LoadFileToBuffer(path.c_str(), &buffer);
+		std::string modelfilepath = "Library/Models/" + modelname + ".PKmodel";
 
-	file = json::parse(buffer);
+		char* buffer;
 
-	currentModel.LoadCFInEngine(file);
+		json file;
 
-	RELEASE_ARRAY(buffer);
+		App->fileSystem->LoadFileToBuffer(modelfilepath.c_str(), &buffer);
+
+		file = json::parse(buffer);
+
+		currentModel.LoadCFInEngine(file);
+
+		RELEASE_ARRAY(buffer);
+	}
+	else 
+	{
+		char* buffer;
+
+		json file;
+
+		App->fileSystem->LoadFileToBuffer(path.c_str(), &buffer);
+
+		file = json::parse(buffer);
+
+		currentModel.LoadCFInEngine(file);
+
+		RELEASE_ARRAY(buffer);
+	}
 
 }
 
@@ -396,18 +420,17 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 
 void ModuleRenderer3D::AddDebug(/*float3* points*/)
 {
+	glUseProgram(0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(App->camera->cameratobedrawn->GetProjMatrix());
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(App->camera->cameratobedrawn->GetViewMatrix());
 
-	/*glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf();
-	glMatrixMode(GL_MODELVIEW);*/
-	
 	glBegin(GL_POINTS);
 	
-		glPopMatrix();
-		glLoadIdentity();
 		glColor3f(1.f, 0.f, 0.f);
 
-		glPointSize(50.0f);
+		glPointSize(5.0f);
 		
 		glVertex3f(5.0f, 0.0f, 0.0f); 
 		glVertex3f(10.0f, 0.0f, 0.0f);
