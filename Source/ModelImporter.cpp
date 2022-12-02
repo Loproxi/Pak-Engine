@@ -330,28 +330,28 @@ void ModelImporter::LoadCFInEngine(json& modelfile)
 
 void ModelImporter::IterateCFIntoGO(json& jsonfile, GameObject* parent, std::string childname)
 {
-	GameObject* go = new GameObject(jsonfile[childname]["name"]);
+	GameObject* go = new GameObject(jsonfile[childname][childname]["name"]);
 
 	parent->AddChild(go);
 
-	go->GetComponent<Comp_Transform>()->position.x = jsonfile[childname]["position"][0];
-	go->GetComponent<Comp_Transform>()->position.y = jsonfile[childname]["position"][1];
-	go->GetComponent<Comp_Transform>()->position.z = jsonfile[childname]["position"][2];
+	go->GetComponent<Comp_Transform>()->position.x = jsonfile[childname][childname]["position"][0];
+	go->GetComponent<Comp_Transform>()->position.y = jsonfile[childname][childname]["position"][1];
+	go->GetComponent<Comp_Transform>()->position.z = jsonfile[childname][childname]["position"][2];
 
-	go->GetComponent<Comp_Transform>()->rotation.x = jsonfile[childname]["rotation"][0];
-	go->GetComponent<Comp_Transform>()->rotation.y = jsonfile[childname]["rotation"][1];
-	go->GetComponent<Comp_Transform>()->rotation.z = jsonfile[childname]["rotation"][2];
+	go->GetComponent<Comp_Transform>()->rotation.x = jsonfile[childname][childname]["rotation"][0];
+	go->GetComponent<Comp_Transform>()->rotation.y = jsonfile[childname][childname]["rotation"][1];
+	go->GetComponent<Comp_Transform>()->rotation.z = jsonfile[childname][childname]["rotation"][2];
 
-	go->GetComponent<Comp_Transform>()->localScale.x = jsonfile[childname]["scale"][0];
-	go->GetComponent<Comp_Transform>()->localScale.y = jsonfile[childname]["scale"][1];
-	go->GetComponent<Comp_Transform>()->localScale.z = jsonfile[childname]["scale"][2];
+	go->GetComponent<Comp_Transform>()->localScale.x = jsonfile[childname][childname]["scale"][0];
+	go->GetComponent<Comp_Transform>()->localScale.y = jsonfile[childname][childname]["scale"][1];
+	go->GetComponent<Comp_Transform>()->localScale.z = jsonfile[childname][childname]["scale"][2];
 
 	if (jsonfile["modelroot"]["pathtomesh"] != "NOMESH")
 	{
 		//LOAD PKMESH into COMP_MESHRENDERER
 	}
 
-	std::vector<std::string> childnames = jsonfile[childname]["childsnames"];
+	std::vector<std::string> childnames = jsonfile[childname][childname]["childsnames"];
 	for (uint i = 0; i < childnames.size(); i++)
 	{
 		IterateCFIntoGO(jsonfile, go, childnames[i]);

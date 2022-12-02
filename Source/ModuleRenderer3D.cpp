@@ -167,9 +167,9 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 
-	//LoadModelImporter("Library/Models/CustomFileNode.PKmodel");
+	LoadModelImporter("Library/Models/CustomFileNode.PKmodel");
 
-	LoadModelImporter("Assets/BakerHouse.fbx");
+	//LoadModelImporter("Assets/BakerHouse.fbx");
 
 	return ret;
 }
@@ -349,8 +349,8 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 	ModelImporter currentModel;
 
-	currentModel.Import(path);
-	/*char* buffer;
+	//currentModel.Import(path);
+	char* buffer;
 
 	json file;
 
@@ -358,7 +358,7 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 	file = json::parse(buffer);
 
-	currentModel.LoadCFInEngine(file);*/
+	currentModel.LoadCFInEngine(file);
 
 }
 
