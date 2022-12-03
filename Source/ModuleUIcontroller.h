@@ -16,6 +16,7 @@ enum class UIwindows
 	CONSOLE,
 	INSPECTOR,
 	HIERARCHY,
+	ASSETS,
 	SCENE,
 	GAME,
 	MAX

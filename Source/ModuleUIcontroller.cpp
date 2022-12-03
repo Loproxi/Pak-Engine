@@ -14,6 +14,7 @@
 #include "WinHierarchy.h"
 #include "WinInspector.h"
 #include "WinGame.h"
+#include "WinAssets.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled),goToInspector(nullptr)
@@ -64,6 +65,7 @@ bool ModuleUIcontroller::Init(pugi::xml_node& config)
 	winenable[(uint)UIwindows::CONSOLE] = config.child("Editor").child("window_console").attribute("value").as_bool();
 	winenable[(uint)UIwindows::INSPECTOR] = config.child("Editor").child("window_inspector").attribute("value").as_bool();
 	winenable[(uint)UIwindows::HIERARCHY] = config.child("Editor").child("window_hierarchy").attribute("value").as_bool();
+	winenable[(uint)UIwindows::ASSETS] = config.child("Editor").child("window_assets").attribute("value").as_bool();
 	winenable[(uint)UIwindows::SCENE] = config.child("Editor").child("window_scene").attribute("value").as_bool();
 	winenable[(uint)UIwindows::GAME] = config.child("Editor").child("window_game").attribute("value").as_bool();
 
@@ -84,6 +86,7 @@ bool ModuleUIcontroller::Start()
 	windows[(uint)UIwindows::CONSOLE] = new WinConsole();
 	windows[(uint)UIwindows::INSPECTOR] = new WinInspector();
 	windows[(uint)UIwindows::HIERARCHY] = new WinHierarchy();
+	windows[(uint)UIwindows::ASSETS] = new WinAssets();
 	windows[(uint)UIwindows::SCENE] = new WinScene();
 	windows[(uint)UIwindows::GAME] = new WinGame();
 
@@ -216,6 +219,11 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 				//Do something
 				windows[(uint)UIwindows::INSPECTOR]->isEnabled = true;
 			}
+			if (ImGui::MenuItem("Assets"))
+			{
+				//Do something
+				windows[(uint)UIwindows::ASSETS]->isEnabled = true;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -269,6 +277,7 @@ bool ModuleUIcontroller::SaveSettings(pugi::xml_node& config)
 	config.child("Editor").child("window_console").attribute("value") = windows[(uint)UIwindows::CONSOLE]->isEnabled;
 	config.child("Editor").child("window_hierarchy").attribute("value") = windows[(uint)UIwindows::HIERARCHY]->isEnabled;
 	config.child("Editor").child("window_inspector").attribute("value") = windows[(uint)UIwindows::INSPECTOR]->isEnabled;
+	config.child("Editor").child("window_assets").attribute("value") = windows[(uint)UIwindows::ASSETS]->isEnabled;
 	return true;
 }
 

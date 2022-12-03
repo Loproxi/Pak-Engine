@@ -26,6 +26,7 @@
 		<window_console value="true" />
 		<window_hierarchy value="true" />
 		<window_inspector value="true" />
+		<window_assets value="true" />
 	</Editor>
 	<scene>
 		<scene />

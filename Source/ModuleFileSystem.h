@@ -6,6 +6,8 @@
 #define MODELS_FILE_DIR "Library/Models"
 
 #include "Module.h"
+#include "AssetsDirectory.h"
+
 class ModuleFileSystem :
     public Module
 {
@@ -46,6 +48,10 @@ public:
     uint SaveBufferToFile(std::string file, char* buffer, uint size, bool append);
 
     void GetFileName(std::string file, std::string& fileName, bool extension);
+    
+    void AddUpdateAssetFiles(AssetsDirectory& directory);
+
+    void RecursiveAddUpdateAssetFiles(AssetsDirectory& directory);
 };
 
 #endif // !_MODULEFILESYSTEM_H__

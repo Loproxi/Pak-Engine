@@ -240,3 +240,54 @@ void ModuleFileSystem::GetFileName(std::string file, std::string& fileName, bool
             fileName = fileName.substr(0, found);
     }
 }
+
+void ModuleFileSystem::AddUpdateAssetFiles(AssetsDirectory& directory) 
+{
+    //Assets/ path
+    
+    char** files = PHYSFS_enumerateFiles(directory.dirpath.c_str());
+    directory.dirpath += "/";
+    for (uint i = 0;files[i];i++)
+    {
+        //Assets/files[i] path
+        std::string pathupdate = directory.dirpath;
+        pathupdate = pathupdate + files[i];
+
+        //Check if the file is a directory and depending on that we add on one vector or the another one
+        if (CheckIfDirectory(pathupdate) == false)
+        {
+            //if it is not a directory, then it is a file
+
+            std::string temp = files[i];
+            //We use emplace back in order to not create a copy
+            directory.directoryfiles.emplace_back(temp, pathupdate);
+
+        }
+        else
+        {
+            
+            std::string temp = files[i];
+            //We use emplace back in order to not create a copy
+            directory.directorydirs.emplace_back(temp, pathupdate);
+
+        }
+
+    }
+    
+    PHYSFS_freeList(files);
+
+}
+
+void ModuleFileSystem::RecursiveAddUpdateAssetFiles(AssetsDirectory& directory)
+{
+    //First we get all the data from the dir
+    AddUpdateAssetFiles(directory);
+
+    //Then we check if that dir has more directories inside it and if it does we call the same function
+    //recursively for each directory it has
+    for (uint i = 0; i < directory.directorydirs.size(); i++)
+    {
+        RecursiveAddUpdateAssetFiles(directory.directorydirs[i]);
+    }
+
+}

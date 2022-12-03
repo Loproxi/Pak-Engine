@@ -170,7 +170,6 @@ void WinHierarchy::ShowGameObjects(GameObject* go)
 		{
 			ShowGameObjects(go->children[i]);
 		}
-		//Peta al fer pop de sceneroot fix it
 		
 		if (go->children.size() != 0)
 		{

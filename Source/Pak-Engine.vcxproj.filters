@@ -196,9 +196,6 @@
     <ClCompile Include="TextureImporter.cpp">
       <Filter>Source\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Shaders.cpp">
       <Filter>Source\Tools</Filter>
     </ClCompile>
@@ -228,6 +225,15 @@
     </ClCompile>
     <ClCompile Include="WinGame.cpp">
       <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAssets.cpp">
+      <Filter>Source\Editor\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetsDirectory.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source\BaseClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +531,6 @@
     <ClInclude Include="TextureImporter.h">
       <Filter>Header\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Shaders.h">
       <Filter>Header\Tools</Filter>
     </ClInclude>
@@ -557,6 +560,15 @@
     </ClInclude>
     <ClInclude Include="WinGame.h">
       <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAssets.h">
+      <Filter>Header\Editor\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetsDirectory.h">
+      <Filter>Header\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
