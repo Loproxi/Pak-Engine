@@ -311,9 +311,9 @@ void ModelImporter::LoadCFInEngine(json& modelfile)
 	go->GetComponent<Comp_Transform>()->position.y = modelfile["modelroot"]["position"][1];
 	go->GetComponent<Comp_Transform>()->position.z = modelfile["modelroot"]["position"][2];
 
-	go->GetComponent<Comp_Transform>()->rotation.x = modelfile["modelroot"]["rotation"][0];
-	go->GetComponent<Comp_Transform>()->rotation.y = modelfile["modelroot"]["rotation"][1];
-	go->GetComponent<Comp_Transform>()->rotation.z = modelfile["modelroot"]["rotation"][2];
+	go->GetComponent<Comp_Transform>()->eulerRotation.x = modelfile["modelroot"]["rotation"][0];
+	go->GetComponent<Comp_Transform>()->eulerRotation.y = modelfile["modelroot"]["rotation"][1];
+	go->GetComponent<Comp_Transform>()->eulerRotation.z = modelfile["modelroot"]["rotation"][2];
 
 	go->GetComponent<Comp_Transform>()->localScale.x = modelfile["modelroot"]["scale"][0];
 	go->GetComponent<Comp_Transform>()->localScale.y = modelfile["modelroot"]["scale"][1];
@@ -350,9 +350,9 @@ void ModelImporter::IterateCFIntoGO(json& jsonfile, GameObject* parent, std::str
 	go->GetComponent<Comp_Transform>()->position.y = jsonfile[childname][childname]["position"][1];
 	go->GetComponent<Comp_Transform>()->position.z = jsonfile[childname][childname]["position"][2];
 
-	go->GetComponent<Comp_Transform>()->rotation.x = jsonfile[childname][childname]["rotation"][0];
-	go->GetComponent<Comp_Transform>()->rotation.y = jsonfile[childname][childname]["rotation"][1];
-	go->GetComponent<Comp_Transform>()->rotation.z = jsonfile[childname][childname]["rotation"][2];
+	go->GetComponent<Comp_Transform>()->eulerRotation.x = jsonfile[childname][childname]["rotation"][0];
+	go->GetComponent<Comp_Transform>()->eulerRotation.y = jsonfile[childname][childname]["rotation"][1];
+	go->GetComponent<Comp_Transform>()->eulerRotation.z = jsonfile[childname][childname]["rotation"][2];
 
 	go->GetComponent<Comp_Transform>()->localScale.x = jsonfile[childname][childname]["scale"][0];
 	go->GetComponent<Comp_Transform>()->localScale.y = jsonfile[childname][childname]["scale"][1];
