@@ -42,6 +42,8 @@ The engine is being developed by:
 
 * Create Empty gameobjects and Add components on each one
 
+* Camera Frustrum Culling
+
 # Controls:
 
 ## Camera:
