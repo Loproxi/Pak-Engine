@@ -30,6 +30,16 @@ The engine is being developed by:
 
 * XML saves&Load window states and settings
 
+* Transform Moves,Rotates and scales GameObjects
+
+* Delete GameObjects
+
+* Camera Component, Scene and Game Viewports
+
+* Mouse Picking GameObjects
+
+* Custom file format handles the import of Models,Meshes and Textures
+
 # Controls:
 
 ## Camera:
