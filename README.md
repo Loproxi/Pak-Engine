@@ -16,7 +16,7 @@ The engine is being developed by:
 
 # Features
 
-**Pak-Engine v.0.1:**
+**Pak-Engine v.0.2:**
 
 * Transform & MeshRenderer Components
 
@@ -40,6 +40,8 @@ The engine is being developed by:
 
 * Custom file format handles the import of Models,Meshes and Textures
 
+* Create Empty gameobjects and Add components on each one
+
 # Controls:
 
 ## Camera:
@@ -59,6 +61,10 @@ The engine is being developed by:
 * In Hierarchy window, LeftClick on a gameObject in order to select it
 
 * In Hierarchy window, LeftClick + Drag Mouse on a gameobject into another to change a gameobject parent or child
+
+* In Hierarchy window, LeftClick on a gameobject selected in order to delete it
+
+* In Hierarchy window, LeftClick on empty hierarchy to create primitives or empty
 
 ## Drag And Drop:
 
