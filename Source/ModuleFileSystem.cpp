@@ -26,6 +26,7 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Init()
 {
     CreateDir("Assets/");
+    CreateDir("Library/");
     CreateDir(MESHES_FILE_DIR);
     CreateDir(TEXTURES_FILE_DIR);
     CreateDir(MODELS_FILE_DIR);
@@ -75,14 +76,15 @@ void ModuleFileSystem::DragAndDropOnEngine(std::string path)
 
     fileExtension = fileExtension.substr(fileExtension.find_last_of(".") + 1);
 
-    if (fileExtension == "fbx" || fileExtension == "FBX" || fileExtension == "DAE")
+    if (fileExtension == "fbx" || fileExtension == "FBX" || fileExtension == "DAE" || fileExtension == "PKmodel")
     {
         App->renderer3D->LoadModelImporter(path);
     }
-    else if (fileExtension == "png" || fileExtension == "dds")
+    else if (fileExtension == "png" || fileExtension == "dds" || fileExtension == "PKtext" || fileExtension == "tga" || fileExtension == "TGA")
     {
         App->renderer3D->LoadTextureImporter(path);
     }
+    
 
 }
 

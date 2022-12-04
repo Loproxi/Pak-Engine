@@ -131,10 +131,12 @@ void ModelImporter::goThroughNodes(aiNode* node, const aiScene* scene,GameObject
 
 		Mesh* meshinlib = nullptr;
 
-		//meshinlib = goThroughMeshes(mesh, scene);
+		meshinlib = goThroughMeshes(mesh, scene);
 
-		//meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
+		meshinlib->SaveMeshIntoCustomFile(node->mName.C_Str());
 		
+		//The mesh is already saved in CFF so we don't need it anymore
+		RELEASE(meshinlib);
 		/*go->GetComponent<Comp_MeshRenderer>()->SetMesh(meshinlib);*/
 		
 	}

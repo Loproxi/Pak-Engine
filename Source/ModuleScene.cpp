@@ -16,9 +16,9 @@ bool ModuleScene::Init(pugi::xml_node& config)
 {
     root = new GameObject("SceneRoot");
     root->parent = nullptr;
-    test = new GameObject("Prueba");
+    test = new GameObject("Camera1");
     test->SetParent(root);
-    test2 = new GameObject("Prueba2");
+    test2 = new GameObject("Camera2");
     test2->SetParent(root);
 
     return true;

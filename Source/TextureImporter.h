@@ -42,6 +42,9 @@ public:
 
 	static Texture* LoadCheckerImage();
 
+	static void SaveTextureIntoCF(std::string textfile);
+
+	static Texture* LoadCFInEngine(char* textbuffer, uint imagesize);
 };
 
 #endif //_TEXTUREIMPORTER_H__

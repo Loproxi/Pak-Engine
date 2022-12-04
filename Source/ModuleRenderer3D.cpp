@@ -160,14 +160,13 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
-	//Test RapidJSON
 	LoadTextureImporter("");
-	LoadTextureImporter("Assets/Baker_house.png");
+	//LoadTextureImporter("Assets/Baker_house.png");
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 
-	//LoadModelImporter("Library/Models/scene.PKmodel");
+	LoadModelImporter("Assets/scene.DAE");
 
 	//LoadModelImporter("Assets/BakerHouse.fbx");
 
@@ -361,7 +360,7 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 		std::string modelfilepath = "Library/Models/" + modelname + ".PKmodel";
 
-		char* buffer;
+		char* buffer = nullptr;
 
 		json file;
 
@@ -371,15 +370,23 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 		currentModel.LoadCFInEngine(file);
 
-		RELEASE_ARRAY(buffer);
+		RELEASE(buffer);
 	}
 	else 
 	{
-		char* buffer;
+		char* buffer = nullptr;
 
 		json file;
 
-		App->fileSystem->LoadFileToBuffer(path.c_str(), &buffer);
+		path = App->fileSystem->NormalizePath(path);
+
+		std::string modelnamee;
+
+		App->fileSystem->GetFileName(path, modelnamee, true);
+
+		std::string modelfilepath = "Library/Models/" + modelnamee;
+
+		App->fileSystem->LoadFileToBuffer(modelfilepath.c_str(), &buffer);
 
 		file = json::parse(buffer);
 
@@ -392,16 +399,71 @@ void ModuleRenderer3D::LoadModelImporter(std::string path)
 
 void ModuleRenderer3D::LoadTextureImporter(std::string path)
 {
-	if (path == "")
+	std::string fileExtension(path);
+
+	fileExtension = fileExtension.substr(fileExtension.find_last_of(".") + 1);
+
+	if (fileExtension != "PKtext")
 	{
-		texturenum++;
-		textures.push_back(TextureImporter::LoadCheckerImage());
+		if (path == "")
+		{
+			texturenum++;
+			textures.push_back(TextureImporter::LoadCheckerImage());
+		}
+		else
+		{
+			//TODO Enhance this system
+
+			Texture* temp = TextureImporter::Import(path);
+
+			RELEASE(temp);
+
+			char* buffer = nullptr;
+
+			path = App->fileSystem->NormalizePath(path);
+
+			std::string textnamee;
+
+			App->fileSystem->GetFileName(path, textnamee, false);
+
+			std::string modelfilepath = "Library/Textures/" + textnamee + ".PKtext";
+
+			uint buffersize = App->fileSystem->LoadFileToBuffer(modelfilepath.c_str(), &buffer);
+
+			texturenum++;
+			textures.push_back(TextureImporter::LoadCFInEngine(buffer, buffersize));
+
+			if (App->uiController->GetGameObjSelected() != nullptr)
+			{
+				if (App->uiController->GetGameObjSelected()->GetComponent<Comp_MeshRenderer>() == nullptr)
+				{
+					App->AddLog(Logs::ERROR_LOG, "This GameObject doesnt has MeshRenderer");
+				}
+				else
+				{
+					App->uiController->GetGameObjSelected()->GetComponent<Comp_MeshRenderer>()->GetMesh()->SetTextureID(textures.at(texturenum)->textID);
+				}
+			}
+			RELEASE_ARRAY(buffer);
+		}
 	}
 	else
 	{
-		//TODO Enhance this system
+		//TEST THIS
+		char* buffer = nullptr;
+
+		path = App->fileSystem->NormalizePath(path);
+
+		std::string textnamee;
+
+		App->fileSystem->GetFileName(path, textnamee, true);
+
+		std::string modelfilepath = "Library/Textures/" + textnamee;
+
+		uint buffersize = App->fileSystem->LoadFileToBuffer(modelfilepath.c_str(), &buffer);
+
 		texturenum++;
-		textures.push_back(TextureImporter::Import(path));
+		textures.push_back(TextureImporter::LoadCFInEngine(buffer, buffersize));
 
 		if (App->uiController->GetGameObjSelected() != nullptr)
 		{
@@ -414,7 +476,11 @@ void ModuleRenderer3D::LoadTextureImporter(std::string path)
 				App->uiController->GetGameObjSelected()->GetComponent<Comp_MeshRenderer>()->GetMesh()->SetTextureID(textures.at(texturenum)->textID);
 			}
 		}
+		RELEASE_ARRAY(buffer);
 	}
+
+	
+	
 
 }
 
