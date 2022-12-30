@@ -9,7 +9,7 @@
 
 
 
-GameObject::GameObject(std::string name):active(true),readytobedeleted(false)
+GameObject::GameObject(std::string name):active(true),readytobedeleted(false),transparent(false)
 {
 	if (name == "")
 	{

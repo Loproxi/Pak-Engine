@@ -76,7 +76,7 @@ enum UpdateStatus
 // EngineVersion
 
 #define MAJOR_VERSION_PAK_ENGINE 0
-#define MINOR_VERSION_PAK_ENGINE 1
+#define MINOR_VERSION_PAK_ENGINE 2
 
 
 #endif // !__GLOBALS_H__

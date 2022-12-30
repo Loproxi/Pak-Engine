@@ -28,11 +28,25 @@ void Comp_MeshRenderer::Update()
 	
 	if (app->camera->gamecamactive != nullptr && app->camera->gamecamactive->FrustrumContainsBB(tempglobalAABB))
 	{
-		app->renderer3D->meshes.push_back(this);
+		if (this->comp_owner->transparent)
+		{
+			app->renderer3D->transmeshes.push_back(this);
+		}
+		else
+		{
+			app->renderer3D->meshes.push_back(this);
+		}
 	}
 	else if (app->camera->cameratobedrawn == &app->camera->scenecam)
 	{
-		app->renderer3D->meshes.push_back(this);
+		if (this->comp_owner->transparent)
+		{
+			app->renderer3D->transmeshes.push_back(this);
+		}
+		else
+		{
+			app->renderer3D->meshes.push_back(this);
+		}
 	}
 
 	if (showAxisAlignBB)

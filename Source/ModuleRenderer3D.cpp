@@ -160,15 +160,16 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
-	LoadTextureImporter("");
-	//LoadTextureImporter("Assets/Baker_house.png");
+	//LoadTextureImporter("");
+	LoadTextureImporter("Assets/blending_transparent_window.png");
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
+	LoadModelImporter("Assets/Primitives/Cube.fbx");
+	LoadModelImporter("Assets/Primitives/Plane.fbx");
+	
 
-	LoadModelImporter("Assets/scene.DAE");
-
-	//LoadModelImporter("Assets/BakerHouse.fbx");
+	LoadModelImporter("Assets/BakerHouse.fbx");
 
 	return ret;
 }
@@ -225,7 +226,8 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		meshes[i]->Draw(testshader);
 	}
 
-	AddDebug();
+	//AddDebug();
+	DrawTransparentObjects(transparentObjectsmap);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -242,6 +244,8 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 			meshes[i]->Draw(testshader);
 		}
 
+		DrawTransparentObjects(transparentObjectsmap);
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -253,6 +257,8 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	SDL_GL_SwapWindow(App->window->window);
 
 	meshes.clear();
+	transparentObjectsmap.clear();
+	transmeshes.clear();
 
 	return ret;
 }
@@ -279,6 +285,12 @@ bool ModuleRenderer3D::CleanUp()
 	while (iter != trihitsdistmap.end()) 
 	{
 		RELEASE(iter->second);
+	}
+
+	auto it = transparentObjectsmap.begin();
+	while (it != transparentObjectsmap.end())
+	{
+		RELEASE(it->second);
 	}
 
 	//house.CleanUp();
@@ -524,6 +536,15 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 		}
 	}
 
+	for (uint i = 0; i < transmeshes.size(); i++)
+	{
+		AABB tempabbb = transmeshes[i]->GetMesh()->GlobalAxisAlignBB;
+		if (line.Intersects(tempabbb))
+		{
+			meshIntersectedbyAABB.push_back(transmeshes[i]);
+		}
+	}
+
 	if (meshIntersectedbyAABB.size() == 0)
 	{
 		App->uiController->SetGameObjSelected(nullptr);
@@ -571,4 +592,28 @@ Comp_MeshRenderer* ModuleRenderer3D::RayIntersects(LineSegment& line)
 		return trihitsdistmap.begin()->second;
 	}
 	
+}
+
+void ModuleRenderer3D::DrawTransparentObjects(std::map<float, Comp_MeshRenderer*>& transparentMeshes)
+{
+	if (transmeshes.size() == 0)return;
+	
+	for (int i = 0; i < transmeshes.size(); i++)
+	{
+		//Add a variable to map and calculate the distance
+
+		float dist = Distance(transmeshes[i]->comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().TranslatePart(), App->camera->cameratobedrawn->CameraFrustrum.pos);
+
+		//Preguntar problema de que quan poses un altre a la mateixa distancia desapareix
+
+		transparentMeshes.emplace(std::make_pair(dist, transmeshes[i]));
+	}
+
+	std::map<float, Comp_MeshRenderer*>::reverse_iterator it;
+
+	for (it = transparentMeshes.rbegin(); it != transparentMeshes.rend(); it++)
+	{
+		it->second->Draw(testshader);
+	}
+
 }

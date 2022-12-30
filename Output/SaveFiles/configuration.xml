@@ -8,7 +8,7 @@
 	<Renderer>
 		<vsync value="false" />
 		<depthtest value="true" />
-		<cullface value="true" />
+		<cullface value="false" />
 		<lighting value="false" />
 		<wireframe value="false" />
 	</Renderer>

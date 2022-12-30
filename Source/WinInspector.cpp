@@ -24,6 +24,9 @@ void WinInspector::Draw()
 		{
 			if (goToInspect != nullptr)
 			{
+
+				ImGui::Checkbox("Set as Transparent", &goToInspect->transparent);
+
 				for each (Component* comp in goToInspect->components)
 				{
 					comp->OnUIController();

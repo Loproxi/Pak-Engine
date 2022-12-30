@@ -65,6 +65,8 @@ public:
 
 	bool readytobedeleted;
 
+	bool transparent;
+
 };
 
 #endif // !_GAMEOBJECT_H__

@@ -48,6 +48,8 @@ public:
 
 	Comp_MeshRenderer* RayIntersects(LineSegment& line);
 
+	void DrawTransparentObjects(std::map<float, Comp_MeshRenderer*>& transMeshes);
+
 	//Getters
 	SDL_GLContext GetSDL_GLContext() { return context; }
 	bool GetVsync() { return renderstuff.vsync; }
@@ -75,9 +77,11 @@ public:
 	std::string modelname;
 
 	std::vector<Comp_MeshRenderer*>meshes;
+	std::vector<Comp_MeshRenderer*>transmeshes;
 	std::vector<Texture*>textures;
 	std::vector<float3>debugpoints;
 	std::map<float, Comp_MeshRenderer*> trihitsdistmap;
+	std::map<float, Comp_MeshRenderer*> transparentObjectsmap;
 
 private:
 
