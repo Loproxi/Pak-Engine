@@ -76,3 +76,33 @@ float4x4 Comp_Transform::GetidentityMatrix()
 	identity.SetIdentity();
 	return identity;
 }
+
+float3 Comp_Transform::GetGlobalScale()
+{
+	float3 aux;
+
+	if (comp_owner->parent == nullptr)
+	{
+		
+		aux = localScale;
+		return aux;
+
+	}
+	else
+	{
+		aux = localScale.Mul(comp_owner->parent->GetComponent<Comp_Transform>()->GetGlobalScale());
+
+		return aux;
+	}
+
+	
+}
+
+void Comp_Transform::SetNewTransform(float3 pos,float3x3 rot,float3 scale)
+{
+
+	this->position = pos;
+	this->eulerRotation = rot.ToEulerXYZ();
+	this->localScale = scale;
+
+}

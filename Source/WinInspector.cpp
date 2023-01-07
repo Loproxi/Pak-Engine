@@ -37,7 +37,7 @@ void WinInspector::Draw()
 
 				if (ImGui::BeginCombo("Add Component", "Select Component", ImGuiComboFlags_PopupAlignLeft))
 				{
-					for (int i = 0; i < 2; i++)
+					for (int i = 0; i < 3; i++)
 					{
 						if (ImGui::Selectable(items[i].c_str()))
 						{
@@ -48,6 +48,9 @@ void WinInspector::Draw()
 								break;
 							case 1:
 								goToInspect->AddComponent(COMP_TYPE::CAMERA);
+								break;
+							case 2:
+								goToInspect->AddComponent(COMP_TYPE::BILLBOARD);
 								break;
 							default:
 								break;

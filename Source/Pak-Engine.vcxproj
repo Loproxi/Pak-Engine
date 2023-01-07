@@ -163,6 +163,7 @@
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Comp_BillBoarding.cpp" />
     <ClCompile Include="Comp_Camera.cpp" />
     <ClCompile Include="Comp_MeshRenderer.cpp" />
     <ClCompile Include="Comp_Transform.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Camera3D.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Comp_BillBoarding.h" />
     <ClInclude Include="Comp_Camera.h" />
     <ClInclude Include="Comp_MeshRenderer.h" />
     <ClInclude Include="Comp_Transform.h" />

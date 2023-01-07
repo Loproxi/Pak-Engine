@@ -23,7 +23,7 @@ public:
     GameObject* goToInspect;
 
 private:
-    std::string items[2] = { "Mesh Renderer","Camera" };
+    std::string items[3] = { "Mesh Renderer","Camera","BillBoard"};
 };
 
 #endif // !__WIN_INSPECTOR_H__

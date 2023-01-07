@@ -6,6 +6,7 @@
 #include "Comp_MeshRenderer.h"
 #include "Comp_Transform.h"
 #include "Comp_Camera.h"
+#include "Comp_BillBoarding.h"
 
 
 
@@ -108,6 +109,10 @@ Component* GameObject::AddComponent(COMP_TYPE type)
 		break;
 	case CAMERA: 
 		component = new Comp_Camera(this);
+		component->type = type;
+		break;
+	case BILLBOARD:
+		component = new Comp_BillBoarding(this);
 		component->type = type;
 		break;
 	}

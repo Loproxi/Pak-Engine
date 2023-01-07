@@ -235,6 +235,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="Comp_BillBoarding.cpp">
+      <Filter>Source\Components\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -569,6 +572,9 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Comp_BillBoarding.h">
+      <Filter>Header\Components\Derived</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

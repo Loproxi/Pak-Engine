@@ -23,6 +23,10 @@ public:
 
     float4x4 GetidentityMatrix();
 
+    float3 GetGlobalScale();
+
+    void SetNewTransform(float3 pos, float3x3 rot, float3 scale);
+
 public:
     float4x4 globalTransform;
     float4x4 localTransform;
