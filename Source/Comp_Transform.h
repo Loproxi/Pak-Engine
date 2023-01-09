@@ -25,6 +25,8 @@ public:
 
     float3 GetGlobalScale();
 
+    void SetNewRotation(Quat rot);
+
     void SetNewTransform(float3 pos, float3x3 rot, float3 scale);
 
 public:

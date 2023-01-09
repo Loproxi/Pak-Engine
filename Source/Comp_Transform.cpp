@@ -98,6 +98,13 @@ float3 Comp_Transform::GetGlobalScale()
 	
 }
 
+void Comp_Transform::SetNewRotation(Quat rot)
+{
+	rot = rot.Normalized();
+	this->eulerRotation = rot.ToEulerXYZ();
+
+}
+
 void Comp_Transform::SetNewTransform(float3 pos,float3x3 rot,float3 scale)
 {
 

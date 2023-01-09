@@ -106,7 +106,7 @@ void Comp_BillBoarding::ScreenAlignBBoard()
 
 	comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().Decompose(auxtranspos, Quat(),float3());
 
-	float4x4 newTransform = float4x4::FromTRS(auxtranspos, rotBBoard, comp_owner->GetComponent<Comp_Transform>()->GetGlobalScale());
+	float4x4 newTransform = float4x4::FromTRS(auxtranspos, rotBBoard, comp_owner->GetComponent<Comp_Transform>()->localScale);
 
 
 	//Convert it to global space
@@ -124,7 +124,11 @@ void Comp_BillBoarding::ScreenAlignBBoard()
 
 	comp_owner->GetComponent<Comp_Transform>()->SetNewTransform(newtranspos, rotBBoard, newtransscale);
 
+	//Quat quatBBoard = rotBBoard.ToQuat();
 
+	//quatBBoard = quatBBoard.Normalized();
+
+	//comp_owner->GetComponent<Comp_Transform>()->SetNewRotation(quatBBoard);
 }
 
 void Comp_BillBoarding::WorldAlignBBoard()
