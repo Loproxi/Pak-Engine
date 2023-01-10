@@ -238,6 +238,12 @@
     <ClCompile Include="Comp_BillBoarding.cpp">
       <Filter>Source\Components\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source\Tools\ParticleThings</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>Source\Tools\ParticleThings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -576,6 +582,12 @@
     <ClInclude Include="Comp_BillBoarding.h">
       <Filter>Header\Components\Derived</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header\Tools\ParticleThings</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Header\Tools\ParticleThings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -676,6 +688,12 @@
     </Filter>
     <Filter Include="Header\GameObjects">
       <UniqueIdentifier>{386ba65b-c82c-42dc-9f3b-c70c3e04dd8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\ParticleThings">
+      <UniqueIdentifier>{611c641e-6e8e-45b8-a982-84bad444e15e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Tools\ParticleThings">
+      <UniqueIdentifier>{ac95b26d-7339-4056-be1f-810087c8d038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
