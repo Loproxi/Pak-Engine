@@ -6,6 +6,7 @@
 
 class Comp_Transform;
 class Shaders;
+class Application;
 
 class ParticleEmitter
 {
@@ -24,7 +25,13 @@ public:
 
 	void SetParticlePoolSize(uint size);
 
+	int SearchNotActiveParticle();
+
+	void InitBuffers();
+
 private:
+
+	Application* app;
 
 	std::string name;
 
@@ -43,6 +50,10 @@ private:
 
 	std::vector<Particle> particlesInEmitter;
 
+	ParticleProperties propertiesOfTheParticle;
+
+	int lastActiveParticle = 0;
+
 	//Add Particles efects;
 
 	Comp_Transform* particlesystemGO = nullptr;
@@ -53,11 +64,13 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
+	/*std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;*/
 
-	uint numvertices;
-	uint numindices;
+	/*uint numvertices;
+	uint numindices;*/
+
+	GLuint texture;
 
 };
 

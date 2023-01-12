@@ -91,6 +91,7 @@ public:
 
 	void AddLog(Logs type,std::string msg);
 	
+	float GetDeltaTime() const{ return dt; }
 
 private:
 
