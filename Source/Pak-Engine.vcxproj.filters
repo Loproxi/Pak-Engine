@@ -244,6 +244,9 @@
     <ClCompile Include="ParticleEmitter.cpp">
       <Filter>Source\Tools\ParticleThings</Filter>
     </ClCompile>
+    <ClCompile Include="Comp_ParticleSystem.cpp">
+      <Filter>Source\Components\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -587,6 +590,9 @@
     </ClInclude>
     <ClInclude Include="ParticleEmitter.h">
       <Filter>Header\Tools\ParticleThings</Filter>
+    </ClInclude>
+    <ClInclude Include="Comp_ParticleSystem.h">
+      <Filter>Header\Components\Derived</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

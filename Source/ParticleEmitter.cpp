@@ -124,12 +124,12 @@ void ParticleEmitter::Draw(Shaders* shader)
 
 	for each (Particle & particleInPool in particlesInEmitter)
 	{
+		float3 zAxis = { 0.0f,0.0f,1.0f };
+		float partRotationInRad = DegToRad(particleInPool.rotation);
+		Quat rotation = Quat::RotateAxisAngle(zAxis, partRotationInRad);
 		float4x4 transform;
 		//Gather pos & rotation &scale
-		//transform.FromTRS();
-
-
-
+		transform.FromTRS(particleInPool.position, rotation, {particleInPool.startSize,particleInPool.startSize ,1.0f}).Transpose();
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

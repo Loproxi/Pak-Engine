@@ -166,6 +166,7 @@
     <ClCompile Include="Comp_BillBoarding.cpp" />
     <ClCompile Include="Comp_Camera.cpp" />
     <ClCompile Include="Comp_MeshRenderer.cpp" />
+    <ClCompile Include="Comp_ParticleSystem.cpp" />
     <ClCompile Include="Comp_Transform.cpp" />
     <ClCompile Include="External\imgui\imgui.cpp" />
     <ClCompile Include="External\imgui\imgui_demo.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="Comp_BillBoarding.h" />
     <ClInclude Include="Comp_Camera.h" />
     <ClInclude Include="Comp_MeshRenderer.h" />
+    <ClInclude Include="Comp_ParticleSystem.h" />
     <ClInclude Include="Comp_Transform.h" />
     <ClInclude Include="External\imgui\imconfig.h" />
     <ClInclude Include="External\imgui\imgui.h" />
