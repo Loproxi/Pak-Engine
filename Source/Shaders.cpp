@@ -113,6 +113,11 @@ void Shaders::Set1Int(const std::string& name, GLint value)
 	glUniform1i(glGetUniformLocation(this->shadID, name.c_str()),value);
 }
 
+void Shaders::Set4Float(const std::string& name, const float* value)
+{
+	glUniform4fv(glGetUniformLocation(this->shadID, name.c_str()), 1, value);
+}
+
 void Shaders::SetMat4fv(const std::string& name, const float* value)
 {
 	glUniformMatrix4fv(glGetUniformLocation(this->shadID, name.c_str()), 1, GL_FALSE, value);

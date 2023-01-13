@@ -19,7 +19,7 @@ Particle::Particle():startColor(0.0f, 1.0f, 0.0f, 1.0f)
 
 	this->velocity = { 0.0f,0.0f,0.0f };
 
-	this->Active = false;
+	this->Active = true;
 }
 
 Particle::~Particle()

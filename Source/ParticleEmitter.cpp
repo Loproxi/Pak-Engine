@@ -5,20 +5,20 @@
 #include "ModuleRenderer3D.h"
 #include "Shaders.h"
 
+
 ParticleEmitter::ParticleEmitter()
 {
 	app = Application::GetInstance();
 	//TODO UPGRADE
 	//Compute how many particles are being emited each second and multiply by lifetime of each particle and set that as poolsize
-	SetParticlePoolSize(1000);
 
+	SetParticlePoolSize(5);
+
+	
 	//INIT BUFFERS
 
-	InitBuffers();
-}
+	app->renderer3D->LoadTextureImporter("");
 
-void ParticleEmitter::InitBuffers()
-{
 
 	Vertex quadvertices[]
 	{
@@ -29,6 +29,20 @@ void ParticleEmitter::InitBuffers()
 		Vertex(float3{-0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
 	};
 
+	uint quadindices[]
+	{
+		0,1,2,2,3,0
+	};
+
+	SetData(quadvertices, 4, quadindices, 6);
+
+
+	InitBuffers();
+}
+
+void ParticleEmitter::InitBuffers()
+{
+
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -36,7 +50,7 @@ void ParticleEmitter::InitBuffers()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadvertices), quadvertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -48,13 +62,9 @@ void ParticleEmitter::InitBuffers()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texcoords));
 
-	uint quadindices[]
-	{
-		0,1,2,2,3,0
-	};
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadindices), quadindices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
 
 	texture = Application::GetInstance()->renderer3D->textures.at(0)->textID;
 
@@ -68,18 +78,27 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::Update(float dt)
 {
+	for (int i = 0; i < numOfParticlesToRespawn; i++)
+	{
+		lastActiveParticle = SearchNotActiveParticle();
 
-	for each (Particle& particleInPool in particlesInEmitter)
+		SettingUpParticlePool(particlesInEmitter[lastActiveParticle]);
+		numOfParticlesToRespawn--;
+	}
+
+
+	for (int i = 0; i < particlesInEmitter.size(); i++)
 	{
 		//No Active means it is available to be remplace
-		if (particleInPool.Active == false)
+		if (particlesInEmitter[i].Active == false)
 		{
 			continue;
 		}
 		//No remainingLifetime means it is dead therefore, is not active
-		if (particleInPool.remainingLifetime < 0.0f)
+		if (particlesInEmitter[i].remainingLifetime < 0.0f)
 		{
-			particleInPool.Active = false;
+			numOfParticlesToRespawn++;
+			particlesInEmitter[i].Active = false;
 			continue;
 		}
 		else
@@ -88,16 +107,17 @@ void ParticleEmitter::Update(float dt)
 			//Compute all the calculus needed to move the particles
 
 			//Remaining life minus dt
-			particleInPool.remainingLifetime -= dt;
+			particlesInEmitter[i].remainingLifetime -= dt;
 
 			
-			if (particleInPool.remainingLifetime < 0.0f)
+			if (particlesInEmitter[i].remainingLifetime > 0.0f)
 			{
 				// velocity = acceleration * dt
-				particleInPool.velocity = particleInPool.acceleration * dt;
+				particlesInEmitter[i].velocity += particlesInEmitter[i].acceleration * dt;
 
+				
 				// pos += velocity * dt
-				particleInPool.position += particleInPool.velocity * dt;
+				particlesInEmitter[i].position += (particlesInEmitter[i].velocity * dt) * random.Float() * 100;
 
 				
 			}
@@ -121,19 +141,29 @@ void ParticleEmitter::Draw(Shaders* shader)
 
 	shader->SetMat4fv("viewMatrix", app->camera->cameratobedrawn->GetViewMatrix());
 	shader->SetMat4fv("projectionMatrix", app->camera->cameratobedrawn->GetProjMatrix());
+	shader->Set4Float("partcolor", propertiesOfTheParticle.startColor.ptr());
 
-	for each (Particle & particleInPool in particlesInEmitter)
+	for (Particle& particleInPool : particlesInEmitter)
 	{
+		if (particleInPool.Active == false)
+		{
+			continue;
+		}
+
 		float3 zAxis = { 0.0f,0.0f,1.0f };
 		float partRotationInRad = DegToRad(particleInPool.rotation);
 		Quat rotation = Quat::RotateAxisAngle(zAxis, partRotationInRad);
-		float4x4 transform;
+
+		
 		//Gather pos & rotation &scale
-		transform.FromTRS(particleInPool.position, rotation, {particleInPool.startSize,particleInPool.startSize ,1.0f}).Transpose();
+		float4x4 transform = float4x4::FromTRS(particleInPool.position, Quat::identity, {particleInPool.startSize,particleInPool.startSize ,1.0f}).Transposed();
+
+		shader->SetMat4fv("modelMatrix", transform.ptr());
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		
 		glBindVertexArray(0);
 	}
 	
@@ -142,6 +172,10 @@ void ParticleEmitter::Draw(Shaders* shader)
 void ParticleEmitter::SetParticlePoolSize(uint size)
 {
 	particlesInEmitter.resize(size);
+	for (int i = 0; i< particlesInEmitter.size();i++)
+	{
+		SettingUpParticlePool(particlesInEmitter[i]);
+	}
 }
 
 int ParticleEmitter::SearchNotActiveParticle()
@@ -185,22 +219,39 @@ void ParticleEmitter::EmitParticles(ParticleProperties& partprops )
 
 }
 
-void ParticleEmitter::SettingUpParticlePool(Particle& particlePoolRef,ParticleProperties& partprops)
+void ParticleEmitter::SettingUpParticlePool(Particle& particlePoolRef)
 {
+
+	propertiesOfTheParticle.position = { random.Float() * 5,3.0f,random.Float() };
+	propertiesOfTheParticle.startsize = random.Float() * 5;
+	propertiesOfTheParticle.MaxLifetime = 5.0f;
+	propertiesOfTheParticle.velocity = { 0.0f,0.01f,0.0f };
+	propertiesOfTheParticle.acceleration = { 0.0f,0.01f,0.0f };
+	propertiesOfTheParticle.startColor = float4(0.0f, 0.0f, 1.0f, 1.0f);
 	
-	particlePoolRef.position = partprops.position;
+	particlePoolRef.position = propertiesOfTheParticle.position;
 	particlePoolRef.Active = true;
 
-	particlePoolRef.velocity = partprops.velocity;
-	particlePoolRef.acceleration = partprops.acceleration;
+	particlePoolRef.velocity = propertiesOfTheParticle.velocity;
+	particlePoolRef.acceleration = propertiesOfTheParticle.acceleration;
 
-	particlePoolRef.startColor = partprops.startColor;
+	particlePoolRef.startColor = propertiesOfTheParticle.startColor;
 
-	particlePoolRef.maxLifetime = partprops.MaxLifetime;
-	particlePoolRef.remainingLifetime = partprops.MaxLifetime;
+	particlePoolRef.maxLifetime = propertiesOfTheParticle.MaxLifetime;
+	particlePoolRef.remainingLifetime = propertiesOfTheParticle.MaxLifetime;
 
-	particlePoolRef.startSize = partprops.startsize;
+	particlePoolRef.startSize = propertiesOfTheParticle.startsize;
 
 }
 
-
+void ParticleEmitter::SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices)
+{
+	for (uint i = 0; i < numvertices; i++)
+	{
+		this->vertices.push_back(vertices[i]);
+	}
+	for (uint i = 0; i < numindices; i++)
+	{
+		this->indices.push_back(indices[i]);
+	}
+}

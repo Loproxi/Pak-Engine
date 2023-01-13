@@ -22,6 +22,7 @@ struct RenderStuff
 
 class Primitive;
 class Comp_MeshRenderer;
+class Comp_ParticleSystem;
 class Camera3D;
 struct Texture;
 
@@ -76,6 +77,7 @@ public:
 	bool showBB;
 	std::string modelname;
 
+	std::vector<Comp_ParticleSystem*>particleSystems;
 	std::vector<Comp_MeshRenderer*>meshes;
 	std::vector<Comp_MeshRenderer*>transmeshes;
 	std::vector<Texture*>textures;

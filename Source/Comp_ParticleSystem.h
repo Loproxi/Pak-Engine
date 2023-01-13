@@ -5,6 +5,8 @@
 #include <vector>
 
 class ParticleEmitter;
+class Shaders;
+class Application;
 
 class Comp_ParticleSystem :
     public Component
@@ -30,10 +32,14 @@ private:
 
 	bool systemActive;
 	//emitter vector
-	std::vector<ParticleEmitter*> myEmitters;
+	std::vector<ParticleEmitter*> emitters;
 
 	bool looping = false;
 	float maxDuration = 0.0f;
+
+	Application* app;
+
+	Shaders* particleShaders;
 
 	//Timer insert
 

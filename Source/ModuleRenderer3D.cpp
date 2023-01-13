@@ -8,6 +8,7 @@
 
 #include "Mesh.h"
 #include "Comp_MeshRenderer.h"
+#include "Comp_ParticleSystem.h"
 #include "Comp_Transform.h"
 
 #include "glew.h"
@@ -161,15 +162,15 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
 	//LoadTextureImporter("");
-	LoadTextureImporter("Assets/blending_transparent_window.png");
+	LoadTextureImporter("");
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
 	LoadModelImporter("Assets/Primitives/Cube.fbx");
-	LoadModelImporter("Assets/Primitives/Plane.fbx");
+	//LoadModelImporter("Assets/Primitives/Plane.fbx");
 	
 
-	LoadModelImporter("Assets/BakerHouse.fbx");
+	//LoadModelImporter("Assets/BakerHouse.fbx");
 
 	return ret;
 }
@@ -226,6 +227,12 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		meshes[i]->Draw(testshader);
 	}
 
+	for (int i = 0; i < particleSystems.size(); i++)
+	{
+		particleSystems[i]->Draw();
+	}
+
+
 	//AddDebug();
 	DrawTransparentObjects(transparentObjectsmap);
 
@@ -242,6 +249,11 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 		for (int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i]->Draw(testshader);
+		}
+
+		for (int i = 0; i < particleSystems.size(); i++)
+		{
+			particleSystems[i]->Draw();
 		}
 
 		DrawTransparentObjects(transparentObjectsmap);

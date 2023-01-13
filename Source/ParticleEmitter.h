@@ -3,6 +3,7 @@
 
 #include "Particle.h"
 #include "Mesh.h"
+#include "Algorithm/Random/LCG.h"
 
 class Comp_Transform;
 class Shaders;
@@ -21,13 +22,15 @@ public:
 
 	void EmitParticles(ParticleProperties& partprops);
 
-	void SettingUpParticlePool(Particle& particlePoolRef, ParticleProperties& partprops);
+	void SettingUpParticlePool(Particle& particlePoolRef);
 
 	void SetParticlePoolSize(uint size);
 
 	int SearchNotActiveParticle();
 
 	void InitBuffers();
+
+	void SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
 
 private:
 
@@ -54,6 +57,8 @@ private:
 
 	int lastActiveParticle = 0;
 
+	int numOfParticlesToRespawn = 0;
+
 	//Add Particles efects;
 
 	Comp_Transform* particlesystemGO = nullptr;
@@ -64,13 +69,16 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 
-	/*std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;*/
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
 
-	/*uint numvertices;
-	uint numindices;*/
+	uint numvertices;
+	uint numindices;
 
 	GLuint texture;
+
+	//MathGeoLIB RANDOM
+	LCG random;
 
 };
 
