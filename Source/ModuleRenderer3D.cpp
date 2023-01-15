@@ -161,7 +161,6 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 	// Projection matrix for
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight());
 
-	//LoadTextureImporter("");
 	LoadTextureImporter("");
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
@@ -229,6 +228,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	for (int i = 0; i < particleSystems.size(); i++)
 	{
+		
 		particleSystems[i]->Draw();
 	}
 
@@ -260,7 +260,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
-
+	App->camera->cameratobedrawn = &App->camera->scenecam;
 	if (!App->uiController->Draw())
 	{
 		ret = UpdateStatus::UPDATE_STOP;
@@ -303,6 +303,11 @@ bool ModuleRenderer3D::CleanUp()
 	while (it != transparentObjectsmap.end())
 	{
 		RELEASE(it->second);
+	}
+
+	for (int i = 0; i < particleSystems.size(); i++)
+	{
+		this->particleSystems.erase(this->particleSystems.begin() + i);
 	}
 
 	//house.CleanUp();

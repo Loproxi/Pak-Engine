@@ -4,6 +4,15 @@
 #include "Particle.h"
 #include "Mesh.h"
 #include "Algorithm/Random/LCG.h"
+#include "single_include/nlohmann/json.hpp"
+
+using json = nlohmann::json;
+
+enum TYPES_OF_PARTICLES
+{
+	SMOKE,
+
+};
 
 class Comp_Transform;
 class Shaders;
@@ -12,15 +21,19 @@ class Application;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter();
+	ParticleEmitter(TYPES_OF_PARTICLES typeofpart);
 
 	~ParticleEmitter();
 
 	void Update(float dt);
 
-	void Draw(Shaders* shader);
+	void Draw(Shaders* shader, Quat BBrot);
 
-	void EmitParticles(ParticleProperties& partprops);
+	void InitBuffers();
+
+	void SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
+
+	void EmitParticles(int numOfparticles);
 
 	void SettingUpParticlePool(Particle& particlePoolRef);
 
@@ -28,9 +41,9 @@ public:
 
 	int SearchNotActiveParticle();
 
-	void InitBuffers();
+	void AttachEmitterOnGameObject(Comp_Transform* comp_owner_transform);
 
-	void SetData(const Vertex* vertices, const uint numvertices, const GLuint* indices, const uint numindices);
+	void SaveParticle(Particle& particleToSave);
 
 private:
 
@@ -40,17 +53,6 @@ private:
 
 	float3 position;
 
-	float currentdelay;
-	float maxdelay;
-
-	//particles size dynamic?
-	float minParticlesSize;
-	float maxParticlesSize;
-
-	//particles lifetime dynamic?
-	float minParticlesLifetime;
-	float maxParticlesLifetime;
-
 	std::vector<Particle> particlesInEmitter;
 
 	ParticleProperties propertiesOfTheParticle;
@@ -59,9 +61,9 @@ private:
 
 	int numOfParticlesToRespawn = 0;
 
-	//Add Particles efects;
+	int currentparticle;
 
-	Comp_Transform* particlesystemGO = nullptr;
+	//Add Particles efects;
 
 	//Open GL
 
@@ -72,13 +74,12 @@ private:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 
-	uint numvertices;
-	uint numindices;
-
 	GLuint texture;
 
 	//MathGeoLIB RANDOM
 	LCG random;
+
+	friend class Comp_ParticleSystem;
 
 };
 

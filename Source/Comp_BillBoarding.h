@@ -27,11 +27,13 @@ public:
 
     void OnUIController() override;
 
-    void ScreenAlignBBoard();
+    Quat ScreenAlignBBoard();
 
-    void WorldAlignBBoard();
+    Quat WorldAlignBBoard();
 
     void AxisAlignBBoard();
+
+    Quat GetBBRotation();
 
 private:
 
@@ -48,6 +50,7 @@ private:
     float3 yBBoardAxis;
     float3 xBBoardAxis;
 
+    Quat rotation;
 
 };
 

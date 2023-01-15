@@ -115,10 +115,10 @@ Component* GameObject::AddComponent(COMP_TYPE type)
 	case BILLBOARD:
 		component = new Comp_BillBoarding(this);
 		component->type = type;
+		break;
 	case PARTICLE_SYSTEM:
 		component = new Comp_ParticleSystem(this);
 		component->type = type;
-
 		break;
 	}
 

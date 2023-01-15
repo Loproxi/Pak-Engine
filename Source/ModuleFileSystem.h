@@ -4,6 +4,7 @@
 #define MESHES_FILE_DIR "Library/Meshes"
 #define TEXTURES_FILE_DIR "Library/Textures"
 #define MODELS_FILE_DIR "Library/Models"
+#define PARTICLES_FILE_DIR "Library/Particles"
 
 #include "Module.h"
 #include "AssetsDirectory.h"

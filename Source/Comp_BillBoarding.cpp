@@ -12,6 +12,8 @@ Comp_BillBoarding::Comp_BillBoarding(GameObject* go) : Component(go),typeofBBoar
 	this->type = COMP_TYPE::BILLBOARD;
 
 	app = Application::GetInstance();
+
+	rotation = Quat::identity;
 }
 
 Comp_BillBoarding::~Comp_BillBoarding()
@@ -69,6 +71,7 @@ void Comp_BillBoarding::OnUIController()
 			else if (ImGui::MenuItem("No Align BillBoard"))
 			{
 				typeofBBoard = BILLBOARDTYPE::NO_ALIGN;
+				rotation = Quat::identity;
 			}
 						
 			
@@ -84,11 +87,11 @@ void Comp_BillBoarding::OnUIController()
 
 }
 
-void Comp_BillBoarding::ScreenAlignBBoard()
+Quat Comp_BillBoarding::ScreenAlignBBoard()
 {
 	//GET INFO ABOUT CAM AXIS
-	float3 activecamfront = app->camera->gamecamactive->CameraFrustrum.front;
-	float3 activecamup = app->camera->gamecamactive->CameraFrustrum.up;
+	float3 activecamfront = app->camera->cameratobedrawn->CameraFrustrum.front;
+	float3 activecamup = app->camera->cameratobedrawn->CameraFrustrum.up;
 
 	//Z-AXIS MUST BE INVERTED 
 	zBBoardAxis = -activecamfront;
@@ -102,36 +105,14 @@ void Comp_BillBoarding::ScreenAlignBBoard()
 	float3x3 rotBBoard;
 	rotBBoard.Set(xBBoardAxis.x, xBBoardAxis.y, xBBoardAxis.z, yBBoardAxis.x, yBBoardAxis.y, yBBoardAxis.z, zBBoardAxis.x, zBBoardAxis.y, zBBoardAxis.z);
 
-	float3 auxtranspos;
+	rotation = rotBBoard.Inverted().ToQuat();
 
-	comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().Decompose(auxtranspos, Quat(),float3());
-
-	float4x4 newTransform = float4x4::FromTRS(auxtranspos, rotBBoard, comp_owner->GetComponent<Comp_Transform>()->localScale);
-
-
-	//Convert it to global space
-	float4x4 temp = comp_owner->parent->GetComponent<Comp_Transform>()->GetGlobalMatrix();
-	temp.Inverse();
-
-	newTransform = temp.Mul(newTransform);
-
-	float3 newtranspos;
-	float3 newtransscale;
-
-
-	newTransform.Decompose(newtranspos, Quat(), newtransscale);
-	//Pass it to comp owner transform 
-
-	comp_owner->GetComponent<Comp_Transform>()->SetNewTransform(newtranspos, rotBBoard, newtransscale);
-
-	//Quat quatBBoard = rotBBoard.ToQuat();
-
-	//quatBBoard = quatBBoard.Normalized();
+	return rotation;
 
 	//comp_owner->GetComponent<Comp_Transform>()->SetNewRotation(quatBBoard);
 }
 
-void Comp_BillBoarding::WorldAlignBBoard()
+Quat Comp_BillBoarding::WorldAlignBBoard()
 {
 	//Vector from gameobject to cam
 	zBBoardAxis = (app->camera->cameratobedrawn->CameraFrustrum.pos - comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().TranslatePart()).Normalized();
@@ -158,14 +139,9 @@ void Comp_BillBoarding::WorldAlignBBoard()
 	float3x3 rotBBoard;
 	rotBBoard.Set(xBBoardAxis.x, xBBoardAxis.y, xBBoardAxis.z, yBBoardAxis.x, yBBoardAxis.y, yBBoardAxis.z, zBBoardAxis.x, zBBoardAxis.y, zBBoardAxis.z);
 
-	Quat aux;
-	aux = rotBBoard.Inverted().ToQuat();
-	aux.Normalize();
+	rotation = rotBBoard.Inverted().ToQuat();
 
-	float3 newtranspos;
-	float3 newtransscale;
-
-	comp_owner->GetComponent<Comp_Transform>()->GetGlobalMatrix().Decompose(newtranspos, Quat(), newtransscale);
+	return rotation;
 
 	//Pass it to comp owner transform 
 
@@ -210,3 +186,27 @@ void Comp_BillBoarding::AxisAlignBBoard()
 
 
 }
+
+Quat Comp_BillBoarding::GetBBRotation()
+{
+
+	switch (typeofBBoard)
+	{
+	case(SCREENALIGN):
+		
+		rotation = ScreenAlignBBoard();
+
+		break;
+	case(WORLDALIGN):
+
+		rotation = WorldAlignBBoard();
+
+		break;
+	default:
+		break;
+	}
+
+
+	return rotation;
+}
+

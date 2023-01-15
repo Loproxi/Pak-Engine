@@ -3,30 +3,30 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleFileSystem.h"
+#include "Comp_Transform.h"
 #include "Shaders.h"
 
 
-ParticleEmitter::ParticleEmitter()
+
+
+ParticleEmitter::ParticleEmitter(TYPES_OF_PARTICLES typeofpart)
 {
 	app = Application::GetInstance();
+
+	this->name = "smokeparticle";
 	//TODO UPGRADE
 	//Compute how many particles are being emited each second and multiply by lifetime of each particle and set that as poolsize
 
-	SetParticlePoolSize(5);
-
-	
-	//INIT BUFFERS
-
-	app->renderer3D->LoadTextureImporter("");
-
+	SetParticlePoolSize(2000);
 
 	Vertex quadvertices[]
 	{
 		//POS               //Normals                               //Texture Coords
-		Vertex(float3{-0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
-		Vertex(float3{0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
-		Vertex(float3{0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
-		Vertex(float3{-0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{-0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{-1.0f, -1.0f}),
+		Vertex(float3{0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{1.0f, -1.0f}),
+		Vertex(float3{0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{1.0f, 1.0f}),
+		Vertex(float3{-0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{-1.0f, 1.0f}),
 	};
 
 	uint quadindices[]
@@ -35,9 +35,42 @@ ParticleEmitter::ParticleEmitter()
 	};
 
 	SetData(quadvertices, 4, quadindices, 6);
-
+	//INIT BUFFERS
 
 	InitBuffers();
+
+	switch (typeofpart)
+	{
+
+	case (SMOKE):
+
+		propertiesOfTheParticle.position = { 0.0f,1.0f,0.0f };
+		propertiesOfTheParticle.startsize = 0.5f;
+		propertiesOfTheParticle.endsize = 0.2f;
+		propertiesOfTheParticle.MaxLifetime = 3.0f;
+		propertiesOfTheParticle.velocity = { 0.01f,0.01f,0.0f };
+		propertiesOfTheParticle.acceleration = { 0.1f,0.1f,0.0f };
+		propertiesOfTheParticle.startColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+		propertiesOfTheParticle.endColor = float4(0.6f, 0.6f, 0.6f, 0.0f);
+
+		break;
+	default:
+
+		propertiesOfTheParticle.position = { random.Float() * 5,3.0f,random.Float() };
+		propertiesOfTheParticle.startsize = random.Float() * 5;
+		propertiesOfTheParticle.endsize = 0.1f;
+		propertiesOfTheParticle.MaxLifetime = 5.0f;
+		propertiesOfTheParticle.velocity = { 0.0f,0.01f,0.0f };
+		propertiesOfTheParticle.acceleration = { 0.0f,0.01f,0.0f };
+		propertiesOfTheParticle.startColor = float4(0.0f, 0.0f, 1.0f, 1.0f);
+		propertiesOfTheParticle.endColor = float4(0.0f, 0.0f, 1.0f, 1.0f);
+
+	}
+
+	currentparticle = particlesInEmitter.size() - 1;
+
+	EmitParticles(10);
+
 }
 
 void ParticleEmitter::InitBuffers()
@@ -74,6 +107,18 @@ void ParticleEmitter::InitBuffers()
 
 ParticleEmitter::~ParticleEmitter()
 {
+	SaveParticle(particlesInEmitter[lastActiveParticle]);
+
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+	glDeleteVertexArrays(1, &VAO);
+
+	VAO = 0;
+	VBO = 0;
+	EBO = 0;
+	
+	particlesInEmitter.clear();
+
 }
 
 void ParticleEmitter::Update(float dt)
@@ -82,10 +127,12 @@ void ParticleEmitter::Update(float dt)
 	{
 		lastActiveParticle = SearchNotActiveParticle();
 
-		SettingUpParticlePool(particlesInEmitter[lastActiveParticle]);
+		//TODO REWORK THIS IN ORDER TO CHANGE HOW RESPAWN PARTICLES WORK
+		SettingUpParticlePool(particlesInEmitter[lastActiveParticle]); 
 		numOfParticlesToRespawn--;
 	}
 
+	EmitParticles(1);
 
 	for (int i = 0; i < particlesInEmitter.size(); i++)
 	{
@@ -113,23 +160,19 @@ void ParticleEmitter::Update(float dt)
 			if (particlesInEmitter[i].remainingLifetime > 0.0f)
 			{
 				// velocity = acceleration * dt
-				particlesInEmitter[i].velocity += particlesInEmitter[i].acceleration * dt;
+				particlesInEmitter[i].velocity += particlesInEmitter[i].acceleration * dt ;
+
+				// pos += velocity * dt
+				particlesInEmitter[i].position += particlesInEmitter[i].velocity * dt;
 
 				
-				// pos += velocity * dt
-				particlesInEmitter[i].position += (particlesInEmitter[i].velocity * dt) * random.Float() * 100;
-
 				
 			}
-
-			
 		}
-
 	}
-
 }
 
-void ParticleEmitter::Draw(Shaders* shader)
+void ParticleEmitter::Draw(Shaders* shader, Quat BBrot)
 {
 	//DRAW WITH THE BUFFERS CREATED AT CONSTRUCTOR
 
@@ -137,11 +180,11 @@ void ParticleEmitter::Draw(Shaders* shader)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	shader->Set1Int("texture0", 0);
+	shader->Set1Int("texture0", texture);
 
 	shader->SetMat4fv("viewMatrix", app->camera->cameratobedrawn->GetViewMatrix());
 	shader->SetMat4fv("projectionMatrix", app->camera->cameratobedrawn->GetProjMatrix());
-	shader->Set4Float("partcolor", propertiesOfTheParticle.startColor.ptr());
+	
 
 	for (Particle& particleInPool : particlesInEmitter)
 	{
@@ -152,11 +195,21 @@ void ParticleEmitter::Draw(Shaders* shader)
 
 		float3 zAxis = { 0.0f,0.0f,1.0f };
 		float partRotationInRad = DegToRad(particleInPool.rotation);
-		Quat rotation = Quat::RotateAxisAngle(zAxis, partRotationInRad);
 
+		//ROTATION NECESSARY AROUND Z AXIS TO ACHIEVE BILLBOARDING
+		//Quat rotation = Quat::RotateAxisAngle(zAxis, partRotationInRad);
+		Quat BBRotAroundZ = BBrot * Quat::RotateAxisAngle({ 0.0f,0.0f,1.0f }, particleInPool.rotation);
+
+		float percentageOfLife = particleInPool.remainingLifetime / particleInPool.maxLifetime;
+
+		float4 currentcolor = math::Lerp(particleInPool.endColor, particleInPool.startColor, percentageOfLife);
+
+		shader->Set4Float("partcolor", currentcolor.ptr());
+
+		float currentsize = math::Lerp(particleInPool.endSize, particleInPool.startSize, percentageOfLife);
 		
 		//Gather pos & rotation &scale
-		float4x4 transform = float4x4::FromTRS(particleInPool.position, Quat::identity, {particleInPool.startSize,particleInPool.startSize ,1.0f}).Transposed();
+		float4x4 transform = float4x4::FromTRS(particleInPool.position, BBRotAroundZ, { currentsize,currentsize ,1.0f}).Transposed();
 
 		shader->SetMat4fv("modelMatrix", transform.ptr());
 
@@ -172,10 +225,10 @@ void ParticleEmitter::Draw(Shaders* shader)
 void ParticleEmitter::SetParticlePoolSize(uint size)
 {
 	particlesInEmitter.resize(size);
-	for (int i = 0; i< particlesInEmitter.size();i++)
+	/*for (int i = 0; i< particlesInEmitter.size();i++)
 	{
 		SettingUpParticlePool(particlesInEmitter[i]);
-	}
+	}*/
 }
 
 int ParticleEmitter::SearchNotActiveParticle()
@@ -189,7 +242,7 @@ int ParticleEmitter::SearchNotActiveParticle()
 
 	for (int i = lastActiveParticle; i < maxParticles; ++i)
 	{
-		if (particlesInEmitter[i].remainingLifetime < 0.0f || particlesInEmitter[i].Active == false) {
+		if (particlesInEmitter[i].remainingLifetime < 0.0f && particlesInEmitter[i].Active == false) {
 			lastActiveParticle = i;
 			return i;
 		}
@@ -198,7 +251,7 @@ int ParticleEmitter::SearchNotActiveParticle()
 	//If the first for doesn't return anything we check from the index num 0 till last active
 	for (int i = 0; i < lastActiveParticle; ++i)
 	{
-		if (particlesInEmitter[i].remainingLifetime < 0.0f || particlesInEmitter[i].Active == false)
+		if (particlesInEmitter[i].remainingLifetime < 0.0f && particlesInEmitter[i].Active == false)
 		{
 			lastActiveParticle = i;
 			return i;
@@ -210,37 +263,45 @@ int ParticleEmitter::SearchNotActiveParticle()
 	return 0; // If All particles are Active return the index of the first one and override it
 }
 
-void ParticleEmitter::EmitParticles(ParticleProperties& partprops )
+void ParticleEmitter::EmitParticles(int numOfparticles)
 {
-
-	//FIND INDEX IN PARTICLE POOL WITH PARTICLE NOT ACTIVE AND REMPLACE FOR THE NEXT ONE THAT IS GOING TO BE EMITED
-
 	//SET UP PARTICLE
+
+	for (int i = 0; i < numOfparticles;i++)
+	{
+		if (currentparticle <= 0)
+		{
+			currentparticle = particlesInEmitter.size() - 1;
+		}
+
+		SettingUpParticlePool(particlesInEmitter[currentparticle]);
+
+		currentparticle--;
+
+	}
 
 }
 
 void ParticleEmitter::SettingUpParticlePool(Particle& particlePoolRef)
 {
 
-	propertiesOfTheParticle.position = { random.Float() * 5,3.0f,random.Float() };
-	propertiesOfTheParticle.startsize = random.Float() * 5;
-	propertiesOfTheParticle.MaxLifetime = 5.0f;
-	propertiesOfTheParticle.velocity = { 0.0f,0.01f,0.0f };
-	propertiesOfTheParticle.acceleration = { 0.0f,0.01f,0.0f };
-	propertiesOfTheParticle.startColor = float4(0.0f, 0.0f, 1.0f, 1.0f);
-	
-	particlePoolRef.position = propertiesOfTheParticle.position;
+	particlePoolRef.position = propertiesOfTheParticle.position + this->position;
+	particlePoolRef.position.z += random.Float() * 1.2f;
 	particlePoolRef.Active = true;
 
-	particlePoolRef.velocity = propertiesOfTheParticle.velocity;
 	particlePoolRef.acceleration = propertiesOfTheParticle.acceleration;
+	particlePoolRef.velocity = propertiesOfTheParticle.velocity;
+	particlePoolRef.velocity.x += propertiesOfTheParticle.acceleration.x * random.Float() * 1.2f;
+	particlePoolRef.velocity.y += propertiesOfTheParticle.acceleration.y * random.Float() * 1.2f;
 
 	particlePoolRef.startColor = propertiesOfTheParticle.startColor;
+	particlePoolRef.endColor = propertiesOfTheParticle.endColor;
 
 	particlePoolRef.maxLifetime = propertiesOfTheParticle.MaxLifetime;
 	particlePoolRef.remainingLifetime = propertiesOfTheParticle.MaxLifetime;
 
 	particlePoolRef.startSize = propertiesOfTheParticle.startsize;
+	particlePoolRef.endSize = propertiesOfTheParticle.endsize;
 
 }
 
@@ -254,4 +315,37 @@ void ParticleEmitter::SetData(const Vertex* vertices, const uint numvertices, co
 	{
 		this->indices.push_back(indices[i]);
 	}
+}
+
+void ParticleEmitter::AttachEmitterOnGameObject(Comp_Transform* comp_owner_transform)
+{
+	//Pass gameobject position to emitter pos
+	this->position = comp_owner_transform->GetGlobalMatrix().TranslatePart();
+}
+
+void ParticleEmitter::SaveParticle(Particle& particleToSave)
+{
+
+	std::string modelfilepath = "Library/Particles/" + this->name + ".PKparticle";
+
+	json particle = {
+
+		{"particle",
+			{
+				{"position", {particleToSave.position.x, particleToSave.position.y, particleToSave.position.z}},
+				{"MaxLifeTime", particleToSave.maxLifetime},
+				{"StartSize", particleToSave.startSize},
+				{"StartColor", {particleToSave.startColor.x, particleToSave.startColor.y,particleToSave.startColor.z,particleToSave.startColor.w}},
+				{"EndColor", {particleToSave.endColor.x, particleToSave.endColor.y,particleToSave.endColor.z,particleToSave.endColor.w}},
+			}
+		}
+	};
+
+	std::string s = particle.dump();
+	char* buffer = new char[s.length() + 1];
+	strcpy(buffer, s.c_str());
+
+	app->fileSystem->SaveBufferToFile(modelfilepath, buffer, s.size(), false);
+	RELEASE_ARRAY(buffer);
+
 }
