@@ -60,7 +60,11 @@ The user can set up the particle as he wishes as well as the type of billboard t
 
 In this gif, a particle is being configured as the user wishes.
 
-![Setting Up Particle Example](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/SettingUpParticle.gif)
+![Setting Up Particle Example](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/SettingUpParticle.gif) 
+
+In this other gif, as can be seen it's a simulation of a smoke particle. 
+
+![Smoke Simulation Particle](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/SimulationSmoke.gif)
 
 
 # Installation Guide
