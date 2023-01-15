@@ -40,6 +40,23 @@ On any gameobject you can create a particle system component which will allow yo
 
 To improve the perfomance on scene and game scenes the camera discards all the gameobjects that theirs AABB boxes are outside the frustum of vision of the active camera.
 
+# Particle Sub-System 
+
+As previously mentioned, Pak-Engine has a subsystem implemented that allows the user to spawn particles. 
+
+This Subsystem works like this:
+First we have a particle with all the variables necessary, this particle belongs to an Emitter that has vector of particles, and this emitter belongs to the Particle System Component that has a vector of emitters.
+
+Going into further detail, the emitter instantiates all the particles at the same time in order to pre allocate all the particles. That way there's no need for worrying about memory because all the particles are already allocated and there won't be more pushbacks. Even if the particles being emitted are superior to the ones pre allocated, then it will overwrite the first one emitted.
+The emitter handles where each particle should be on each frame and then, draws it.
+
+The component Particle System is in charge of Updating and Drawing of each emitter as well as adding a billboard component to simulate that the particles are 3D when the particles are a simply 2D plane.
+
+The user can set up the particle as he wishes as well as the type of billboard the particles are going to use.
+
+GIFS
+
+
 # Installation Guide
 
 * Download the most recent release
