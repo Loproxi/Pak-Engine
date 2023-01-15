@@ -6,7 +6,7 @@ Pak-Engine is a game engine written in C++ for the Engine Development subject pr
 
 Pak-Engine is being developed by me:
 
-[PhotoDeveloper](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/photo.jpg)
+![photoDeveloper](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/photo.jpg)
 
 
 * [Loproxi](https://github.com/Loproxi) (Pol Rius Banús)
