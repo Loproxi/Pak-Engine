@@ -58,6 +58,8 @@ The component Particle System is in charge of Updating and Drawing of each emitt
 
 The user can set up the particle as he wishes as well as the type of billboard the particles are going to use.
 
+In this gif, a particle is being configured as the user wishes.
+
 ![Setting Up Particle Example](https://github.com/Loproxi/Pak-Engine/blob/gh-pages/SettingUpParticle.gif)
 
 
