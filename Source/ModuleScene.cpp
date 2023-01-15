@@ -1,6 +1,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "Comp_Camera.h"
+#include "Comp_Transform.h"
 #include "Camera3D.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -20,6 +21,10 @@ bool ModuleScene::Init(pugi::xml_node& config)
     test->SetParent(root);
     test2 = new GameObject("Camera2");
     test2->SetParent(root);
+    smoke1 = new GameObject("SmokeParticle1");
+    smoke1->SetParent(root);
+    smoke2 = new GameObject("SmokeParticle2");
+    smoke2->SetParent(root);
 
     return true;
 }
@@ -31,6 +36,11 @@ bool ModuleScene::Start()
     
     Comp_Camera* prueba = (Comp_Camera*)test2->AddComponent(COMP_TYPE::CAMERA);
     prueba->camera->Move(float3(0.0f, 5.0f, -10.0f));
+
+    smoke1->GetComponent<Comp_Transform>()->position = float3(24.7f, 9.4f, 37.7f);
+    smoke2->GetComponent<Comp_Transform>()->position = float3(43.7f, 9.4f, 37.7f);
+    smoke1->AddComponent(COMP_TYPE::PARTICLE_SYSTEM);
+    smoke2->AddComponent(COMP_TYPE::PARTICLE_SYSTEM);
 
     return true;
 }

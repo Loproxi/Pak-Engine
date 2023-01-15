@@ -34,6 +34,16 @@ Comp_ParticleSystem::~Comp_ParticleSystem()
 
 	emitters.clear();
 
+	for (int i = 0; i < app->renderer3D->particleSystems.size(); i++)
+	{
+		Comp_ParticleSystem* temp = app->renderer3D->particleSystems[i];
+		if (temp == this)
+		{
+			app->renderer3D->particleSystems.erase(app->renderer3D->particleSystems.begin() + i);
+		}
+		
+	}
+
 }
 
 void Comp_ParticleSystem::Update()

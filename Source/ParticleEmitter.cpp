@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleFileSystem.h"
+#include "TextureImporter.h"
 #include "Comp_Transform.h"
 #include "Shaders.h"
 
@@ -23,10 +24,10 @@ ParticleEmitter::ParticleEmitter(TYPES_OF_PARTICLES typeofpart)
 	Vertex quadvertices[]
 	{
 		//POS               //Normals                               //Texture Coords
-		Vertex(float3{-0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{-1.0f, -1.0f}),
-		Vertex(float3{0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{1.0f, -1.0f}),
+		Vertex(float3{-0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 0.0f}),
+		Vertex(float3{0.5f, -0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{1.0f, 0.0f}),
 		Vertex(float3{0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{1.0f, 1.0f}),
-		Vertex(float3{-0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{-1.0f, 1.0f}),
+		Vertex(float3{-0.5f,  0.5f, 0.0f},float3{0.0f, 0.0f, 0.0f}, float2{0.0f, 1.0f}),
 	};
 
 	uint quadindices[]
@@ -35,6 +36,8 @@ ParticleEmitter::ParticleEmitter(TYPES_OF_PARTICLES typeofpart)
 	};
 
 	SetData(quadvertices, 4, quadindices, 6);
+
+	text = TextureImporter::Import("Assets/smoke.png");
 	//INIT BUFFERS
 
 	InitBuffers();
@@ -99,7 +102,7 @@ void ParticleEmitter::InitBuffers()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 
-	texture = Application::GetInstance()->renderer3D->textures.at(0)->textID;
+	texture = text->textID;
 
 	glBindVertexArray(0);
 
@@ -180,7 +183,7 @@ void ParticleEmitter::Draw(Shaders* shader, Quat BBrot)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	shader->Set1Int("texture0", texture);
+	shader->Set1Int("texture0", 0);
 
 	shader->SetMat4fv("viewMatrix", app->camera->cameratobedrawn->GetViewMatrix());
 	shader->SetMat4fv("projectionMatrix", app->camera->cameratobedrawn->GetProjMatrix());
@@ -198,7 +201,7 @@ void ParticleEmitter::Draw(Shaders* shader, Quat BBrot)
 
 		//ROTATION NECESSARY AROUND Z AXIS TO ACHIEVE BILLBOARDING
 		//Quat rotation = Quat::RotateAxisAngle(zAxis, partRotationInRad);
-		Quat BBRotAroundZ = BBrot * Quat::RotateAxisAngle({ 0.0f,0.0f,1.0f }, particleInPool.rotation);
+		Quat BBRotAroundZ = BBrot * Quat::RotateAxisAngle({ 0.0f,0.0f,1.0f }, DegToRad(particleInPool.rotation));
 
 		float percentageOfLife = particleInPool.remainingLifetime / particleInPool.maxLifetime;
 
@@ -286,7 +289,7 @@ void ParticleEmitter::SettingUpParticlePool(Particle& particlePoolRef)
 {
 
 	particlePoolRef.position = propertiesOfTheParticle.position + this->position;
-	particlePoolRef.position.z += random.Float() * 1.2f;
+	particlePoolRef.position.z += random.Float() -0.5;
 	particlePoolRef.Active = true;
 
 	particlePoolRef.acceleration = propertiesOfTheParticle.acceleration;

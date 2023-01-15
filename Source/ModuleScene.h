@@ -35,6 +35,9 @@ public:
 	GameObject* test;
 	GameObject* test2;
 
+	GameObject* smoke1;
+	GameObject* smoke2;
+
 	GameObject* root;
 
 	std::vector<GameObject*> gameobjects;

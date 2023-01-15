@@ -165,7 +165,7 @@ bool ModuleRenderer3D::Init(pugi::xml_node& config)
 
 	testshader = new Shaders("Assets/Shaders/vertexshader_core.pesh", "Assets/Shaders/fragmentshader_core.pesh");
 	
-	LoadModelImporter("Assets/Primitives/Cube.fbx");
+	LoadModelImporter("Assets/scene.DAE");
 	//LoadModelImporter("Assets/Primitives/Plane.fbx");
 	
 

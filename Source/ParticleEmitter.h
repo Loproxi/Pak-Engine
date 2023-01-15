@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Algorithm/Random/LCG.h"
 #include "single_include/nlohmann/json.hpp"
+#include "TextureImporter.h"
 
 using json = nlohmann::json;
 
@@ -75,6 +76,8 @@ private:
 	std::vector<GLuint> indices;
 
 	GLuint texture;
+
+	Texture* text;
 
 	//MathGeoLIB RANDOM
 	LCG random;

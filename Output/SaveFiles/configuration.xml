@@ -13,7 +13,7 @@
 		<wireframe value="false" />
 	</Renderer>
 	<Window>
-		<resolution width="1289" height="778" />
+		<resolution width="1484" height="806" />
 		<borderless value="false" />
 		<resizable value="true" />
 		<fullscreen_window value="false" />

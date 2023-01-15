@@ -37,7 +37,7 @@ void Comp_MeshRenderer::Update()
 			app->renderer3D->meshes.push_back(this);
 		}
 	}
-	else if (app->camera->cameratobedrawn == &app->camera->scenecam)
+	else if (app->camera->cameratobedrawn == &app->camera->scenecam && app->camera->gamecamactive->FrustrumContainsBB(tempglobalAABB))
 	{
 		if (this->comp_owner->transparent)
 		{
