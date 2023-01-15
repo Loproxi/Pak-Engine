@@ -1,6 +1,6 @@
 # Pak-Engine
 
-Pak-Engine is a game engine in C++ currently being developed for the Engine Development subject project for the CITM Bachelor's degree in Video Game Design and Development. 
+Pak-Engine is a game engine in C++ currently being developed for the Engine Development subject project for the CITM Bachelor's degree in Video Game Design and Development. In which we have to develop a game engine under 4 months.
 
 # Creator
 
