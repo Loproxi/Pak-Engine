@@ -18,41 +18,41 @@ The engine is being developed by:
 
 **Pak-Engine v.0.3:**
 
-* Particle System Component
+* Particle System Component.
 
-* Particle rendering with shaders
+* Particle rendering with shaders.
 
-* Billboard Component
+* Billboard Component.
 
-* Screen Align billboard,World Align billboard & Axis Align billboard
+* Screen Align billboard,World Align billboard & Axis Align billboard.
 
-* Bugs solved
+* So many bugs solved.
 
-* Transparency On gameobjects
+* Transparency On gameobjects.
 
 # Controls:
 
 ## Camera:
 
-* Right Click on scene window to rotate the camera
+* Right Click on scene window to rotate the camera.
 
-* Right Click on scene window + W/A/S/D to move the camera
+* Right Click on scene window + W/A/S/D to move the camera.
 
-* On scene window press Q/E for going UP/DOWN
+* On scene window press Q/E for going UP/DOWN.
 
-* Hold Shift + W/A/S/D to move faster
+* Hold Shift + W/A/S/D to move faster.
 
 ## Hierarchy:
 
-* In Hierarchy window, RightClick opens a pop-up that creates primitives
+* In Hierarchy window, RightClick opens a pop-up that creates primitives.
 
-* In Hierarchy window, LeftClick on a gameObject in order to select it
+* In Hierarchy window, LeftClick on a gameObject in order to select it.
 
-* In Hierarchy window, LeftClick + Drag Mouse on a gameobject into another to change a gameobject parent or child
+* In Hierarchy window, LeftClick + Drag Mouse on a gameobject into another to change a gameobject parent or child.
 
-* In Hierarchy window, LeftClick on a gameobject selected in order to delete it
+* In Hierarchy window, LeftClick on a gameobject selected in order to delete it.
 
-* In Hierarchy window, LeftClick on empty hierarchy to create primitives or empty
+* In Hierarchy window, LeftClick on empty hierarchy to create primitives or empty.
 
 ## Drag And Drop:
 
