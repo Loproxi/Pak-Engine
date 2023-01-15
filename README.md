@@ -58,9 +58,9 @@ The component Particle System is in charge of Updating and Drawing of each emitt
 
 The user can set up the particle as he wishes as well as the type of billboard the particles are going to use.
 
-In this gif, a particle is being configured as the user wishes.
+In this gif, a textured particle is being configured as the user wishes.
 
-![Setting Up Particle Example](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/SettingUpParticle.gif) 
+![Textured Particle Example](https://raw.githubusercontent.com/Loproxi/Pak-Engine/gh-pages/Textureparticle.gif) 
 
 In this other gif, as can be seen it's a simulation of a smoke particle. 
 
