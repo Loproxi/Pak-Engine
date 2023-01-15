@@ -50,7 +50,7 @@ ParticleEmitter::ParticleEmitter(TYPES_OF_PARTICLES typeofpart)
 		propertiesOfTheParticle.position = { 0.0f,1.0f,0.0f };
 		propertiesOfTheParticle.startsize = 0.5f;
 		propertiesOfTheParticle.endsize = 0.2f;
-		propertiesOfTheParticle.MaxLifetime = 3.0f;
+		propertiesOfTheParticle.MaxLifetime = 14.0f;
 		propertiesOfTheParticle.velocity = { 0.01f,0.01f,0.0f };
 		propertiesOfTheParticle.acceleration = { 0.1f,0.1f,0.0f };
 		propertiesOfTheParticle.startColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
