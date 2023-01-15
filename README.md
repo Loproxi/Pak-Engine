@@ -16,33 +16,19 @@ The engine is being developed by:
 
 # Features
 
-**Pak-Engine v.0.2:**
+**Pak-Engine v.0.3:**
 
-* Transform & MeshRenderer Components
+* Particle System Component
 
-* Import fbx by doing Drag&Drop
+* Particle rendering with shaders
 
-* Import PNG/DDS and convert it into texture by doing Drag&Drop
+* Billboard Component
 
-* Primitives Library
+* Screen Align billboard,World Align billboard & Axis Align billboard
 
-* Camera Movement
+* Bugs solved
 
-* XML saves&Load window states and settings
-
-* Transform Moves,Rotates and scales GameObjects
-
-* Delete GameObjects
-
-* Camera Component, Scene and Game Viewports
-
-* Mouse Picking GameObjects
-
-* Custom file format handles the import of Models,Meshes and Textures
-
-* Create Empty gameobjects and Add components on each one
-
-* Camera Frustrum Culling
+* Transparency On gameobjects
 
 # Controls:
 
