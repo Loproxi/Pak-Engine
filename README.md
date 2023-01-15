@@ -68,7 +68,7 @@ In this other gif, as can be seen it's a simulation of a smoke particle.
 
 # Video:
 
-Click [HERE ](https://youtu.be/AsJkyTkxMJw) to see the video.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AsJkyTkxMJw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Installation Guide
 
