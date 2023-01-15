@@ -1,78 +1,54 @@
 # Pak-Engine
 
-Pak-Engine is a game engine in C++ currently being developed for the Engine Development subject project for the CITM Bachelor's degree in Video Game Design and Development. In which we have to develop a game engine under 4 months.
+Pak-Engine is a game engine written in C++ for the Engine Development subject project for the CITM Bachelor's degree in Video Game Design and Development. In which we have to develop a game engine under 4 months.
 
-# Creator
+# Developer
 
-The engine is being developed by:
+Pak-Engine is being developed by me:
+
+photo
+
 
 * [Loproxi](https://github.com/Loproxi) (Pol Rius Banús)
 
-# Install
+
+# Core Subsystems
+
+* There are more sub systems but the ones i'm going to mention are the core ones.
+
+## GameObjects & Components
+
+Pak-Engine uses a GameObject and Component system that makes it easier to understand how entities work for anyone.
+
+## Custom File Format
+
+In order to optimize the import of Meshes/Textures onto the engine, each time a Meshes/Textures is imported, Pak-Engine will create a json where it will save all the necessary data from that Meshes/Textures for the next time that the Meshes/Textures is being used it will be gathering the data from that json.
+
+## Scene & Game ViewPorts
+
+In order to achieve rendering multiple viewports at the same time Pak-Engine uses a camera component with has a framebuffer inside. Since the camera is a component that means that every gameobject that has this component could be a new viewport.
+
+## Optimized 3D Rendering with OPENGL
+
+In order to optimize Pak-Engine's opengl rendering, the engine avoids using deprecated mode also known as immediate mode. By using the retained mode the engine improves the performance of 3D rendering.
+
+## Particle System Component
+
+On any gameobject you can create a particle system component which will allow you to spawn particles according to the settings established on the inspector as well as, all the settings will be saved on a json.
+
+## Camera Frustum Culling
+
+To improve the perfomance on scene and game scenes the camera discards all the gameobjects that theirs AABB boxes are outside the frustum of vision of the active camera.
+
+# Installation Guide
 
 * Download the most recent release
 * Extract the .zip
 * Click on the Pak-Engine folder and Execute Pak-Engine.exe
 
-# Features
+# Link to the latest release
 
-**Pak-Engine v.0.2:**
-
-* Transform & MeshRenderer Components
-
-* Import fbx by doing Drag&Drop
-
-* Import PNG/DDS and convert it into texture by doing Drag&Drop
-
-* Primitives Library
-
-* Camera Movement
-
-* XML saves&Load window states and settings
-
-* Transform Moves,Rotates and scales GameObjects
-
-* Delete GameObjects
-
-* Camera Component, Scene and Game Viewports
-
-* Mouse Picking GameObjects
-
-* Custom file format handles the import of Models,Meshes and Textures
-
-* Create Empty gameobjects and Add components on each one
-
-* Camera Frustrum Culling
-
-# Controls:
-
-## Camera:
-
-* Right Click on scene window to rotate the camera
-
-* Right Click on scene window + W/A/S/D to move the camera
-
-* On scene window press Q/E for going UP/DOWN
-
-* Hold Shift + W/A/S/D to move faster
-
-## Hierarchy:
-
-* In Hierarchy window, RightClick opens a pop-up that creates primitives
-
-* In Hierarchy window, LeftClick on a gameObject in order to select it
-
-* In Hierarchy window, LeftClick + Drag Mouse on a gameobject into another to change a gameobject parent or child
-
-* In Hierarchy window, LeftClick on a gameobject selected in order to delete it
-
-* In Hierarchy window, LeftClick on empty hierarchy to create primitives or empty
-
-## Drag And Drop:
-
-* This engine can handle the import of an fbx.
-
-* This engine handles the import of a PNG/DDS convert it into a texture and apply it on a gameobject, but the gameobject has to be selected first.
+Click [HERE ](https://github.com/Loproxi/Pak-Engine/releases) to download the latest release
 
 ## License
 
