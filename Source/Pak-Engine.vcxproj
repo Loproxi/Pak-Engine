@@ -161,6 +161,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AssetsDirectory.cpp" />
     <ClCompile Include="Camera3D.cpp" />
+    <ClCompile Include="SimulationTime.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Comp_BillBoarding.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="AssetsDirectory.h" />
     <ClInclude Include="Camera3D.h" />
+    <ClInclude Include="SimulationTime.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Comp_BillBoarding.h" />

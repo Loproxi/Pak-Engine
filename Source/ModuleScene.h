@@ -2,6 +2,7 @@
 #define __MODULE_SCENE_H__
 
 #include "Module.h"
+#include "Timer.hpp"
 #include <vector>
 
 class GameObject;

@@ -14,6 +14,8 @@ private:
 	float mTimeScale = 0;
 	float lastTime = 0;
 
+	bool playing;
+
 public:
 
 	Timer()

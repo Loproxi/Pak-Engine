@@ -15,6 +15,8 @@
 #include "WinInspector.h"
 #include "WinGame.h"
 #include "WinAssets.h"
+#include "SimulationTime.h"
+#include "imgui_internal.h"
 
 
 ModuleUIcontroller::ModuleUIcontroller(Application* app, bool start_enabled) : Module(app, start_enabled),goToInspector(nullptr)
@@ -258,6 +260,28 @@ void ModuleUIcontroller::MainMenuBar(bool& ret)
 		}
 		
 		ImGui::EndMainMenuBar();
+	}
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+	if (ImGui::BeginViewportSideBar("##Time Management",viewport,ImGuiDir_Up,30.0f, ImGuiWindowFlags_NoScrollbar))
+	{
+
+		ImVec2 button = { 85, 30 };
+		ImGui::SetCursorPos(ImVec2(ImGui::GetContentRegionAvail().x / 2 - (button.x * 2.0), 4));
+
+
+		if (ImGui::Button("Play"))
+		{
+			SimulationTime::Play();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Finish"))
+		{
+			SimulationTime::Finish();
+		}
+
+
+		ImGui::End();
 	}
 
 	

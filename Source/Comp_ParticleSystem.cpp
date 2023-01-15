@@ -7,6 +7,7 @@
 #include "Comp_BillBoarding.h"
 #include "ParticleEmitter.h"
 #include "ImGuiUtils.h"
+#include "SimulationTime.h"
 
 Comp_ParticleSystem::Comp_ParticleSystem(GameObject* _go) :Component(_go)
 {
@@ -52,7 +53,10 @@ void Comp_ParticleSystem::Update()
 	for each (ParticleEmitter* parrticleemitter in emitters)
 	{
 		parrticleemitter->AttachEmitterOnGameObject(comp_owner->GetComponent<Comp_Transform>());
-		parrticleemitter->Update(app->GetDeltaTime());
+		if (SimulationTime::playing)
+		{
+			parrticleemitter->Update(SimulationTime::dt);
+		}
 	}
 	
 }

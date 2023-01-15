@@ -247,6 +247,9 @@
     <ClCompile Include="Comp_ParticleSystem.cpp">
       <Filter>Source\Components\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="SimulationTime.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -593,6 +596,9 @@
     </ClInclude>
     <ClInclude Include="Comp_ParticleSystem.h">
       <Filter>Header\Components\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulationTime.h">
+      <Filter>Header\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

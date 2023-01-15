@@ -7,6 +7,7 @@
 #include "ModuleUIcontroller.h"
 #include "ModuleFileSystem.h"
 #include "ModuleScene.h"
+#include "SimulationTime.h"
 
 
 Application* Application::App = nullptr;
@@ -96,6 +97,8 @@ UpdateStatus Application::Update()
 
 	PrepareUpdate();
 
+
+
 	for (int i = 0, count = list_modules.count(); i < count && ret == UPDATE_CONTINUE; i++)
 	{
 		ret = list_modules[i]->PreUpdate();
@@ -112,6 +115,8 @@ UpdateStatus Application::Update()
 	}
 
 	dt = timer.getDeltaTime();
+
+	SimulationTime::Update(dt);
 
 	if (dt < fps)
 	{
